@@ -1,0 +1,161 @@
+variable_name,flag_type,count,percentage,n_perc,voc_name,mw,category_1,category_2,category_2no
+benzene,nd,0,0,0 (0%),Benzene,78.11,BTEX,BTEX,1
+benzene,lod,0,0,0 (0%),Benzene,78.11,BTEX,BTEX,1
+benzene,reg,458,99.8,458 (99.8%),Benzene,78.11,BTEX,BTEX,1
+benzene,ulod,1,0.2,1 (0.2%),Benzene,78.11,BTEX,BTEX,1
+toluene,nd,0,0,0 (0%),Toluene,92.14,BTEX,BTEX,1
+toluene,lod,0,0,0 (0%),Toluene,92.14,BTEX,BTEX,1
+toluene,reg,454,98.9,454 (98.9%),Toluene,92.14,BTEX,BTEX,1
+toluene,ulod,5,1.1,5 (1.1%),Toluene,92.14,BTEX,BTEX,1
+etbenz,nd,0,0,0 (0%),Ethylbenzene,106.17,BTEX,BTEX,1
+etbenz,lod,0,0,0 (0%),Ethylbenzene,106.17,BTEX,BTEX,1
+etbenz,reg,459,100,459 (100%),Ethylbenzene,106.17,BTEX,BTEX,1
+etbenz,ulod,0,0,0 (0%),Ethylbenzene,106.17,BTEX,BTEX,1
+xylenes,nd,0,0,0 (0%),Xylenes,106.16,BTEX,BTEX,1
+xylenes,lod,0,0,0 (0%),Xylenes,106.16,BTEX,BTEX,1
+xylenes,reg,456,99.3,456 (99.3%),Xylenes,106.16,BTEX,BTEX,1
+xylenes,ulod,3,0.7,3 (0.7%),Xylenes,106.16,BTEX,BTEX,1
+btex,nd,0,0,0 (0%),Total BTEX,NA,BTEX,BTEX,1
+btex,lod,0,0,0 (0%),Total BTEX,NA,BTEX,BTEX,1
+btex,reg,456,99.3,456 (99.3%),Total BTEX,NA,BTEX,BTEX,1
+btex,ulod,3,0.7,3 (0.7%),Total BTEX,NA,BTEX,BTEX,1
+mpxylene,nd,0,0,0 (0%),"m,p-Xylene 2",106.16,BTEX,BTEX,1
+mpxylene,lod,0,0,0 (0%),"m,p-Xylene 2",106.16,BTEX,BTEX,1
+mpxylene,reg,456,99.3,456 (99.3%),"m,p-Xylene 2",106.16,BTEX,BTEX,1
+mpxylene,ulod,3,0.7,3 (0.7%),"m,p-Xylene 2",106.16,BTEX,BTEX,1
+oxylene,nd,0,0,0 (0%),o-Xylene,106.16,BTEX,BTEX,1
+oxylene,lod,7,1.5,7 (1.5%),o-Xylene,106.16,BTEX,BTEX,1
+oxylene,reg,451,98.3,451 (98.3%),o-Xylene,106.16,BTEX,BTEX,1
+oxylene,ulod,1,0.2,1 (0.2%),o-Xylene,106.16,BTEX,BTEX,1
+propylbenzene,nd,1,0.2,1 (0.2%),Propylbenzene,120.19,Benzene Derivatives,Alkylbenzenes,2
+propylbenzene,lod,355,77.3,355 (77.3%),Propylbenzene,120.19,Benzene Derivatives,Alkylbenzenes,2
+propylbenzene,reg,103,22.4,103 (22.4%),Propylbenzene,120.19,Benzene Derivatives,Alkylbenzenes,2
+propylbenzene,ulod,0,0,0 (0%),Propylbenzene,120.19,Benzene Derivatives,Alkylbenzenes,2
+benz1ethyl3methyl,nd,9,2,9 (2%),1-ethyl-3-methyl-benzene,120.19,Benzene Derivatives,Alkylbenzenes,2
+benz1ethyl3methyl,lod,78,17,78 (17%),1-ethyl-3-methyl-benzene,120.19,Benzene Derivatives,Alkylbenzenes,2
+benz1ethyl3methyl,reg,370,80.6,370 (80.6%),1-ethyl-3-methyl-benzene,120.19,Benzene Derivatives,Alkylbenzenes,2
+benz1ethyl3methyl,ulod,2,0.4,2 (0.4%),1-ethyl-3-methyl-benzene,120.19,Benzene Derivatives,Alkylbenzenes,2
+benz1ethyl4methyl,nd,0,0,0 (0%),1-ethyl-4-methyl-benzene,120.19,Benzene Derivatives,Alkylbenzenes,2
+benz1ethyl4methyl,lod,202,44,202 (44%),1-ethyl-4-methyl-benzene,120.19,Benzene Derivatives,Alkylbenzenes,2
+benz1ethyl4methyl,reg,257,56,257 (56%),1-ethyl-4-methyl-benzene,120.19,Benzene Derivatives,Alkylbenzenes,2
+benz1ethyl4methyl,ulod,0,0,0 (0%),1-ethyl-4-methyl-benzene,120.19,Benzene Derivatives,Alkylbenzenes,2
+mesitylene,nd,0,0,0 (0%),Mesitylene,120.19,Benzene Derivatives,Alkylbenzenes,2
+mesitylene,lod,5,1.1,5 (1.1%),Mesitylene,120.19,Benzene Derivatives,Alkylbenzenes,2
+mesitylene,reg,454,98.9,454 (98.9%),Mesitylene,120.19,Benzene Derivatives,Alkylbenzenes,2
+mesitylene,ulod,0,0,0 (0%),Mesitylene,120.19,Benzene Derivatives,Alkylbenzenes,2
+benz1ethyl2methyl,nd,3,0.7,3 (0.7%),1-ethyl-2-methyl-benzene,120.19,Benzene Derivatives,Alkylbenzenes,2
+benz1ethyl2methyl,lod,316,68.8,316 (68.8%),1-ethyl-2-methyl-benzene,120.19,Benzene Derivatives,Alkylbenzenes,2
+benz1ethyl2methyl,reg,140,30.5,140 (30.5%),1-ethyl-2-methyl-benzene,120.19,Benzene Derivatives,Alkylbenzenes,2
+benz1ethyl2methyl,ulod,0,0,0 (0%),1-ethyl-2-methyl-benzene,120.19,Benzene Derivatives,Alkylbenzenes,2
+benzene_1_2_3_trimethyl,nd,25,5.4,25 (5.4%),"1,2,3-Trimethylbenzene",120.194,Benzene Derivatives,Alkylbenzenes,2
+benzene_1_2_3_trimethyl,lod,233,50.8,233 (50.8%),"1,2,3-Trimethylbenzene",120.194,Benzene Derivatives,Alkylbenzenes,2
+benzene_1_2_3_trimethyl,reg,201,43.8,201 (43.8%),"1,2,3-Trimethylbenzene",120.194,Benzene Derivatives,Alkylbenzenes,2
+benzene_1_2_3_trimethyl,ulod,0,0,0 (0%),"1,2,3-Trimethylbenzene",120.194,Benzene Derivatives,Alkylbenzenes,2
+benzene_1_4_diethyl,nd,58,12.6,58 (12.6%),"1,4-Diethylbenzene",134.221,Benzene Derivatives,Alkylbenzenes,2
+benzene_1_4_diethyl,lod,254,55.3,254 (55.3%),"1,4-Diethylbenzene",134.221,Benzene Derivatives,Alkylbenzenes,2
+benzene_1_4_diethyl,reg,147,32,147 (32%),"1,4-Diethylbenzene",134.221,Benzene Derivatives,Alkylbenzenes,2
+benzene_1_4_diethyl,ulod,0,0,0 (0%),"1,4-Diethylbenzene",134.221,Benzene Derivatives,Alkylbenzenes,2
+hexane2methyl,nd,0,0,0 (0%),2-methyl-hexane,100.2,Alkanes,Branched Alkanes,3
+hexane2methyl,lod,13,2.8,13 (2.8%),2-methyl-hexane,100.2,Alkanes,Branched Alkanes,3
+hexane2methyl,reg,440,95.9,440 (95.9%),2-methyl-hexane,100.2,Alkanes,Branched Alkanes,3
+hexane2methyl,ulod,6,1.3,6 (1.3%),2-methyl-hexane,100.2,Alkanes,Branched Alkanes,3
+heptane3methyl,nd,0,0,0 (0%),3-methyl-heptane,114.23,Alkanes,Branched Alkanes,3
+heptane3methyl,lod,78,17,78 (17%),3-methyl-heptane,114.23,Alkanes,Branched Alkanes,3
+heptane3methyl,reg,377,82.1,377 (82.1%),3-methyl-heptane,114.23,Alkanes,Branched Alkanes,3
+heptane3methyl,ulod,4,0.9,4 (0.9%),3-methyl-heptane,114.23,Alkanes,Branched Alkanes,3
+butane_2_methyl,nd,6,1.3,6 (1.3%),Isopentane,72.151,Alkanes,Branched Alkanes,3
+butane_2_methyl,lod,0,0,0 (0%),Isopentane,72.151,Alkanes,Branched Alkanes,3
+butane_2_methyl,reg,224,48.8,224 (48.8%),Isopentane,72.151,Alkanes,Branched Alkanes,3
+butane_2_methyl,ulod,229,49.9,229 (49.9%),Isopentane,72.151,Alkanes,Branched Alkanes,3
+pentane_2_methyl,nd,2,0.4,2 (0.4%),Isohexane,86.178,Alkanes,Branched Alkanes,3
+pentane_2_methyl,lod,0,0,0 (0%),Isohexane,86.178,Alkanes,Branched Alkanes,3
+pentane_2_methyl,reg,412,89.8,412 (89.8%),Isohexane,86.178,Alkanes,Branched Alkanes,3
+pentane_2_methyl,ulod,45,9.8,45 (9.8%),Isohexane,86.178,Alkanes,Branched Alkanes,3
+pentane_3_methyl,nd,2,0.4,2 (0.4%),3-Methylpentane,86.178,Alkanes,Branched Alkanes,3
+pentane_3_methyl,lod,0,0,0 (0%),3-Methylpentane,86.178,Alkanes,Branched Alkanes,3
+pentane_3_methyl,reg,431,93.9,431 (93.9%),3-Methylpentane,86.178,Alkanes,Branched Alkanes,3
+pentane_3_methyl,ulod,26,5.7,26 (5.7%),3-Methylpentane,86.178,Alkanes,Branched Alkanes,3
+pentane_2_4_dimethyl,nd,7,1.5,7 (1.5%),"2,4-Dimethylpentane",100.205,Alkanes,Branched Alkanes,3
+pentane_2_4_dimethyl,lod,64,13.9,64 (13.9%),"2,4-Dimethylpentane",100.205,Alkanes,Branched Alkanes,3
+pentane_2_4_dimethyl,reg,383,83.4,383 (83.4%),"2,4-Dimethylpentane",100.205,Alkanes,Branched Alkanes,3
+pentane_2_4_dimethyl,ulod,5,1.1,5 (1.1%),"2,4-Dimethylpentane",100.205,Alkanes,Branched Alkanes,3
+hexane_3_methyl,nd,2,0.4,2 (0.4%),3-Methylhexane,100.205,Alkanes,Branched Alkanes,3
+hexane_3_methyl,lod,8,1.7,8 (1.7%),3-Methylhexane,100.205,Alkanes,Branched Alkanes,3
+hexane_3_methyl,reg,440,95.9,440 (95.9%),3-Methylhexane,100.205,Alkanes,Branched Alkanes,3
+hexane_3_methyl,ulod,9,2,9 (2%),3-Methylhexane,100.205,Alkanes,Branched Alkanes,3
+pentane_2_3_4_trimethyl,nd,11,2.4,11 (2.4%),"2,3,4-Trimethylpentane",114.232,Alkanes,Branched Alkanes,3
+pentane_2_3_4_trimethyl,lod,91,19.8,91 (19.8%),"2,3,4-Trimethylpentane",114.232,Alkanes,Branched Alkanes,3
+pentane_2_3_4_trimethyl,reg,354,77.1,354 (77.1%),"2,3,4-Trimethylpentane",114.232,Alkanes,Branched Alkanes,3
+pentane_2_3_4_trimethyl,ulod,3,0.7,3 (0.7%),"2,3,4-Trimethylpentane",114.232,Alkanes,Branched Alkanes,3
+hexane,nd,0,0,0 (0%),n-Hexane,86.18,Alkanes,C6-C9 Alkanes,4
+hexane,lod,0,0,0 (0%),n-Hexane,86.18,Alkanes,C6-C9 Alkanes,4
+hexane,reg,456,99.3,456 (99.3%),n-Hexane,86.18,Alkanes,C6-C9 Alkanes,4
+hexane,ulod,3,0.7,3 (0.7%),n-Hexane,86.18,Alkanes,C6-C9 Alkanes,4
+heptane,nd,1,0.2,1 (0.2%),Heptane,100.21,Alkanes,C6-C9 Alkanes,4
+heptane,lod,0,0,0 (0%),Heptane,100.21,Alkanes,C6-C9 Alkanes,4
+heptane,reg,456,99.3,456 (99.3%),Heptane,100.21,Alkanes,C6-C9 Alkanes,4
+heptane,ulod,2,0.4,2 (0.4%),Heptane,100.21,Alkanes,C6-C9 Alkanes,4
+octane,nd,9,2,9 (2%),Octane,114.23,Alkanes,C6-C9 Alkanes,4
+octane,lod,7,1.5,7 (1.5%),Octane,114.23,Alkanes,C6-C9 Alkanes,4
+octane,reg,441,96.1,441 (96.1%),Octane,114.23,Alkanes,C6-C9 Alkanes,4
+octane,ulod,2,0.4,2 (0.4%),Octane,114.23,Alkanes,C6-C9 Alkanes,4
+nonane,nd,27,5.9,27 (5.9%),Nonane,128.25,Alkanes,C6-C9 Alkanes,4
+nonane,lod,12,2.6,12 (2.6%),Nonane,128.25,Alkanes,C6-C9 Alkanes,4
+nonane,reg,418,91.1,418 (91.1%),Nonane,128.25,Alkanes,C6-C9 Alkanes,4
+nonane,ulod,2,0.4,2 (0.4%),Nonane,128.25,Alkanes,C6-C9 Alkanes,4
+decane,nd,3,0.7,3 (0.7%),Decane,149.29,Alkanes,C10-C12 Alkanes,5
+decane,lod,103,22.4,103 (22.4%),Decane,149.29,Alkanes,C10-C12 Alkanes,5
+decane,reg,352,76.7,352 (76.7%),Decane,149.29,Alkanes,C10-C12 Alkanes,5
+decane,ulod,1,0.2,1 (0.2%),Decane,149.29,Alkanes,C10-C12 Alkanes,5
+undecane,nd,8,1.7,8 (1.7%),Undecane,156.31,Alkanes,C10-C12 Alkanes,5
+undecane,lod,224,48.8,224 (48.8%),Undecane,156.31,Alkanes,C10-C12 Alkanes,5
+undecane,reg,227,49.5,227 (49.5%),Undecane,156.31,Alkanes,C10-C12 Alkanes,5
+undecane,ulod,0,0,0 (0%),Undecane,156.31,Alkanes,C10-C12 Alkanes,5
+dodecane,nd,5,1.1,5 (1.1%),Dodecane,170.34,Alkanes,C10-C12 Alkanes,5
+dodecane,lod,291,63.4,291 (63.4%),Dodecane,170.34,Alkanes,C10-C12 Alkanes,5
+dodecane,reg,163,35.5,163 (35.5%),Dodecane,170.34,Alkanes,C10-C12 Alkanes,5
+dodecane,ulod,0,0,0 (0%),Dodecane,170.34,Alkanes,C10-C12 Alkanes,5
+cyclohexane_methyl,nd,2,0.4,2 (0.4%),Methylcyclohexane,98.189,Cyclohexanes,Cyclohexanes,6
+cyclohexane_methyl,lod,6,1.3,6 (1.3%),Methylcyclohexane,98.189,Cyclohexanes,Cyclohexanes,6
+cyclohexane_methyl,reg,424,92.4,424 (92.4%),Methylcyclohexane,98.189,Cyclohexanes,Cyclohexanes,6
+cyclohexane_methyl,ulod,27,5.9,27 (5.9%),Methylcyclohexane,98.189,Cyclohexanes,Cyclohexanes,6
+x2_pentene_z_cis,nd,86,18.7,86 (18.7%),cis-2-Pentene,70.1329,Alkenes,Alkenes,7
+x2_pentene_z_cis,lod,148,32.2,148 (32.2%),cis-2-Pentene,70.1329,Alkenes,Alkenes,7
+x2_pentene_z_cis,reg,225,49,225 (49%),cis-2-Pentene,70.1329,Alkenes,Alkenes,7
+x2_pentene_z_cis,ulod,0,0,0 (0%),cis-2-Pentene,70.1329,Alkenes,Alkenes,7
+x1_3_butadiene_2_methyl,nd,213,46.4,213 (46.4%),Isoprene,68.12,Alkenes,Alkenes,7
+x1_3_butadiene_2_methyl,lod,47,10.2,47 (10.2%),Isoprene,68.12,Alkenes,Alkenes,7
+x1_3_butadiene_2_methyl,reg,199,43.4,199 (43.4%),Isoprene,68.12,Alkenes,Alkenes,7
+x1_3_butadiene_2_methyl,ulod,0,0,0 (0%),Isoprene,68.12,Alkenes,Alkenes,7
+x1_hexene,nd,54,11.8,54 (11.8%),1-Hexene,84.162,Alkenes,Alkenes,7
+x1_hexene,lod,15,3.3,15 (3.3%),1-Hexene,84.162,Alkenes,Alkenes,7
+x1_hexene,reg,390,85,390 (85%),1-Hexene,84.162,Alkenes,Alkenes,7
+x1_hexene,ulod,0,0,0 (0%),1-Hexene,84.162,Alkenes,Alkenes,7
+trichlorofluoromethane,nd,2,0.4,2 (0.4%),Trichloromonofluoromethane,137.37,Chlorinated Compounds,Chlorinated Compounds,8
+trichlorofluoromethane,lod,0,0,0 (0%),Trichloromonofluoromethane,137.37,Chlorinated Compounds,Chlorinated Compounds,8
+trichlorofluoromethane,reg,457,99.6,457 (99.6%),Trichloromonofluoromethane,137.37,Chlorinated Compounds,Chlorinated Compounds,8
+trichlorofluoromethane,ulod,0,0,0 (0%),Trichloromonofluoromethane,137.37,Chlorinated Compounds,Chlorinated Compounds,8
+tce,nd,3,0.7,3 (0.7%),Tetrachloroethylene,165.83,Chlorinated Compounds,Chlorinated Compounds,8
+tce,lod,0,0,0 (0%),Tetrachloroethylene,165.83,Chlorinated Compounds,Chlorinated Compounds,8
+tce,reg,456,99.3,456 (99.3%),Tetrachloroethylene,165.83,Chlorinated Compounds,Chlorinated Compounds,8
+tce,ulod,0,0,0 (0%),Tetrachloroethylene,165.83,Chlorinated Compounds,Chlorinated Compounds,8
+benz12chloro,nd,34,7.4,34 (7.4%),"1,2-dichlorobenzene",147.01,Benzene Derivatives,Chlorinated Compounds,8
+benz12chloro,lod,247,53.8,247 (53.8%),"1,2-dichlorobenzene",147.01,Benzene Derivatives,Chlorinated Compounds,8
+benz12chloro,reg,178,38.8,178 (38.8%),"1,2-dichlorobenzene",147.01,Benzene Derivatives,Chlorinated Compounds,8
+benz12chloro,ulod,0,0,0 (0%),"1,2-dichlorobenzene",147.01,Benzene Derivatives,Chlorinated Compounds,8
+trichloromethane,nd,11,2.4,11 (2.4%),Chloroform,119.37,Chlorinated Compounds,Chlorinated Compounds,8
+trichloromethane,lod,0,0,0 (0%),Chloroform,119.37,Chlorinated Compounds,Chlorinated Compounds,8
+trichloromethane,reg,448,97.6,448 (97.6%),Chloroform,119.37,Chlorinated Compounds,Chlorinated Compounds,8
+trichloromethane,ulod,0,0,0 (0%),Chloroform,119.37,Chlorinated Compounds,Chlorinated Compounds,8
+carbon_tetrachloride,nd,6,1.3,6 (1.3%),Carbon tetrachloride,153.81,Chlorinated Compounds,Chlorinated Compounds,8
+carbon_tetrachloride,lod,1,0.2,1 (0.2%),Carbon tetrachloride,153.81,Chlorinated Compounds,Chlorinated Compounds,8
+carbon_tetrachloride,reg,452,98.5,452 (98.5%),Carbon tetrachloride,153.81,Chlorinated Compounds,Chlorinated Compounds,8
+carbon_tetrachloride,ulod,0,0,0 (0%),Carbon tetrachloride,153.81,Chlorinated Compounds,Chlorinated Compounds,8
+methyl_isobutyl_ketone,nd,267,58.2,267 (58.2%),Methyl isobutyl ketone,100.16,Ketones,Ketones,9
+methyl_isobutyl_ketone,lod,0,0,0 (0%),Methyl isobutyl ketone,100.16,Ketones,Ketones,9
+methyl_isobutyl_ketone,reg,192,41.8,192 (41.8%),Methyl isobutyl ketone,100.16,Ketones,Ketones,9
+methyl_isobutyl_ketone,ulod,0,0,0 (0%),Methyl isobutyl ketone,100.16,Ketones,Ketones,9
+x2_hexanone,nd,431,93.9,431 (93.9%),2-Hexanone,100.161,Ketones,Ketones,9
+x2_hexanone,lod,0,0,0 (0%),2-Hexanone,100.161,Ketones,Ketones,9
+x2_hexanone,reg,28,6.1,28 (6.1%),2-Hexanone,100.161,Ketones,Ketones,9
+x2_hexanone,ulod,0,0,0 (0%),2-Hexanone,100.161,Ketones,Ketones,9

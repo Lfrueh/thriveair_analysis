@@ -1,0 +1,39 @@
+variable,RMSE,R2,ICC,voc_name,mw,category_1,category_2,category_1no,category_2no
+benzene,0.04,0.95,0.98,Benzene,78.11,BTEX,BTEX,1,1
+toluene,0.07,0.92,0.96,Toluene,92.14,BTEX,BTEX,1,1
+etbenz,0.02,0.93,0.96,Ethylbenzene,106.17,BTEX,BTEX,1,1
+mpxylene,0.1,0.97,0.98,"m,p-Xylene 2",106.16,BTEX,BTEX,1,1
+oxylene,0.03,0.96,0.98,o-Xylene,106.16,BTEX,BTEX,1,1
+benz1ethyl2methyl,0.01,0.95,0.97,1-ethyl-2-methyl-benzene,120.19,Benzene Derivatives,Alkylbenzenes,2,2
+benz1ethyl3methyl,0.02,0.93,0.96,1-ethyl-3-methyl-benzene,120.19,Benzene Derivatives,Alkylbenzenes,2,2
+benz1ethyl4methyl,0.01,0.82,0.91,1-ethyl-4-methyl-benzene,120.19,Benzene Derivatives,Alkylbenzenes,2,2
+propylbenzene,0.01,0.89,0.93,Propylbenzene,120.19,Benzene Derivatives,Alkylbenzenes,2,2
+mesitylene,0.02,0.98,0.99,Mesitylene,120.19,Benzene Derivatives,Alkylbenzenes,2,2
+benzene_1_2_3_trimethyl,0.05,0.01,NA,"1,2,3-Trimethylbenzene",120.194,Benzene Derivatives,Alkylbenzenes,2,2
+benzene_1_4_diethyl,0.01,0.96,0.98,"1,4-Diethylbenzene",134.221,Benzene Derivatives,Alkylbenzenes,2,2
+heptane3methyl,0.03,0.98,0.99,3-methyl-heptane,114.23,Alkanes,Branched Alkanes,3,3
+hexane2methyl,0.03,0.97,0.98,2-methyl-hexane,100.2,Alkanes,Branched Alkanes,3,3
+butane_2_methyl,0.02,0.96,0.97,Isopentane,72.151,Alkanes,Branched Alkanes,3,3
+pentane_2_methyl,0.21,0.98,0.99,Isohexane,86.178,Alkanes,Branched Alkanes,3,3
+pentane_3_methyl,0.08,0.98,0.99,3-Methylpentane,86.178,Alkanes,Branched Alkanes,3,3
+pentane_2_4_dimethyl,0.02,0.97,0.99,"2,4-Dimethylpentane",100.205,Alkanes,Branched Alkanes,3,3
+pentane_2_3_4_trimethyl,0.02,0.98,0.99,"2,3,4-Trimethylpentane",114.232,Alkanes,Branched Alkanes,3,3
+hexane_3_methyl,0.07,0.97,0.99,3-Methylhexane,100.205,Alkanes,Branched Alkanes,5,3
+heptane,0.03,0.96,0.98,Heptane,100.21,Alkanes,C6-C9 Alkanes,3,4
+hexane,0.04,0.97,0.98,n-Hexane,86.18,Alkanes,C6-C9 Alkanes,3,4
+nonane,0.1,0.18,0.41,Nonane,128.25,Alkanes,C6-C9 Alkanes,3,4
+octane,0.05,0.52,0.71,Octane,114.23,Alkanes,C6-C9 Alkanes,3,4
+decane,0.02,0.92,0.96,Decane,149.29,Alkanes,C10-C12 Alkanes,3,5
+dodecane,0.02,0.97,0.98,Dodecane,170.34,Alkanes,C10-C12 Alkanes,3,5
+undecane,0.04,0.93,0.96,Undecane,156.31,Alkanes,C10-C12 Alkanes,3,5
+cyclohexane_methyl,0.07,0.99,0.99,Methylcyclohexane,98.189,Cyclohexanes,Cyclohexanes,4,6
+x2_pentene_z_cis,0.01,0.87,0.93,cis-2-Pentene,70.1329,Alkenes,Alkenes,5,7
+x1_3_butadiene_2_methyl,0.01,0.83,0.91,Isoprene,68.12,Alkenes,Alkenes,5,7
+x1_hexene,0.04,0.43,0.65,1-Hexene,84.162,Alkenes,Alkenes,5,7
+methyl_isobutyl_ketone,0.01,0.05,0.22,Methyl isobutyl ketone,100.16,Ketones,Ketones,6,8
+x2_hexanone,0,0.37,0.62,2-Hexanone,100.161,Ketones,Ketones,6,8
+benz12chloro,0.01,0.46,0.63,"1,2-dichlorobenzene",147.01,Benzene Derivatives,Chlorinated Compounds,2,9
+tce,0,0.89,0.94,Tetrachloroethylene,165.83,Chlorinated Compounds,Chlorinated Compounds,7,9
+trichlorofluoromethane,0.03,0.85,0.92,Trichloromonofluoromethane,137.37,Chlorinated Compounds,Chlorinated Compounds,7,9
+trichloromethane,0.01,0.22,0.48,Chloroform,119.37,Chlorinated Compounds,Chlorinated Compounds,7,9
+carbon_tetrachloride,0.05,0.69,0.83,Carbon tetrachloride,153.81,Chlorinated Compounds,Chlorinated Compounds,7,9

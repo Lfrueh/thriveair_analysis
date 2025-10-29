@@ -1,0 +1,781 @@
+﻿"site","site_type","site_id","variable_name","summary","voc_name","mw","category_1","category_2","category_1no","category_2no"
+"Bartram’s Garden","stationary",1,"benzene","0.90 (0.53)","Benzene",78.11,"BTEX","BTEX",1,1
+"Bartram’s Garden","stationary",1,"toluene","1.34 (0.95)","Toluene",92.14,"BTEX","BTEX",1,1
+"Bartram’s Garden","stationary",1,"etbenz","0.32 (0.21)","Ethylbenzene",106.17,"BTEX","BTEX",1,1
+"Bartram’s Garden","stationary",1,"xylenes","2.40 (1.72)","Xylenes",106.16,"BTEX","BTEX",1,1
+"Bartram’s Garden","stationary",1,"mpxylene","1.98 (1.37)","m,p-Xylene 2",106.16,"BTEX","BTEX",1,1
+"Bartram’s Garden","stationary",1,"oxylene","0.47 (0.28)","o-Xylene",106.16,"BTEX","BTEX",1,1
+"Bartram’s Garden","stationary",1,"benz1ethyl2methyl","0.08 (0.03)","1-ethyl-2-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Bartram’s Garden","stationary",1,"benz1ethyl3methyl","0.20 (0.11)","1-ethyl-3-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Bartram’s Garden","stationary",1,"benz1ethyl4methyl","0.11 (0.06)","1-ethyl-4-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Bartram’s Garden","stationary",1,"propylbenzene","0.09 (0.06)","Propylbenzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Bartram’s Garden","stationary",1,"mesitylene","0.24 (0.12)","Mesitylene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Bartram’s Garden","stationary",1,"benzene_1_2_3_trimethyl","0.11 (0.04)","1,2,3-Trimethylbenzene",120.194,"Benzene Derivatives","Alkylbenzenes",2,2
+"Bartram’s Garden","stationary",1,"benzene_1_4_diethyl","0.05 (0.04)","1,4-Diethylbenzene",134.221,"Benzene Derivatives","Alkylbenzenes",2,2
+"Bartram’s Garden","stationary",1,"heptane3methyl","0.32 (0.26)","3-methyl-heptane",114.23,"Alkanes","Branched Alkanes",3,3
+"Bartram’s Garden","stationary",1,"hexane2methyl","0.38 (0.31)","2-methyl-hexane",100.2,"Alkanes","Branched Alkanes",3,3
+"Bartram’s Garden","stationary",1,"butane_2_methyl","0.28 (0.26)","Isopentane",72.151,"Alkanes","Branched Alkanes",3,3
+"Bartram’s Garden","stationary",1,"pentane_2_methyl","3.35 (2.74)","Isohexane",86.178,"Alkanes","Branched Alkanes",3,3
+"Bartram’s Garden","stationary",1,"pentane_3_methyl","1.20 (0.99)","3-Methylpentane",86.178,"Alkanes","Branched Alkanes",3,3
+"Bartram’s Garden","stationary",1,"pentane_2_4_dimethyl","0.20 (0.12)","2,4-Dimethylpentane",100.205,"Alkanes","Branched Alkanes",3,3
+"Bartram’s Garden","stationary",1,"pentane_2_3_4_trimethyl","0.22 (0.15)","2,3,4-Trimethylpentane",114.232,"Alkanes","Branched Alkanes",3,3
+"Bartram’s Garden","stationary",1,"hexane_3_methyl","0.84 (0.76)","3-Methylhexane",100.205,"Alkanes","Branched Alkanes",5,3
+"Bartram’s Garden","stationary",1,"heptane","0.48 (0.30)","Heptane",100.21,"Alkanes","C6-C9 Alkanes",3,4
+"Bartram’s Garden","stationary",1,"hexane","0.66 (0.62)","n-Hexane",86.18,"Alkanes","C6-C9 Alkanes",3,4
+"Bartram’s Garden","stationary",1,"nonane","0.26 (0.40)","Nonane",128.25,"Alkanes","C6-C9 Alkanes",3,4
+"Bartram’s Garden","stationary",1,"octane","0.20 (0.14)","Octane",114.23,"Alkanes","C6-C9 Alkanes",3,4
+"Bartram’s Garden","stationary",1,"decane","0.28 (0.18)","Decane",149.29,"Alkanes","C10-C12 Alkanes",3,5
+"Bartram’s Garden","stationary",1,"dodecane","0.15 (0.09)","Dodecane",170.34,"Alkanes","C10-C12 Alkanes",3,5
+"Bartram’s Garden","stationary",1,"undecane","0.31 (0.21)","Undecane",156.31,"Alkanes","C10-C12 Alkanes",3,5
+"Bartram’s Garden","stationary",1,"cyclohexane_methyl","0.78 (0.50)","Methylcyclohexane",98.189,"Cyclohexanes","Cyclohexanes",4,6
+"Bartram’s Garden","stationary",1,"x2_pentene_z_cis","0.02 (0.04)","cis-2-Pentene",70.1329,"Alkenes","Alkenes",5,7
+"Bartram’s Garden","stationary",1,"x1_3_butadiene_2_methyl","0.01 (0.23)","Isoprene",68.12,"Alkenes","Alkenes",5,7
+"Bartram’s Garden","stationary",1,"x1_hexene","0.13 (0.13)","1-Hexene",84.162,"Alkenes","Alkenes",5,7
+"Bartram’s Garden","stationary",1,"methyl_isobutyl_ketone","0.00 (0.00)","Methyl isobutyl ketone",100.16,"Ketones","Ketones",6,8
+"Bartram’s Garden","stationary",1,"x2_hexanone","0.01 (0.00)","2-Hexanone",100.161,"Ketones","Ketones",6,8
+"Bartram’s Garden","stationary",1,"benz12chloro","0.13 (0.14)","1,2-dichlorobenzene",147.01,"Benzene Derivatives","Chlorinated Compounds",2,9
+"Bartram’s Garden","stationary",1,"tce","0.12 (0.06)","Tetrachloroethylene",165.83,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"Bartram’s Garden","stationary",1,"trichlorofluoromethane","0.48 (0.61)","Trichloromonofluoromethane",137.37,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"Bartram’s Garden","stationary",1,"trichloromethane","0.17 (0.04)","Chloroform",119.37,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"Bartram’s Garden","stationary",1,"carbon_tetrachloride","1.75 (0.80)","Carbon tetrachloride",153.81,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"Essington & Mingo","stationary",2,"benzene","1.07 (0.64)","Benzene",78.11,"BTEX","BTEX",1,1
+"Essington & Mingo","stationary",2,"toluene","1.80 (1.19)","Toluene",92.14,"BTEX","BTEX",1,1
+"Essington & Mingo","stationary",2,"etbenz","0.44 (0.24)","Ethylbenzene",106.17,"BTEX","BTEX",1,1
+"Essington & Mingo","stationary",2,"xylenes","3.80 (1.68)","Xylenes",106.16,"BTEX","BTEX",1,1
+"Essington & Mingo","stationary",2,"mpxylene","3.14 (1.38)","m,p-Xylene 2",106.16,"BTEX","BTEX",1,1
+"Essington & Mingo","stationary",2,"oxylene","0.65 (0.30)","o-Xylene",106.16,"BTEX","BTEX",1,1
+"Essington & Mingo","stationary",2,"benz1ethyl2methyl","0.10 (0.05)","1-ethyl-2-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Essington & Mingo","stationary",2,"benz1ethyl3methyl","0.24 (0.13)","1-ethyl-3-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Essington & Mingo","stationary",2,"benz1ethyl4methyl","0.11 (0.05)","1-ethyl-4-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Essington & Mingo","stationary",2,"propylbenzene","0.12 (0.06)","Propylbenzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Essington & Mingo","stationary",2,"mesitylene","0.25 (0.09)","Mesitylene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Essington & Mingo","stationary",2,"benzene_1_2_3_trimethyl","0.11 (0.04)","1,2,3-Trimethylbenzene",120.194,"Benzene Derivatives","Alkylbenzenes",2,2
+"Essington & Mingo","stationary",2,"benzene_1_4_diethyl","0.07 (0.05)","1,4-Diethylbenzene",134.221,"Benzene Derivatives","Alkylbenzenes",2,2
+"Essington & Mingo","stationary",2,"heptane3methyl","0.38 (0.23)","3-methyl-heptane",114.23,"Alkanes","Branched Alkanes",3,3
+"Essington & Mingo","stationary",2,"hexane2methyl","0.57 (0.39)","2-methyl-hexane",100.2,"Alkanes","Branched Alkanes",3,3
+"Essington & Mingo","stationary",2,"butane_2_methyl","0.41 (0.33)","Isopentane",72.151,"Alkanes","Branched Alkanes",3,3
+"Essington & Mingo","stationary",2,"pentane_2_methyl","5.05 (4.14)","Isohexane",86.178,"Alkanes","Branched Alkanes",3,3
+"Essington & Mingo","stationary",2,"pentane_3_methyl","1.71 (1.64)","3-Methylpentane",86.178,"Alkanes","Branched Alkanes",3,3
+"Essington & Mingo","stationary",2,"pentane_2_4_dimethyl","0.27 (0.13)","2,4-Dimethylpentane",100.205,"Alkanes","Branched Alkanes",3,3
+"Essington & Mingo","stationary",2,"pentane_2_3_4_trimethyl","0.26 (0.18)","2,3,4-Trimethylpentane",114.232,"Alkanes","Branched Alkanes",3,3
+"Essington & Mingo","stationary",2,"hexane_3_methyl","1.27 (0.83)","3-Methylhexane",100.205,"Alkanes","Branched Alkanes",5,3
+"Essington & Mingo","stationary",2,"heptane","0.60 (0.38)","Heptane",100.21,"Alkanes","C6-C9 Alkanes",3,4
+"Essington & Mingo","stationary",2,"hexane","0.80 (0.69)","n-Hexane",86.18,"Alkanes","C6-C9 Alkanes",3,4
+"Essington & Mingo","stationary",2,"nonane","0.32 (0.34)","Nonane",128.25,"Alkanes","C6-C9 Alkanes",3,4
+"Essington & Mingo","stationary",2,"octane","0.24 (0.18)","Octane",114.23,"Alkanes","C6-C9 Alkanes",3,4
+"Essington & Mingo","stationary",2,"decane","0.27 (0.16)","Decane",149.29,"Alkanes","C10-C12 Alkanes",3,5
+"Essington & Mingo","stationary",2,"dodecane","0.18 (0.12)","Dodecane",170.34,"Alkanes","C10-C12 Alkanes",3,5
+"Essington & Mingo","stationary",2,"undecane","0.38 (0.22)","Undecane",156.31,"Alkanes","C10-C12 Alkanes",3,5
+"Essington & Mingo","stationary",2,"cyclohexane_methyl","0.88 (0.57)","Methylcyclohexane",98.189,"Cyclohexanes","Cyclohexanes",4,6
+"Essington & Mingo","stationary",2,"x2_pentene_z_cis","0.03 (0.06)","cis-2-Pentene",70.1329,"Alkenes","Alkenes",5,7
+"Essington & Mingo","stationary",2,"x1_3_butadiene_2_methyl","0.01 (0.08)","Isoprene",68.12,"Alkenes","Alkenes",5,7
+"Essington & Mingo","stationary",2,"x1_hexene","0.18 (0.15)","1-Hexene",84.162,"Alkenes","Alkenes",5,7
+"Essington & Mingo","stationary",2,"methyl_isobutyl_ketone","0.02 (0.05)","Methyl isobutyl ketone",100.16,"Ketones","Ketones",6,8
+"Essington & Mingo","stationary",2,"x2_hexanone","0.01 (0.00)","2-Hexanone",100.161,"Ketones","Ketones",6,8
+"Essington & Mingo","stationary",2,"benz12chloro","0.07 (0.06)","1,2-dichlorobenzene",147.01,"Benzene Derivatives","Chlorinated Compounds",2,9
+"Essington & Mingo","stationary",2,"tce","0.14 (0.12)","Tetrachloroethylene",165.83,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"Essington & Mingo","stationary",2,"trichlorofluoromethane","0.62 (0.63)","Trichloromonofluoromethane",137.37,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"Essington & Mingo","stationary",2,"trichloromethane","0.14 (0.05)","Chloroform",119.37,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"Essington & Mingo","stationary",2,"carbon_tetrachloride","1.73 (0.87)","Carbon tetrachloride",153.81,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"61st & Passyunk","stationary",3,"benzene","1.34 (0.90)","Benzene",78.11,"BTEX","BTEX",1,1
+"61st & Passyunk","stationary",3,"toluene","2.94 (2.53)","Toluene",92.14,"BTEX","BTEX",1,1
+"61st & Passyunk","stationary",3,"etbenz","0.77 (0.62)","Ethylbenzene",106.17,"BTEX","BTEX",1,1
+"61st & Passyunk","stationary",3,"xylenes","6.49 (5.50)","Xylenes",106.16,"BTEX","BTEX",1,1
+"61st & Passyunk","stationary",3,"mpxylene","5.23 (4.70)","m,p-Xylene 2",106.16,"BTEX","BTEX",1,1
+"61st & Passyunk","stationary",3,"oxylene","1.17 (0.81)","o-Xylene",106.16,"BTEX","BTEX",1,1
+"61st & Passyunk","stationary",3,"benz1ethyl2methyl","0.20 (0.10)","1-ethyl-2-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"61st & Passyunk","stationary",3,"benz1ethyl3methyl","0.53 (0.38)","1-ethyl-3-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"61st & Passyunk","stationary",3,"benz1ethyl4methyl","0.24 (0.18)","1-ethyl-4-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"61st & Passyunk","stationary",3,"propylbenzene","0.27 (0.16)","Propylbenzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"61st & Passyunk","stationary",3,"mesitylene","0.58 (0.33)","Mesitylene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"61st & Passyunk","stationary",3,"benzene_1_2_3_trimethyl","0.25 (0.12)","1,2,3-Trimethylbenzene",120.194,"Benzene Derivatives","Alkylbenzenes",2,2
+"61st & Passyunk","stationary",3,"benzene_1_4_diethyl","0.16 (0.10)","1,4-Diethylbenzene",134.221,"Benzene Derivatives","Alkylbenzenes",2,2
+"61st & Passyunk","stationary",3,"heptane3methyl","0.99 (0.70)","3-methyl-heptane",114.23,"Alkanes","Branched Alkanes",3,3
+"61st & Passyunk","stationary",3,"hexane2methyl","1.04 (0.97)","2-methyl-hexane",100.2,"Alkanes","Branched Alkanes",3,3
+"61st & Passyunk","stationary",3,"butane_2_methyl","0.43 (0.27)","Isopentane",72.151,"Alkanes","Branched Alkanes",3,3
+"61st & Passyunk","stationary",3,"pentane_2_methyl","8.05 (7.95)","Isohexane",86.178,"Alkanes","Branched Alkanes",3,3
+"61st & Passyunk","stationary",3,"pentane_3_methyl","2.80 (3.04)","3-Methylpentane",86.178,"Alkanes","Branched Alkanes",3,3
+"61st & Passyunk","stationary",3,"pentane_2_4_dimethyl","0.46 (0.34)","2,4-Dimethylpentane",100.205,"Alkanes","Branched Alkanes",3,3
+"61st & Passyunk","stationary",3,"pentane_2_3_4_trimethyl","0.63 (0.46)","2,3,4-Trimethylpentane",114.232,"Alkanes","Branched Alkanes",3,3
+"61st & Passyunk","stationary",3,"hexane_3_methyl","2.27 (2.08)","3-Methylhexane",100.205,"Alkanes","Branched Alkanes",5,3
+"61st & Passyunk","stationary",3,"heptane","1.16 (1.06)","Heptane",100.21,"Alkanes","C6-C9 Alkanes",3,4
+"61st & Passyunk","stationary",3,"hexane","1.49 (1.99)","n-Hexane",86.18,"Alkanes","C6-C9 Alkanes",3,4
+"61st & Passyunk","stationary",3,"nonane","0.53 (0.53)","Nonane",128.25,"Alkanes","C6-C9 Alkanes",3,4
+"61st & Passyunk","stationary",3,"octane","0.45 (0.30)","Octane",114.23,"Alkanes","C6-C9 Alkanes",3,4
+"61st & Passyunk","stationary",3,"decane","0.46 (0.23)","Decane",149.29,"Alkanes","C10-C12 Alkanes",3,5
+"61st & Passyunk","stationary",3,"dodecane","0.26 (0.13)","Dodecane",170.34,"Alkanes","C10-C12 Alkanes",3,5
+"61st & Passyunk","stationary",3,"undecane","0.53 (0.18)","Undecane",156.31,"Alkanes","C10-C12 Alkanes",3,5
+"61st & Passyunk","stationary",3,"cyclohexane_methyl","1.99 (1.60)","Methylcyclohexane",98.189,"Cyclohexanes","Cyclohexanes",4,6
+"61st & Passyunk","stationary",3,"x2_pentene_z_cis","0.07 (0.10)","cis-2-Pentene",70.1329,"Alkenes","Alkenes",5,7
+"61st & Passyunk","stationary",3,"x1_3_butadiene_2_methyl","0.04 (0.09)","Isoprene",68.12,"Alkenes","Alkenes",5,7
+"61st & Passyunk","stationary",3,"x1_hexene","0.27 (0.30)","1-Hexene",84.162,"Alkenes","Alkenes",5,7
+"61st & Passyunk","stationary",3,"methyl_isobutyl_ketone","0.04 (0.05)","Methyl isobutyl ketone",100.16,"Ketones","Ketones",6,8
+"61st & Passyunk","stationary",3,"x2_hexanone","0.01 (0.00)","2-Hexanone",100.161,"Ketones","Ketones",6,8
+"61st & Passyunk","stationary",3,"benz12chloro","0.08 (0.06)","1,2-dichlorobenzene",147.01,"Benzene Derivatives","Chlorinated Compounds",2,9
+"61st & Passyunk","stationary",3,"tce","0.12 (0.08)","Tetrachloroethylene",165.83,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"61st & Passyunk","stationary",3,"trichlorofluoromethane","0.67 (0.66)","Trichloromonofluoromethane",137.37,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"61st & Passyunk","stationary",3,"trichloromethane","0.15 (0.05)","Chloroform",119.37,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"61st & Passyunk","stationary",3,"carbon_tetrachloride","1.74 (0.85)","Carbon tetrachloride",153.81,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"28th & Passyunk","stationary",4,"benzene","1.50 (1.05)","Benzene",78.11,"BTEX","BTEX",1,1
+"28th & Passyunk","stationary",4,"toluene","2.41 (2.31)","Toluene",92.14,"BTEX","BTEX",1,1
+"28th & Passyunk","stationary",4,"etbenz","0.76 (1.11)","Ethylbenzene",106.17,"BTEX","BTEX",1,1
+"28th & Passyunk","stationary",4,"xylenes","6.56 (9.96)","Xylenes",106.16,"BTEX","BTEX",1,1
+"28th & Passyunk","stationary",4,"mpxylene","5.38 (8.51)","m,p-Xylene 2",106.16,"BTEX","BTEX",1,1
+"28th & Passyunk","stationary",4,"oxylene","1.17 (1.76)","o-Xylene",106.16,"BTEX","BTEX",1,1
+"28th & Passyunk","stationary",4,"benz1ethyl2methyl","0.27 (0.39)","1-ethyl-2-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"28th & Passyunk","stationary",4,"benz1ethyl3methyl","0.61 (1.05)","1-ethyl-3-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"28th & Passyunk","stationary",4,"benz1ethyl4methyl","0.31 (0.53)","1-ethyl-4-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"28th & Passyunk","stationary",4,"propylbenzene","0.35 (0.65)","Propylbenzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"28th & Passyunk","stationary",4,"mesitylene","1.06 (1.65)","Mesitylene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"28th & Passyunk","stationary",4,"benzene_1_2_3_trimethyl","0.33 (0.51)","1,2,3-Trimethylbenzene",120.194,"Benzene Derivatives","Alkylbenzenes",2,2
+"28th & Passyunk","stationary",4,"benzene_1_4_diethyl","0.31 (0.55)","1,4-Diethylbenzene",134.221,"Benzene Derivatives","Alkylbenzenes",2,2
+"28th & Passyunk","stationary",4,"heptane3methyl","2.35 (4.12)","3-methyl-heptane",114.23,"Alkanes","Branched Alkanes",3,3
+"28th & Passyunk","stationary",4,"hexane2methyl","1.94 (2.71)","2-methyl-hexane",100.2,"Alkanes","Branched Alkanes",3,3
+"28th & Passyunk","stationary",4,"butane_2_methyl","0.59 (0.21)","Isopentane",72.151,"Alkanes","Branched Alkanes",3,3
+"28th & Passyunk","stationary",4,"pentane_2_methyl","13.18 (8.15)","Isohexane",86.178,"Alkanes","Branched Alkanes",3,3
+"28th & Passyunk","stationary",4,"pentane_3_methyl","5.46 (3.54)","3-Methylpentane",86.178,"Alkanes","Branched Alkanes",3,3
+"28th & Passyunk","stationary",4,"pentane_2_4_dimethyl","0.86 (1.11)","2,4-Dimethylpentane",100.205,"Alkanes","Branched Alkanes",3,3
+"28th & Passyunk","stationary",4,"pentane_2_3_4_trimethyl","1.06 (1.71)","2,3,4-Trimethylpentane",114.232,"Alkanes","Branched Alkanes",3,3
+"28th & Passyunk","stationary",4,"hexane_3_methyl","4.60 (6.72)","3-Methylhexane",100.205,"Alkanes","Branched Alkanes",5,3
+"28th & Passyunk","stationary",4,"heptane","1.81 (2.42)","Heptane",100.21,"Alkanes","C6-C9 Alkanes",3,4
+"28th & Passyunk","stationary",4,"hexane","2.22 (2.62)","n-Hexane",86.18,"Alkanes","C6-C9 Alkanes",3,4
+"28th & Passyunk","stationary",4,"nonane","0.96 (1.14)","Nonane",128.25,"Alkanes","C6-C9 Alkanes",3,4
+"28th & Passyunk","stationary",4,"octane","0.69 (0.90)","Octane",114.23,"Alkanes","C6-C9 Alkanes",3,4
+"28th & Passyunk","stationary",4,"decane","1.13 (1.03)","Decane",149.29,"Alkanes","C10-C12 Alkanes",3,5
+"28th & Passyunk","stationary",4,"dodecane","0.85 (0.80)","Dodecane",170.34,"Alkanes","C10-C12 Alkanes",3,5
+"28th & Passyunk","stationary",4,"undecane","1.51 (1.28)","Undecane",156.31,"Alkanes","C10-C12 Alkanes",3,5
+"28th & Passyunk","stationary",4,"cyclohexane_methyl","6.12 (4.20)","Methylcyclohexane",98.189,"Cyclohexanes","Cyclohexanes",4,6
+"28th & Passyunk","stationary",4,"x2_pentene_z_cis","0.06 (0.09)","cis-2-Pentene",70.1329,"Alkenes","Alkenes",5,7
+"28th & Passyunk","stationary",4,"x1_3_butadiene_2_methyl","0.01 (0.07)","Isoprene",68.12,"Alkenes","Alkenes",5,7
+"28th & Passyunk","stationary",4,"x1_hexene","0.35 (0.48)","1-Hexene",84.162,"Alkenes","Alkenes",5,7
+"28th & Passyunk","stationary",4,"methyl_isobutyl_ketone","0.00 (0.03)","Methyl isobutyl ketone",100.16,"Ketones","Ketones",6,8
+"28th & Passyunk","stationary",4,"x2_hexanone","0.01 (0.00)","2-Hexanone",100.161,"Ketones","Ketones",6,8
+"28th & Passyunk","stationary",4,"benz12chloro","0.05 (0.05)","1,2-dichlorobenzene",147.01,"Benzene Derivatives","Chlorinated Compounds",2,9
+"28th & Passyunk","stationary",4,"tce","0.11 (0.08)","Tetrachloroethylene",165.83,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"28th & Passyunk","stationary",4,"trichlorofluoromethane","0.61 (0.55)","Trichloromonofluoromethane",137.37,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"28th & Passyunk","stationary",4,"trichloromethane","0.14 (0.08)","Chloroform",119.37,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"28th & Passyunk","stationary",4,"carbon_tetrachloride","1.61 (0.98)","Carbon tetrachloride",153.81,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"28th & Point Breeze","stationary",5,"benzene","1.08 (0.84)","Benzene",78.11,"BTEX","BTEX",1,1
+"28th & Point Breeze","stationary",5,"toluene","1.75 (1.31)","Toluene",92.14,"BTEX","BTEX",1,1
+"28th & Point Breeze","stationary",5,"etbenz","0.47 (0.30)","Ethylbenzene",106.17,"BTEX","BTEX",1,1
+"28th & Point Breeze","stationary",5,"xylenes","3.87 (2.51)","Xylenes",106.16,"BTEX","BTEX",1,1
+"28th & Point Breeze","stationary",5,"mpxylene","3.20 (2.18)","m,p-Xylene 2",106.16,"BTEX","BTEX",1,1
+"28th & Point Breeze","stationary",5,"oxylene","0.68 (0.39)","o-Xylene",106.16,"BTEX","BTEX",1,1
+"28th & Point Breeze","stationary",5,"benz1ethyl2methyl","0.13 (0.06)","1-ethyl-2-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"28th & Point Breeze","stationary",5,"benz1ethyl3methyl","0.33 (0.19)","1-ethyl-3-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"28th & Point Breeze","stationary",5,"benz1ethyl4methyl","0.15 (0.07)","1-ethyl-4-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"28th & Point Breeze","stationary",5,"propylbenzene","0.18 (0.09)","Propylbenzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"28th & Point Breeze","stationary",5,"mesitylene","0.40 (0.20)","Mesitylene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"28th & Point Breeze","stationary",5,"benzene_1_2_3_trimethyl","0.17 (0.08)","1,2,3-Trimethylbenzene",120.194,"Benzene Derivatives","Alkylbenzenes",2,2
+"28th & Point Breeze","stationary",5,"benzene_1_4_diethyl","0.12 (0.09)","1,4-Diethylbenzene",134.221,"Benzene Derivatives","Alkylbenzenes",2,2
+"28th & Point Breeze","stationary",5,"heptane3methyl","0.73 (0.40)","3-methyl-heptane",114.23,"Alkanes","Branched Alkanes",3,3
+"28th & Point Breeze","stationary",5,"hexane2methyl","0.62 (0.54)","2-methyl-hexane",100.2,"Alkanes","Branched Alkanes",3,3
+"28th & Point Breeze","stationary",5,"butane_2_methyl","0.42 (0.30)","Isopentane",72.151,"Alkanes","Branched Alkanes",3,3
+"28th & Point Breeze","stationary",5,"pentane_2_methyl","5.01 (4.77)","Isohexane",86.178,"Alkanes","Branched Alkanes",3,3
+"28th & Point Breeze","stationary",5,"pentane_3_methyl","1.91 (1.64)","3-Methylpentane",86.178,"Alkanes","Branched Alkanes",3,3
+"28th & Point Breeze","stationary",5,"pentane_2_4_dimethyl","0.34 (0.16)","2,4-Dimethylpentane",100.205,"Alkanes","Branched Alkanes",3,3
+"28th & Point Breeze","stationary",5,"pentane_2_3_4_trimethyl","0.52 (0.30)","2,3,4-Trimethylpentane",114.232,"Alkanes","Branched Alkanes",3,3
+"28th & Point Breeze","stationary",5,"hexane_3_methyl","1.52 (1.15)","3-Methylhexane",100.205,"Alkanes","Branched Alkanes",5,3
+"28th & Point Breeze","stationary",5,"heptane","0.78 (0.53)","Heptane",100.21,"Alkanes","C6-C9 Alkanes",3,4
+"28th & Point Breeze","stationary",5,"hexane","0.87 (1.05)","n-Hexane",86.18,"Alkanes","C6-C9 Alkanes",3,4
+"28th & Point Breeze","stationary",5,"nonane","0.48 (0.59)","Nonane",128.25,"Alkanes","C6-C9 Alkanes",3,4
+"28th & Point Breeze","stationary",5,"octane","0.35 (0.37)","Octane",114.23,"Alkanes","C6-C9 Alkanes",3,4
+"28th & Point Breeze","stationary",5,"decane","0.45 (0.30)","Decane",149.29,"Alkanes","C10-C12 Alkanes",3,5
+"28th & Point Breeze","stationary",5,"dodecane","0.31 (0.17)","Dodecane",170.34,"Alkanes","C10-C12 Alkanes",3,5
+"28th & Point Breeze","stationary",5,"undecane","0.59 (0.33)","Undecane",156.31,"Alkanes","C10-C12 Alkanes",3,5
+"28th & Point Breeze","stationary",5,"cyclohexane_methyl","1.81 (0.89)","Methylcyclohexane",98.189,"Cyclohexanes","Cyclohexanes",4,6
+"28th & Point Breeze","stationary",5,"x2_pentene_z_cis","0.04 (0.05)","cis-2-Pentene",70.1329,"Alkenes","Alkenes",5,7
+"28th & Point Breeze","stationary",5,"x1_3_butadiene_2_methyl","0.03 (0.09)","Isoprene",68.12,"Alkenes","Alkenes",5,7
+"28th & Point Breeze","stationary",5,"x1_hexene","0.19 (0.18)","1-Hexene",84.162,"Alkenes","Alkenes",5,7
+"28th & Point Breeze","stationary",5,"methyl_isobutyl_ketone","0.00 (0.04)","Methyl isobutyl ketone",100.16,"Ketones","Ketones",6,8
+"28th & Point Breeze","stationary",5,"x2_hexanone","0.01 (0.00)","2-Hexanone",100.161,"Ketones","Ketones",6,8
+"28th & Point Breeze","stationary",5,"benz12chloro","0.12 (0.07)","1,2-dichlorobenzene",147.01,"Benzene Derivatives","Chlorinated Compounds",2,9
+"28th & Point Breeze","stationary",5,"tce","0.12 (0.08)","Tetrachloroethylene",165.83,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"28th & Point Breeze","stationary",5,"trichlorofluoromethane","0.58 (0.65)","Trichloromonofluoromethane",137.37,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"28th & Point Breeze","stationary",5,"trichloromethane","0.18 (0.08)","Chloroform",119.37,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"28th & Point Breeze","stationary",5,"carbon_tetrachloride","1.72 (0.80)","Carbon tetrachloride",153.81,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"25th & Point Breeze","stationary",6,"benzene","1.05 (0.80)","Benzene",78.11,"BTEX","BTEX",1,1
+"25th & Point Breeze","stationary",6,"toluene","2.06 (1.47)","Toluene",92.14,"BTEX","BTEX",1,1
+"25th & Point Breeze","stationary",6,"etbenz","0.47 (0.31)","Ethylbenzene",106.17,"BTEX","BTEX",1,1
+"25th & Point Breeze","stationary",6,"xylenes","4.09 (2.45)","Xylenes",106.16,"BTEX","BTEX",1,1
+"25th & Point Breeze","stationary",6,"mpxylene","3.40 (2.11)","m,p-Xylene 2",106.16,"BTEX","BTEX",1,1
+"25th & Point Breeze","stationary",6,"oxylene","0.70 (0.37)","o-Xylene",106.16,"BTEX","BTEX",1,1
+"25th & Point Breeze","stationary",6,"benz1ethyl2methyl","0.12 (0.07)","1-ethyl-2-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"25th & Point Breeze","stationary",6,"benz1ethyl3methyl","0.29 (0.19)","1-ethyl-3-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"25th & Point Breeze","stationary",6,"benz1ethyl4methyl","0.13 (0.07)","1-ethyl-4-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"25th & Point Breeze","stationary",6,"propylbenzene","0.15 (0.10)","Propylbenzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"25th & Point Breeze","stationary",6,"mesitylene","0.36 (0.22)","Mesitylene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"25th & Point Breeze","stationary",6,"benzene_1_2_3_trimethyl","0.15 (0.08)","1,2,3-Trimethylbenzene",120.194,"Benzene Derivatives","Alkylbenzenes",2,2
+"25th & Point Breeze","stationary",6,"benzene_1_4_diethyl","0.10 (0.07)","1,4-Diethylbenzene",134.221,"Benzene Derivatives","Alkylbenzenes",2,2
+"25th & Point Breeze","stationary",6,"heptane3methyl","0.58 (0.36)","3-methyl-heptane",114.23,"Alkanes","Branched Alkanes",3,3
+"25th & Point Breeze","stationary",6,"hexane2methyl","0.68 (0.70)","2-methyl-hexane",100.2,"Alkanes","Branched Alkanes",3,3
+"25th & Point Breeze","stationary",6,"butane_2_methyl","0.38 (0.27)","Isopentane",72.151,"Alkanes","Branched Alkanes",3,3
+"25th & Point Breeze","stationary",6,"pentane_2_methyl","4.18 (4.65)","Isohexane",86.178,"Alkanes","Branched Alkanes",3,3
+"25th & Point Breeze","stationary",6,"pentane_3_methyl","1.44 (1.33)","3-Methylpentane",86.178,"Alkanes","Branched Alkanes",3,3
+"25th & Point Breeze","stationary",6,"pentane_2_4_dimethyl","0.27 (0.16)","2,4-Dimethylpentane",100.205,"Alkanes","Branched Alkanes",3,3
+"25th & Point Breeze","stationary",6,"pentane_2_3_4_trimethyl","0.37 (0.22)","2,3,4-Trimethylpentane",114.232,"Alkanes","Branched Alkanes",3,3
+"25th & Point Breeze","stationary",6,"hexane_3_methyl","1.60 (1.52)","3-Methylhexane",100.205,"Alkanes","Branched Alkanes",5,3
+"25th & Point Breeze","stationary",6,"heptane","0.68 (0.54)","Heptane",100.21,"Alkanes","C6-C9 Alkanes",3,4
+"25th & Point Breeze","stationary",6,"hexane","0.82 (0.81)","n-Hexane",86.18,"Alkanes","C6-C9 Alkanes",3,4
+"25th & Point Breeze","stationary",6,"nonane","0.45 (0.40)","Nonane",128.25,"Alkanes","C6-C9 Alkanes",3,4
+"25th & Point Breeze","stationary",6,"octane","0.30 (0.22)","Octane",114.23,"Alkanes","C6-C9 Alkanes",3,4
+"25th & Point Breeze","stationary",6,"decane","0.39 (0.25)","Decane",149.29,"Alkanes","C10-C12 Alkanes",3,5
+"25th & Point Breeze","stationary",6,"dodecane","0.19 (0.16)","Dodecane",170.34,"Alkanes","C10-C12 Alkanes",3,5
+"25th & Point Breeze","stationary",6,"undecane","0.43 (0.27)","Undecane",156.31,"Alkanes","C10-C12 Alkanes",3,5
+"25th & Point Breeze","stationary",6,"cyclohexane_methyl","1.33 (0.76)","Methylcyclohexane",98.189,"Cyclohexanes","Cyclohexanes",4,6
+"25th & Point Breeze","stationary",6,"x2_pentene_z_cis","0.03 (0.04)","cis-2-Pentene",70.1329,"Alkenes","Alkenes",5,7
+"25th & Point Breeze","stationary",6,"x1_3_butadiene_2_methyl","0.03 (0.13)","Isoprene",68.12,"Alkenes","Alkenes",5,7
+"25th & Point Breeze","stationary",6,"x1_hexene","0.14 (0.15)","1-Hexene",84.162,"Alkenes","Alkenes",5,7
+"25th & Point Breeze","stationary",6,"methyl_isobutyl_ketone","0.00 (0.04)","Methyl isobutyl ketone",100.16,"Ketones","Ketones",6,8
+"25th & Point Breeze","stationary",6,"x2_hexanone","0.01 (0.00)","2-Hexanone",100.161,"Ketones","Ketones",6,8
+"25th & Point Breeze","stationary",6,"benz12chloro","0.12 (0.06)","1,2-dichlorobenzene",147.01,"Benzene Derivatives","Chlorinated Compounds",2,9
+"25th & Point Breeze","stationary",6,"tce","0.12 (0.12)","Tetrachloroethylene",165.83,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"25th & Point Breeze","stationary",6,"trichlorofluoromethane","0.61 (0.60)","Trichloromonofluoromethane",137.37,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"25th & Point Breeze","stationary",6,"trichloromethane","0.14 (0.06)","Chloroform",119.37,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"25th & Point Breeze","stationary",6,"carbon_tetrachloride","1.75 (0.82)","Carbon tetrachloride",153.81,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"Morris & Point Breeze","stationary",7,"benzene","1.17 (0.70)","Benzene",78.11,"BTEX","BTEX",1,1
+"Morris & Point Breeze","stationary",7,"toluene","1.70 (1.12)","Toluene",92.14,"BTEX","BTEX",1,1
+"Morris & Point Breeze","stationary",7,"etbenz","0.46 (0.24)","Ethylbenzene",106.17,"BTEX","BTEX",1,1
+"Morris & Point Breeze","stationary",7,"xylenes","3.79 (2.25)","Xylenes",106.16,"BTEX","BTEX",1,1
+"Morris & Point Breeze","stationary",7,"mpxylene","3.04 (1.74)","m,p-Xylene 2",106.16,"BTEX","BTEX",1,1
+"Morris & Point Breeze","stationary",7,"oxylene","0.68 (0.35)","o-Xylene",106.16,"BTEX","BTEX",1,1
+"Morris & Point Breeze","stationary",7,"benz1ethyl2methyl","0.12 (0.05)","1-ethyl-2-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Morris & Point Breeze","stationary",7,"benz1ethyl3methyl","0.30 (0.18)","1-ethyl-3-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Morris & Point Breeze","stationary",7,"benz1ethyl4methyl","0.14 (0.07)","1-ethyl-4-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Morris & Point Breeze","stationary",7,"propylbenzene","0.15 (0.09)","Propylbenzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Morris & Point Breeze","stationary",7,"mesitylene","0.36 (0.20)","Mesitylene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Morris & Point Breeze","stationary",7,"benzene_1_2_3_trimethyl","0.16 (0.07)","1,2,3-Trimethylbenzene",120.194,"Benzene Derivatives","Alkylbenzenes",2,2
+"Morris & Point Breeze","stationary",7,"benzene_1_4_diethyl","0.12 (0.06)","1,4-Diethylbenzene",134.221,"Benzene Derivatives","Alkylbenzenes",2,2
+"Morris & Point Breeze","stationary",7,"heptane3methyl","0.44 (0.39)","3-methyl-heptane",114.23,"Alkanes","Branched Alkanes",3,3
+"Morris & Point Breeze","stationary",7,"hexane2methyl","0.48 (0.46)","2-methyl-hexane",100.2,"Alkanes","Branched Alkanes",3,3
+"Morris & Point Breeze","stationary",7,"butane_2_methyl","0.40 (0.28)","Isopentane",72.151,"Alkanes","Branched Alkanes",3,3
+"Morris & Point Breeze","stationary",7,"pentane_2_methyl","3.94 (3.89)","Isohexane",86.178,"Alkanes","Branched Alkanes",3,3
+"Morris & Point Breeze","stationary",7,"pentane_3_methyl","1.40 (1.40)","3-Methylpentane",86.178,"Alkanes","Branched Alkanes",3,3
+"Morris & Point Breeze","stationary",7,"pentane_2_4_dimethyl","0.25 (0.13)","2,4-Dimethylpentane",100.205,"Alkanes","Branched Alkanes",3,3
+"Morris & Point Breeze","stationary",7,"pentane_2_3_4_trimethyl","0.31 (0.22)","2,3,4-Trimethylpentane",114.232,"Alkanes","Branched Alkanes",3,3
+"Morris & Point Breeze","stationary",7,"hexane_3_methyl","1.09 (0.98)","3-Methylhexane",100.205,"Alkanes","Branched Alkanes",5,3
+"Morris & Point Breeze","stationary",7,"heptane","0.61 (0.44)","Heptane",100.21,"Alkanes","C6-C9 Alkanes",3,4
+"Morris & Point Breeze","stationary",7,"hexane","0.74 (0.80)","n-Hexane",86.18,"Alkanes","C6-C9 Alkanes",3,4
+"Morris & Point Breeze","stationary",7,"nonane","0.41 (0.45)","Nonane",128.25,"Alkanes","C6-C9 Alkanes",3,4
+"Morris & Point Breeze","stationary",7,"octane","0.30 (0.18)","Octane",114.23,"Alkanes","C6-C9 Alkanes",3,4
+"Morris & Point Breeze","stationary",7,"decane","0.51 (0.22)","Decane",149.29,"Alkanes","C10-C12 Alkanes",3,5
+"Morris & Point Breeze","stationary",7,"dodecane","0.42 (0.38)","Dodecane",170.34,"Alkanes","C10-C12 Alkanes",3,5
+"Morris & Point Breeze","stationary",7,"undecane","0.73 (0.43)","Undecane",156.31,"Alkanes","C10-C12 Alkanes",3,5
+"Morris & Point Breeze","stationary",7,"cyclohexane_methyl","1.01 (0.80)","Methylcyclohexane",98.189,"Cyclohexanes","Cyclohexanes",4,6
+"Morris & Point Breeze","stationary",7,"x2_pentene_z_cis","0.04 (0.04)","cis-2-Pentene",70.1329,"Alkenes","Alkenes",5,7
+"Morris & Point Breeze","stationary",7,"x1_3_butadiene_2_methyl","0.05 (0.09)","Isoprene",68.12,"Alkenes","Alkenes",5,7
+"Morris & Point Breeze","stationary",7,"x1_hexene","0.15 (0.14)","1-Hexene",84.162,"Alkenes","Alkenes",5,7
+"Morris & Point Breeze","stationary",7,"methyl_isobutyl_ketone","0.00 (0.04)","Methyl isobutyl ketone",100.16,"Ketones","Ketones",6,8
+"Morris & Point Breeze","stationary",7,"x2_hexanone","0.01 (0.00)","2-Hexanone",100.161,"Ketones","Ketones",6,8
+"Morris & Point Breeze","stationary",7,"benz12chloro","0.22 (0.10)","1,2-dichlorobenzene",147.01,"Benzene Derivatives","Chlorinated Compounds",2,9
+"Morris & Point Breeze","stationary",7,"tce","0.12 (0.06)","Tetrachloroethylene",165.83,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"Morris & Point Breeze","stationary",7,"trichlorofluoromethane","0.62 (0.57)","Trichloromonofluoromethane",137.37,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"Morris & Point Breeze","stationary",7,"trichloromethane","0.16 (0.07)","Chloroform",119.37,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"Morris & Point Breeze","stationary",7,"carbon_tetrachloride","1.72 (0.76)","Carbon tetrachloride",153.81,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"24th & Ritner","stationary",8,"benzene","1.23 (0.86)","Benzene",78.11,"BTEX","BTEX",1,1
+"24th & Ritner","stationary",8,"toluene","1.88 (1.03)","Toluene",92.14,"BTEX","BTEX",1,1
+"24th & Ritner","stationary",8,"etbenz","0.50 (0.25)","Ethylbenzene",106.17,"BTEX","BTEX",1,1
+"24th & Ritner","stationary",8,"xylenes","4.07 (2.76)","Xylenes",106.16,"BTEX","BTEX",1,1
+"24th & Ritner","stationary",8,"mpxylene","3.37 (2.23)","m,p-Xylene 2",106.16,"BTEX","BTEX",1,1
+"24th & Ritner","stationary",8,"oxylene","0.71 (0.40)","o-Xylene",106.16,"BTEX","BTEX",1,1
+"24th & Ritner","stationary",8,"benz1ethyl2methyl","0.14 (0.08)","1-ethyl-2-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"24th & Ritner","stationary",8,"benz1ethyl3methyl","0.33 (0.21)","1-ethyl-3-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"24th & Ritner","stationary",8,"benz1ethyl4methyl","0.15 (0.07)","1-ethyl-4-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"24th & Ritner","stationary",8,"propylbenzene","0.18 (0.09)","Propylbenzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"24th & Ritner","stationary",8,"mesitylene","0.42 (0.25)","Mesitylene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"24th & Ritner","stationary",8,"benzene_1_2_3_trimethyl","0.19 (0.10)","1,2,3-Trimethylbenzene",120.194,"Benzene Derivatives","Alkylbenzenes",2,2
+"24th & Ritner","stationary",8,"benzene_1_4_diethyl","0.12 (0.08)","1,4-Diethylbenzene",134.221,"Benzene Derivatives","Alkylbenzenes",2,2
+"24th & Ritner","stationary",8,"heptane3methyl","0.70 (0.49)","3-methyl-heptane",114.23,"Alkanes","Branched Alkanes",3,3
+"24th & Ritner","stationary",8,"hexane2methyl","0.64 (0.57)","2-methyl-hexane",100.2,"Alkanes","Branched Alkanes",3,3
+"24th & Ritner","stationary",8,"butane_2_methyl","0.42 (0.35)","Isopentane",72.151,"Alkanes","Branched Alkanes",3,3
+"24th & Ritner","stationary",8,"pentane_2_methyl","5.34 (5.65)","Isohexane",86.178,"Alkanes","Branched Alkanes",3,3
+"24th & Ritner","stationary",8,"pentane_3_methyl","1.81 (1.93)","3-Methylpentane",86.178,"Alkanes","Branched Alkanes",3,3
+"24th & Ritner","stationary",8,"pentane_2_4_dimethyl","0.34 (0.27)","2,4-Dimethylpentane",100.205,"Alkanes","Branched Alkanes",3,3
+"24th & Ritner","stationary",8,"pentane_2_3_4_trimethyl","0.46 (0.36)","2,3,4-Trimethylpentane",114.232,"Alkanes","Branched Alkanes",3,3
+"24th & Ritner","stationary",8,"hexane_3_methyl","1.55 (1.26)","3-Methylhexane",100.205,"Alkanes","Branched Alkanes",5,3
+"24th & Ritner","stationary",8,"heptane","0.77 (0.57)","Heptane",100.21,"Alkanes","C6-C9 Alkanes",3,4
+"24th & Ritner","stationary",8,"hexane","0.93 (1.03)","n-Hexane",86.18,"Alkanes","C6-C9 Alkanes",3,4
+"24th & Ritner","stationary",8,"nonane","0.63 (0.54)","Nonane",128.25,"Alkanes","C6-C9 Alkanes",3,4
+"24th & Ritner","stationary",8,"octane","0.39 (0.30)","Octane",114.23,"Alkanes","C6-C9 Alkanes",3,4
+"24th & Ritner","stationary",8,"decane","0.48 (0.43)","Decane",149.29,"Alkanes","C10-C12 Alkanes",3,5
+"24th & Ritner","stationary",8,"dodecane","0.23 (0.29)","Dodecane",170.34,"Alkanes","C10-C12 Alkanes",3,5
+"24th & Ritner","stationary",8,"undecane","0.59 (0.48)","Undecane",156.31,"Alkanes","C10-C12 Alkanes",3,5
+"24th & Ritner","stationary",8,"cyclohexane_methyl","1.72 (1.41)","Methylcyclohexane",98.189,"Cyclohexanes","Cyclohexanes",4,6
+"24th & Ritner","stationary",8,"x2_pentene_z_cis","0.04 (0.05)","cis-2-Pentene",70.1329,"Alkenes","Alkenes",5,7
+"24th & Ritner","stationary",8,"x1_3_butadiene_2_methyl","0.03 (0.10)","Isoprene",68.12,"Alkenes","Alkenes",5,7
+"24th & Ritner","stationary",8,"x1_hexene","0.17 (0.14)","1-Hexene",84.162,"Alkenes","Alkenes",5,7
+"24th & Ritner","stationary",8,"methyl_isobutyl_ketone","0.03 (0.04)","Methyl isobutyl ketone",100.16,"Ketones","Ketones",6,8
+"24th & Ritner","stationary",8,"x2_hexanone","0.01 (0.00)","2-Hexanone",100.161,"Ketones","Ketones",6,8
+"24th & Ritner","stationary",8,"benz12chloro","0.11 (0.07)","1,2-dichlorobenzene",147.01,"Benzene Derivatives","Chlorinated Compounds",2,9
+"24th & Ritner","stationary",8,"tce","0.09 (0.07)","Tetrachloroethylene",165.83,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"24th & Ritner","stationary",8,"trichlorofluoromethane","0.59 (0.57)","Trichloromonofluoromethane",137.37,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"24th & Ritner","stationary",8,"trichloromethane","0.18 (0.09)","Chloroform",119.37,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"24th & Ritner","stationary",8,"carbon_tetrachloride","1.71 (0.80)","Carbon tetrachloride",153.81,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"26th & Hartranft","stationary",9,"benzene","1.20 (0.53)","Benzene",78.11,"BTEX","BTEX",1,1
+"26th & Hartranft","stationary",9,"toluene","1.71 (0.89)","Toluene",92.14,"BTEX","BTEX",1,1
+"26th & Hartranft","stationary",9,"etbenz","0.56 (0.22)","Ethylbenzene",106.17,"BTEX","BTEX",1,1
+"26th & Hartranft","stationary",9,"xylenes","4.18 (1.97)","Xylenes",106.16,"BTEX","BTEX",1,1
+"26th & Hartranft","stationary",9,"mpxylene","3.50 (1.68)","m,p-Xylene 2",106.16,"BTEX","BTEX",1,1
+"26th & Hartranft","stationary",9,"oxylene","0.78 (0.35)","o-Xylene",106.16,"BTEX","BTEX",1,1
+"26th & Hartranft","stationary",9,"benz1ethyl2methyl","0.21 (0.17)","1-ethyl-2-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"26th & Hartranft","stationary",9,"benz1ethyl3methyl","0.47 (0.33)","1-ethyl-3-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"26th & Hartranft","stationary",9,"benz1ethyl4methyl","0.21 (0.14)","1-ethyl-4-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"26th & Hartranft","stationary",9,"propylbenzene","0.29 (0.25)","Propylbenzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"26th & Hartranft","stationary",9,"mesitylene","0.64 (0.46)","Mesitylene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"26th & Hartranft","stationary",9,"benzene_1_2_3_trimethyl","0.26 (0.20)","1,2,3-Trimethylbenzene",120.194,"Benzene Derivatives","Alkylbenzenes",2,2
+"26th & Hartranft","stationary",9,"benzene_1_4_diethyl","0.25 (0.29)","1,4-Diethylbenzene",134.221,"Benzene Derivatives","Alkylbenzenes",2,2
+"26th & Hartranft","stationary",9,"heptane3methyl","1.25 (1.22)","3-methyl-heptane",114.23,"Alkanes","Branched Alkanes",3,3
+"26th & Hartranft","stationary",9,"hexane2methyl","1.10 (0.84)","2-methyl-hexane",100.2,"Alkanes","Branched Alkanes",3,3
+"26th & Hartranft","stationary",9,"butane_2_methyl","0.42 (0.24)","Isopentane",72.151,"Alkanes","Branched Alkanes",3,3
+"26th & Hartranft","stationary",9,"pentane_2_methyl","10.49 (7.30)","Isohexane",86.178,"Alkanes","Branched Alkanes",3,3
+"26th & Hartranft","stationary",9,"pentane_3_methyl","4.54 (4.34)","3-Methylpentane",86.178,"Alkanes","Branched Alkanes",3,3
+"26th & Hartranft","stationary",9,"pentane_2_4_dimethyl","0.79 (0.73)","2,4-Dimethylpentane",100.205,"Alkanes","Branched Alkanes",3,3
+"26th & Hartranft","stationary",9,"pentane_2_3_4_trimethyl","1.15 (1.03)","2,3,4-Trimethylpentane",114.232,"Alkanes","Branched Alkanes",3,3
+"26th & Hartranft","stationary",9,"hexane_3_methyl","2.74 (2.03)","3-Methylhexane",100.205,"Alkanes","Branched Alkanes",5,3
+"26th & Hartranft","stationary",9,"heptane","1.06 (1.04)","Heptane",100.21,"Alkanes","C6-C9 Alkanes",3,4
+"26th & Hartranft","stationary",9,"hexane","1.21 (1.01)","n-Hexane",86.18,"Alkanes","C6-C9 Alkanes",3,4
+"26th & Hartranft","stationary",9,"nonane","0.69 (0.89)","Nonane",128.25,"Alkanes","C6-C9 Alkanes",3,4
+"26th & Hartranft","stationary",9,"octane","0.51 (0.42)","Octane",114.23,"Alkanes","C6-C9 Alkanes",3,4
+"26th & Hartranft","stationary",9,"decane","1.19 (1.16)","Decane",149.29,"Alkanes","C10-C12 Alkanes",3,5
+"26th & Hartranft","stationary",9,"dodecane","1.36 (1.41)","Dodecane",170.34,"Alkanes","C10-C12 Alkanes",3,5
+"26th & Hartranft","stationary",9,"undecane","1.75 (1.60)","Undecane",156.31,"Alkanes","C10-C12 Alkanes",3,5
+"26th & Hartranft","stationary",9,"cyclohexane_methyl","3.64 (4.01)","Methylcyclohexane",98.189,"Cyclohexanes","Cyclohexanes",4,6
+"26th & Hartranft","stationary",9,"x2_pentene_z_cis","0.04 (0.06)","cis-2-Pentene",70.1329,"Alkenes","Alkenes",5,7
+"26th & Hartranft","stationary",9,"x1_3_butadiene_2_methyl","0.03 (0.08)","Isoprene",68.12,"Alkenes","Alkenes",5,7
+"26th & Hartranft","stationary",9,"x1_hexene","0.26 (0.19)","1-Hexene",84.162,"Alkenes","Alkenes",5,7
+"26th & Hartranft","stationary",9,"methyl_isobutyl_ketone","0.00 (0.04)","Methyl isobutyl ketone",100.16,"Ketones","Ketones",6,8
+"26th & Hartranft","stationary",9,"x2_hexanone","0.01 (0.00)","2-Hexanone",100.161,"Ketones","Ketones",6,8
+"26th & Hartranft","stationary",9,"benz12chloro","0.05 (0.04)","1,2-dichlorobenzene",147.01,"Benzene Derivatives","Chlorinated Compounds",2,9
+"26th & Hartranft","stationary",9,"tce","0.09 (0.06)","Tetrachloroethylene",165.83,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"26th & Hartranft","stationary",9,"trichlorofluoromethane","0.59 (0.55)","Trichloromonofluoromethane",137.37,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"26th & Hartranft","stationary",9,"trichloromethane","0.17 (0.09)","Chloroform",119.37,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"26th & Hartranft","stationary",9,"carbon_tetrachloride","1.70 (0.75)","Carbon tetrachloride",153.81,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"Hartranft & Pietro Wy","rotating",10,"benzene","1.12 (1.33)","Benzene",78.11,"BTEX","BTEX",1,1
+"Hartranft & Pietro Wy","rotating",10,"toluene","1.28 (0.97)","Toluene",92.14,"BTEX","BTEX",1,1
+"Hartranft & Pietro Wy","rotating",10,"etbenz","0.34 (0.17)","Ethylbenzene",106.17,"BTEX","BTEX",1,1
+"Hartranft & Pietro Wy","rotating",10,"xylenes","2.25 (1.29)","Xylenes",106.16,"BTEX","BTEX",1,1
+"Hartranft & Pietro Wy","rotating",10,"mpxylene","1.82 (1.14)","m,p-Xylene 2",106.16,"BTEX","BTEX",1,1
+"Hartranft & Pietro Wy","rotating",10,"oxylene","0.43 (0.16)","o-Xylene",106.16,"BTEX","BTEX",1,1
+"Hartranft & Pietro Wy","rotating",10,"benz1ethyl2methyl","0.12 (0.02)","1-ethyl-2-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Hartranft & Pietro Wy","rotating",10,"benz1ethyl3methyl","0.25 (0.06)","1-ethyl-3-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Hartranft & Pietro Wy","rotating",10,"benz1ethyl4methyl","0.09 (0.05)","1-ethyl-4-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Hartranft & Pietro Wy","rotating",10,"propylbenzene","0.18 (0.04)","Propylbenzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Hartranft & Pietro Wy","rotating",10,"mesitylene","0.28 (0.13)","Mesitylene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Hartranft & Pietro Wy","rotating",10,"benzene_1_2_3_trimethyl","0.14 (0.06)","1,2,3-Trimethylbenzene",120.194,"Benzene Derivatives","Alkylbenzenes",2,2
+"Hartranft & Pietro Wy","rotating",10,"benzene_1_4_diethyl","0.10 (0.05)","1,4-Diethylbenzene",134.221,"Benzene Derivatives","Alkylbenzenes",2,2
+"Hartranft & Pietro Wy","rotating",10,"heptane3methyl","0.54 (0.19)","3-methyl-heptane",114.23,"Alkanes","Branched Alkanes",3,3
+"Hartranft & Pietro Wy","rotating",10,"hexane2methyl","0.38 (0.34)","2-methyl-hexane",100.2,"Alkanes","Branched Alkanes",3,3
+"Hartranft & Pietro Wy","rotating",10,"butane_2_methyl","0.15 (0.15)","Isopentane",72.151,"Alkanes","Branched Alkanes",3,3
+"Hartranft & Pietro Wy","rotating",10,"pentane_2_methyl","2.83 (3.42)","Isohexane",86.178,"Alkanes","Branched Alkanes",3,3
+"Hartranft & Pietro Wy","rotating",10,"pentane_3_methyl","1.15 (1.49)","3-Methylpentane",86.178,"Alkanes","Branched Alkanes",3,3
+"Hartranft & Pietro Wy","rotating",10,"pentane_2_4_dimethyl","0.21 (0.15)","2,4-Dimethylpentane",100.205,"Alkanes","Branched Alkanes",3,3
+"Hartranft & Pietro Wy","rotating",10,"pentane_2_3_4_trimethyl","0.34 (0.20)","2,3,4-Trimethylpentane",114.232,"Alkanes","Branched Alkanes",3,3
+"Hartranft & Pietro Wy","rotating",10,"hexane_3_methyl","0.90 (0.78)","3-Methylhexane",100.205,"Alkanes","Branched Alkanes",5,3
+"Hartranft & Pietro Wy","rotating",10,"heptane","0.53 (0.47)","Heptane",100.21,"Alkanes","C6-C9 Alkanes",3,4
+"Hartranft & Pietro Wy","rotating",10,"hexane","0.61 (0.79)","n-Hexane",86.18,"Alkanes","C6-C9 Alkanes",3,4
+"Hartranft & Pietro Wy","rotating",10,"nonane","0.44 (0.17)","Nonane",128.25,"Alkanes","C6-C9 Alkanes",3,4
+"Hartranft & Pietro Wy","rotating",10,"octane","0.31 (0.12)","Octane",114.23,"Alkanes","C6-C9 Alkanes",3,4
+"Hartranft & Pietro Wy","rotating",10,"decane","0.44 (0.16)","Decane",149.29,"Alkanes","C10-C12 Alkanes",3,5
+"Hartranft & Pietro Wy","rotating",10,"dodecane","0.47 (0.09)","Dodecane",170.34,"Alkanes","C10-C12 Alkanes",3,5
+"Hartranft & Pietro Wy","rotating",10,"undecane","0.79 (0.25)","Undecane",156.31,"Alkanes","C10-C12 Alkanes",3,5
+"Hartranft & Pietro Wy","rotating",10,"cyclohexane_methyl","1.43 (1.31)","Methylcyclohexane",98.189,"Cyclohexanes","Cyclohexanes",4,6
+"Hartranft & Pietro Wy","rotating",10,"x2_pentene_z_cis","0.04 (0.02)","cis-2-Pentene",70.1329,"Alkenes","Alkenes",5,7
+"Hartranft & Pietro Wy","rotating",10,"x1_3_butadiene_2_methyl","0.04 (0.08)","Isoprene",68.12,"Alkenes","Alkenes",5,7
+"Hartranft & Pietro Wy","rotating",10,"x1_hexene","0.11 (0.05)","1-Hexene",84.162,"Alkenes","Alkenes",5,7
+"Hartranft & Pietro Wy","rotating",10,"methyl_isobutyl_ketone","0.00 (0.01)","Methyl isobutyl ketone",100.16,"Ketones","Ketones",6,8
+"Hartranft & Pietro Wy","rotating",10,"x2_hexanone","0.01 (0.00)","2-Hexanone",100.161,"Ketones","Ketones",6,8
+"Hartranft & Pietro Wy","rotating",10,"benz12chloro","0.05 (0.08)","1,2-dichlorobenzene",147.01,"Benzene Derivatives","Chlorinated Compounds",2,9
+"Hartranft & Pietro Wy","rotating",10,"tce","0.09 (0.05)","Tetrachloroethylene",165.83,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"Hartranft & Pietro Wy","rotating",10,"trichlorofluoromethane","0.35 (0.49)","Trichloromonofluoromethane",137.37,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"Hartranft & Pietro Wy","rotating",10,"trichloromethane","0.13 (0.09)","Chloroform",119.37,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"Hartranft & Pietro Wy","rotating",10,"carbon_tetrachloride","1.40 (0.80)","Carbon tetrachloride",153.81,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"Snyder & Vare","rotating",11,"benzene","1.12 (1.05)","Benzene",78.11,"BTEX","BTEX",1,1
+"Snyder & Vare","rotating",11,"toluene","1.61 (0.88)","Toluene",92.14,"BTEX","BTEX",1,1
+"Snyder & Vare","rotating",11,"etbenz","0.44 (0.27)","Ethylbenzene",106.17,"BTEX","BTEX",1,1
+"Snyder & Vare","rotating",11,"xylenes","3.03 (1.77)","Xylenes",106.16,"BTEX","BTEX",1,1
+"Snyder & Vare","rotating",11,"mpxylene","2.43 (1.41)","m,p-Xylene 2",106.16,"BTEX","BTEX",1,1
+"Snyder & Vare","rotating",11,"oxylene","0.63 (0.33)","o-Xylene",106.16,"BTEX","BTEX",1,1
+"Snyder & Vare","rotating",11,"benz1ethyl2methyl","0.13 (0.06)","1-ethyl-2-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Snyder & Vare","rotating",11,"benz1ethyl3methyl","0.35 (0.15)","1-ethyl-3-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Snyder & Vare","rotating",11,"benz1ethyl4methyl","0.13 (0.10)","1-ethyl-4-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Snyder & Vare","rotating",11,"propylbenzene","0.18 (0.14)","Propylbenzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Snyder & Vare","rotating",11,"mesitylene","0.36 (0.28)","Mesitylene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Snyder & Vare","rotating",11,"benzene_1_2_3_trimethyl","0.17 (0.08)","1,2,3-Trimethylbenzene",120.194,"Benzene Derivatives","Alkylbenzenes",2,2
+"Snyder & Vare","rotating",11,"benzene_1_4_diethyl","0.14 (0.09)","1,4-Diethylbenzene",134.221,"Benzene Derivatives","Alkylbenzenes",2,2
+"Snyder & Vare","rotating",11,"heptane3methyl","0.58 (0.56)","3-methyl-heptane",114.23,"Alkanes","Branched Alkanes",3,3
+"Snyder & Vare","rotating",11,"hexane2methyl","0.44 (0.42)","2-methyl-hexane",100.2,"Alkanes","Branched Alkanes",3,3
+"Snyder & Vare","rotating",11,"butane_2_methyl","0.16 (0.12)","Isopentane",72.151,"Alkanes","Branched Alkanes",3,3
+"Snyder & Vare","rotating",11,"pentane_2_methyl","3.04 (3.07)","Isohexane",86.178,"Alkanes","Branched Alkanes",3,3
+"Snyder & Vare","rotating",11,"pentane_3_methyl","1.12 (1.40)","3-Methylpentane",86.178,"Alkanes","Branched Alkanes",3,3
+"Snyder & Vare","rotating",11,"pentane_2_4_dimethyl","0.21 (0.19)","2,4-Dimethylpentane",100.205,"Alkanes","Branched Alkanes",3,3
+"Snyder & Vare","rotating",11,"pentane_2_3_4_trimethyl","0.22 (0.13)","2,3,4-Trimethylpentane",114.232,"Alkanes","Branched Alkanes",3,3
+"Snyder & Vare","rotating",11,"hexane_3_methyl","1.01 (1.02)","3-Methylhexane",100.205,"Alkanes","Branched Alkanes",5,3
+"Snyder & Vare","rotating",11,"heptane","0.69 (0.64)","Heptane",100.21,"Alkanes","C6-C9 Alkanes",3,4
+"Snyder & Vare","rotating",11,"hexane","0.71 (0.72)","n-Hexane",86.18,"Alkanes","C6-C9 Alkanes",3,4
+"Snyder & Vare","rotating",11,"nonane","0.85 (0.75)","Nonane",128.25,"Alkanes","C6-C9 Alkanes",3,4
+"Snyder & Vare","rotating",11,"octane","0.50 (0.41)","Octane",114.23,"Alkanes","C6-C9 Alkanes",3,4
+"Snyder & Vare","rotating",11,"decane","0.62 (0.40)","Decane",149.29,"Alkanes","C10-C12 Alkanes",3,5
+"Snyder & Vare","rotating",11,"dodecane","0.57 (0.68)","Dodecane",170.34,"Alkanes","C10-C12 Alkanes",3,5
+"Snyder & Vare","rotating",11,"undecane","0.92 (0.98)","Undecane",156.31,"Alkanes","C10-C12 Alkanes",3,5
+"Snyder & Vare","rotating",11,"cyclohexane_methyl","1.15 (2.40)","Methylcyclohexane",98.189,"Cyclohexanes","Cyclohexanes",4,6
+"Snyder & Vare","rotating",11,"x2_pentene_z_cis","0.03 (0.02)","cis-2-Pentene",70.1329,"Alkenes","Alkenes",5,7
+"Snyder & Vare","rotating",11,"x1_3_butadiene_2_methyl","0.04 (0.07)","Isoprene",68.12,"Alkenes","Alkenes",5,7
+"Snyder & Vare","rotating",11,"x1_hexene","0.21 (0.09)","1-Hexene",84.162,"Alkenes","Alkenes",5,7
+"Snyder & Vare","rotating",11,"methyl_isobutyl_ketone","0.02 (0.05)","Methyl isobutyl ketone",100.16,"Ketones","Ketones",6,8
+"Snyder & Vare","rotating",11,"x2_hexanone","0.01 (0.01)","2-Hexanone",100.161,"Ketones","Ketones",6,8
+"Snyder & Vare","rotating",11,"benz12chloro","0.10 (0.02)","1,2-dichlorobenzene",147.01,"Benzene Derivatives","Chlorinated Compounds",2,9
+"Snyder & Vare","rotating",11,"tce","0.09 (0.05)","Tetrachloroethylene",165.83,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"Snyder & Vare","rotating",11,"trichlorofluoromethane","0.37 (0.52)","Trichloromonofluoromethane",137.37,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"Snyder & Vare","rotating",11,"trichloromethane","0.15 (0.05)","Chloroform",119.37,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"Snyder & Vare","rotating",11,"carbon_tetrachloride","1.48 (0.83)","Carbon tetrachloride",153.81,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"29th & Moore","rotating",12,"benzene","1.16 (0.75)","Benzene",78.11,"BTEX","BTEX",1,1
+"29th & Moore","rotating",12,"toluene","1.95 (1.20)","Toluene",92.14,"BTEX","BTEX",1,1
+"29th & Moore","rotating",12,"etbenz","0.46 (0.14)","Ethylbenzene",106.17,"BTEX","BTEX",1,1
+"29th & Moore","rotating",12,"xylenes","3.38 (1.69)","Xylenes",106.16,"BTEX","BTEX",1,1
+"29th & Moore","rotating",12,"mpxylene","2.73 (1.50)","m,p-Xylene 2",106.16,"BTEX","BTEX",1,1
+"29th & Moore","rotating",12,"oxylene","0.65 (0.20)","o-Xylene",106.16,"BTEX","BTEX",1,1
+"29th & Moore","rotating",12,"benz1ethyl2methyl","0.12 (0.02)","1-ethyl-2-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"29th & Moore","rotating",12,"benz1ethyl3methyl","0.29 (0.06)","1-ethyl-3-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"29th & Moore","rotating",12,"benz1ethyl4methyl","0.13 (0.01)","1-ethyl-4-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"29th & Moore","rotating",12,"propylbenzene","0.15 (0.02)","Propylbenzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"29th & Moore","rotating",12,"mesitylene","0.34 (0.06)","Mesitylene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"29th & Moore","rotating",12,"benzene_1_2_3_trimethyl","0.15 (0.01)","1,2,3-Trimethylbenzene",120.194,"Benzene Derivatives","Alkylbenzenes",2,2
+"29th & Moore","rotating",12,"benzene_1_4_diethyl","0.07 (0.03)","1,4-Diethylbenzene",134.221,"Benzene Derivatives","Alkylbenzenes",2,2
+"29th & Moore","rotating",12,"heptane3methyl","0.50 (0.06)","3-methyl-heptane",114.23,"Alkanes","Branched Alkanes",3,3
+"29th & Moore","rotating",12,"hexane2methyl","0.57 (0.40)","2-methyl-hexane",100.2,"Alkanes","Branched Alkanes",3,3
+"29th & Moore","rotating",12,"butane_2_methyl","0.25 (0.28)","Isopentane",72.151,"Alkanes","Branched Alkanes",3,3
+"29th & Moore","rotating",12,"pentane_2_methyl","2.94 (2.32)","Isohexane",86.178,"Alkanes","Branched Alkanes",3,3
+"29th & Moore","rotating",12,"pentane_3_methyl","1.07 (0.76)","3-Methylpentane",86.178,"Alkanes","Branched Alkanes",3,3
+"29th & Moore","rotating",12,"pentane_2_4_dimethyl","0.20 (0.07)","2,4-Dimethylpentane",100.205,"Alkanes","Branched Alkanes",3,3
+"29th & Moore","rotating",12,"pentane_2_3_4_trimethyl","0.25 (0.07)","2,3,4-Trimethylpentane",114.232,"Alkanes","Branched Alkanes",3,3
+"29th & Moore","rotating",12,"hexane_3_methyl","1.21 (0.75)","3-Methylhexane",100.205,"Alkanes","Branched Alkanes",5,3
+"29th & Moore","rotating",12,"heptane","0.76 (0.50)","Heptane",100.21,"Alkanes","C6-C9 Alkanes",3,4
+"29th & Moore","rotating",12,"hexane","0.94 (0.92)","n-Hexane",86.18,"Alkanes","C6-C9 Alkanes",3,4
+"29th & Moore","rotating",12,"nonane","0.65 (0.28)","Nonane",128.25,"Alkanes","C6-C9 Alkanes",3,4
+"29th & Moore","rotating",12,"octane","0.37 (0.09)","Octane",114.23,"Alkanes","C6-C9 Alkanes",3,4
+"29th & Moore","rotating",12,"decane","0.48 (0.15)","Decane",149.29,"Alkanes","C10-C12 Alkanes",3,5
+"29th & Moore","rotating",12,"dodecane","0.60 (0.91)","Dodecane",170.34,"Alkanes","C10-C12 Alkanes",3,5
+"29th & Moore","rotating",12,"undecane","0.73 (0.67)","Undecane",156.31,"Alkanes","C10-C12 Alkanes",3,5
+"29th & Moore","rotating",12,"cyclohexane_methyl","0.84 (0.33)","Methylcyclohexane",98.189,"Cyclohexanes","Cyclohexanes",4,6
+"29th & Moore","rotating",12,"x2_pentene_z_cis","0.03 (0.02)","cis-2-Pentene",70.1329,"Alkenes","Alkenes",5,7
+"29th & Moore","rotating",12,"x1_3_butadiene_2_methyl","0.05 (0.06)","Isoprene",68.12,"Alkenes","Alkenes",5,7
+"29th & Moore","rotating",12,"x1_hexene","0.17 (0.07)","1-Hexene",84.162,"Alkenes","Alkenes",5,7
+"29th & Moore","rotating",12,"methyl_isobutyl_ketone","0.00 (0.01)","Methyl isobutyl ketone",100.16,"Ketones","Ketones",6,8
+"29th & Moore","rotating",12,"x2_hexanone","0.01 (0.01)","2-Hexanone",100.161,"Ketones","Ketones",6,8
+"29th & Moore","rotating",12,"benz12chloro","0.19 (0.07)","1,2-dichlorobenzene",147.01,"Benzene Derivatives","Chlorinated Compounds",2,9
+"29th & Moore","rotating",12,"tce","0.12 (0.06)","Tetrachloroethylene",165.83,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"29th & Moore","rotating",12,"trichlorofluoromethane","0.30 (0.41)","Trichloromonofluoromethane",137.37,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"29th & Moore","rotating",12,"trichloromethane","0.18 (0.09)","Chloroform",119.37,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"29th & Moore","rotating",12,"carbon_tetrachloride","1.71 (1.23)","Carbon tetrachloride",153.81,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"Wharton Park","rotating",13,"benzene","0.90 (0.51)","Benzene",78.11,"BTEX","BTEX",1,1
+"Wharton Park","rotating",13,"toluene","1.26 (0.27)","Toluene",92.14,"BTEX","BTEX",1,1
+"Wharton Park","rotating",13,"etbenz","0.38 (0.08)","Ethylbenzene",106.17,"BTEX","BTEX",1,1
+"Wharton Park","rotating",13,"xylenes","2.78 (0.94)","Xylenes",106.16,"BTEX","BTEX",1,1
+"Wharton Park","rotating",13,"mpxylene","2.23 (0.80)","m,p-Xylene 2",106.16,"BTEX","BTEX",1,1
+"Wharton Park","rotating",13,"oxylene","0.54 (0.14)","o-Xylene",106.16,"BTEX","BTEX",1,1
+"Wharton Park","rotating",13,"benz1ethyl2methyl","0.09 (0.03)","1-ethyl-2-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Wharton Park","rotating",13,"benz1ethyl3methyl","0.26 (0.08)","1-ethyl-3-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Wharton Park","rotating",13,"benz1ethyl4methyl","0.11 (0.04)","1-ethyl-4-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Wharton Park","rotating",13,"propylbenzene","0.13 (0.03)","Propylbenzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Wharton Park","rotating",13,"mesitylene","0.30 (0.08)","Mesitylene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Wharton Park","rotating",13,"benzene_1_2_3_trimethyl","0.11 (0.04)","1,2,3-Trimethylbenzene",120.194,"Benzene Derivatives","Alkylbenzenes",2,2
+"Wharton Park","rotating",13,"benzene_1_4_diethyl","0.07 (0.01)","1,4-Diethylbenzene",134.221,"Benzene Derivatives","Alkylbenzenes",2,2
+"Wharton Park","rotating",13,"heptane3methyl","0.33 (0.10)","3-methyl-heptane",114.23,"Alkanes","Branched Alkanes",3,3
+"Wharton Park","rotating",13,"hexane2methyl","0.43 (0.19)","2-methyl-hexane",100.2,"Alkanes","Branched Alkanes",3,3
+"Wharton Park","rotating",13,"butane_2_methyl","0.18 (0.24)","Isopentane",72.151,"Alkanes","Branched Alkanes",3,3
+"Wharton Park","rotating",13,"pentane_2_methyl","3.36 (2.43)","Isohexane",86.178,"Alkanes","Branched Alkanes",3,3
+"Wharton Park","rotating",13,"pentane_3_methyl","1.21 (0.79)","3-Methylpentane",86.178,"Alkanes","Branched Alkanes",3,3
+"Wharton Park","rotating",13,"pentane_2_4_dimethyl","0.19 (0.04)","2,4-Dimethylpentane",100.205,"Alkanes","Branched Alkanes",3,3
+"Wharton Park","rotating",13,"pentane_2_3_4_trimethyl","0.25 (0.09)","2,3,4-Trimethylpentane",114.232,"Alkanes","Branched Alkanes",3,3
+"Wharton Park","rotating",13,"hexane_3_methyl","0.87 (0.44)","3-Methylhexane",100.205,"Alkanes","Branched Alkanes",5,3
+"Wharton Park","rotating",13,"heptane","0.42 (0.24)","Heptane",100.21,"Alkanes","C6-C9 Alkanes",3,4
+"Wharton Park","rotating",13,"hexane","0.66 (0.52)","n-Hexane",86.18,"Alkanes","C6-C9 Alkanes",3,4
+"Wharton Park","rotating",13,"nonane","0.36 (0.28)","Nonane",128.25,"Alkanes","C6-C9 Alkanes",3,4
+"Wharton Park","rotating",13,"octane","0.18 (0.07)","Octane",114.23,"Alkanes","C6-C9 Alkanes",3,4
+"Wharton Park","rotating",13,"decane","0.38 (0.13)","Decane",149.29,"Alkanes","C10-C12 Alkanes",3,5
+"Wharton Park","rotating",13,"dodecane","0.12 (0.05)","Dodecane",170.34,"Alkanes","C10-C12 Alkanes",3,5
+"Wharton Park","rotating",13,"undecane","0.35 (0.08)","Undecane",156.31,"Alkanes","C10-C12 Alkanes",3,5
+"Wharton Park","rotating",13,"cyclohexane_methyl","0.72 (0.28)","Methylcyclohexane",98.189,"Cyclohexanes","Cyclohexanes",4,6
+"Wharton Park","rotating",13,"x2_pentene_z_cis","0.01 (0.00)","cis-2-Pentene",70.1329,"Alkenes","Alkenes",5,7
+"Wharton Park","rotating",13,"x1_3_butadiene_2_methyl","0.06 (0.09)","Isoprene",68.12,"Alkenes","Alkenes",5,7
+"Wharton Park","rotating",13,"x1_hexene","0.06 (0.06)","1-Hexene",84.162,"Alkenes","Alkenes",5,7
+"Wharton Park","rotating",13,"methyl_isobutyl_ketone","0.00 (0.00)","Methyl isobutyl ketone",100.16,"Ketones","Ketones",6,8
+"Wharton Park","rotating",13,"x2_hexanone","0.01 (0.00)","2-Hexanone",100.161,"Ketones","Ketones",6,8
+"Wharton Park","rotating",13,"benz12chloro","0.14 (0.08)","1,2-dichlorobenzene",147.01,"Benzene Derivatives","Chlorinated Compounds",2,9
+"Wharton Park","rotating",13,"tce","0.12 (0.03)","Tetrachloroethylene",165.83,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"Wharton Park","rotating",13,"trichlorofluoromethane","0.65 (0.34)","Trichloromonofluoromethane",137.37,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"Wharton Park","rotating",13,"trichloromethane","0.15 (0.03)","Chloroform",119.37,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"Wharton Park","rotating",13,"carbon_tetrachloride","1.81 (0.60)","Carbon tetrachloride",153.81,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"Finnegan Playground","rotating",14,"benzene","1.05 (0.94)","Benzene",78.11,"BTEX","BTEX",1,1
+"Finnegan Playground","rotating",14,"toluene","1.72 (1.20)","Toluene",92.14,"BTEX","BTEX",1,1
+"Finnegan Playground","rotating",14,"etbenz","0.40 (0.13)","Ethylbenzene",106.17,"BTEX","BTEX",1,1
+"Finnegan Playground","rotating",14,"xylenes","2.94 (1.28)","Xylenes",106.16,"BTEX","BTEX",1,1
+"Finnegan Playground","rotating",14,"mpxylene","2.38 (1.15)","m,p-Xylene 2",106.16,"BTEX","BTEX",1,1
+"Finnegan Playground","rotating",14,"oxylene","0.56 (0.13)","o-Xylene",106.16,"BTEX","BTEX",1,1
+"Finnegan Playground","rotating",14,"benz1ethyl2methyl","0.11 (0.06)","1-ethyl-2-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Finnegan Playground","rotating",14,"benz1ethyl3methyl","0.30 (0.10)","1-ethyl-3-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Finnegan Playground","rotating",14,"benz1ethyl4methyl","0.12 (0.02)","1-ethyl-4-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Finnegan Playground","rotating",14,"propylbenzene","0.15 (0.07)","Propylbenzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Finnegan Playground","rotating",14,"mesitylene","0.32 (0.09)","Mesitylene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Finnegan Playground","rotating",14,"benzene_1_2_3_trimethyl","0.17 (0.04)","1,2,3-Trimethylbenzene",120.194,"Benzene Derivatives","Alkylbenzenes",2,2
+"Finnegan Playground","rotating",14,"benzene_1_4_diethyl","0.11 (0.10)","1,4-Diethylbenzene",134.221,"Benzene Derivatives","Alkylbenzenes",2,2
+"Finnegan Playground","rotating",14,"heptane3methyl","0.45 (0.08)","3-methyl-heptane",114.23,"Alkanes","Branched Alkanes",3,3
+"Finnegan Playground","rotating",14,"hexane2methyl","0.53 (0.17)","2-methyl-hexane",100.2,"Alkanes","Branched Alkanes",3,3
+"Finnegan Playground","rotating",14,"butane_2_methyl","0.27 (0.31)","Isopentane",72.151,"Alkanes","Branched Alkanes",3,3
+"Finnegan Playground","rotating",14,"pentane_2_methyl","3.01 (1.56)","Isohexane",86.178,"Alkanes","Branched Alkanes",3,3
+"Finnegan Playground","rotating",14,"pentane_3_methyl","1.06 (0.55)","3-Methylpentane",86.178,"Alkanes","Branched Alkanes",3,3
+"Finnegan Playground","rotating",14,"pentane_2_4_dimethyl","0.20 (0.07)","2,4-Dimethylpentane",100.205,"Alkanes","Branched Alkanes",3,3
+"Finnegan Playground","rotating",14,"pentane_2_3_4_trimethyl","0.21 (0.03)","2,3,4-Trimethylpentane",114.232,"Alkanes","Branched Alkanes",3,3
+"Finnegan Playground","rotating",14,"hexane_3_methyl","1.19 (0.26)","3-Methylhexane",100.205,"Alkanes","Branched Alkanes",5,3
+"Finnegan Playground","rotating",14,"heptane","0.66 (0.35)","Heptane",100.21,"Alkanes","C6-C9 Alkanes",3,4
+"Finnegan Playground","rotating",14,"hexane","0.82 (0.80)","n-Hexane",86.18,"Alkanes","C6-C9 Alkanes",3,4
+"Finnegan Playground","rotating",14,"nonane","0.32 (0.62)","Nonane",128.25,"Alkanes","C6-C9 Alkanes",3,4
+"Finnegan Playground","rotating",14,"octane","0.26 (0.14)","Octane",114.23,"Alkanes","C6-C9 Alkanes",3,4
+"Finnegan Playground","rotating",14,"decane","0.52 (0.25)","Decane",149.29,"Alkanes","C10-C12 Alkanes",3,5
+"Finnegan Playground","rotating",14,"dodecane","0.68 (1.04)","Dodecane",170.34,"Alkanes","C10-C12 Alkanes",3,5
+"Finnegan Playground","rotating",14,"undecane","0.87 (1.04)","Undecane",156.31,"Alkanes","C10-C12 Alkanes",3,5
+"Finnegan Playground","rotating",14,"cyclohexane_methyl","0.81 (0.25)","Methylcyclohexane",98.189,"Cyclohexanes","Cyclohexanes",4,6
+"Finnegan Playground","rotating",14,"x2_pentene_z_cis","0.05 (0.03)","cis-2-Pentene",70.1329,"Alkenes","Alkenes",5,7
+"Finnegan Playground","rotating",14,"x1_3_butadiene_2_methyl","0.04 (0.08)","Isoprene",68.12,"Alkenes","Alkenes",5,7
+"Finnegan Playground","rotating",14,"x1_hexene","0.22 (0.13)","1-Hexene",84.162,"Alkenes","Alkenes",5,7
+"Finnegan Playground","rotating",14,"methyl_isobutyl_ketone","0.00 (0.00)","Methyl isobutyl ketone",100.16,"Ketones","Ketones",6,8
+"Finnegan Playground","rotating",14,"x2_hexanone","0.01 (0.00)","2-Hexanone",100.161,"Ketones","Ketones",6,8
+"Finnegan Playground","rotating",14,"benz12chloro","0.09 (0.01)","1,2-dichlorobenzene",147.01,"Benzene Derivatives","Chlorinated Compounds",2,9
+"Finnegan Playground","rotating",14,"tce","0.21 (0.07)","Tetrachloroethylene",165.83,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"Finnegan Playground","rotating",14,"trichlorofluoromethane","0.42 (0.43)","Trichloromonofluoromethane",137.37,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"Finnegan Playground","rotating",14,"trichloromethane","0.17 (0.07)","Chloroform",119.37,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"Finnegan Playground","rotating",14,"carbon_tetrachloride","1.80 (1.15)","Carbon tetrachloride",153.81,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"31st & Grays Ferry","rotating",15,"benzene","1.18 (0.91)","Benzene",78.11,"BTEX","BTEX",1,1
+"31st & Grays Ferry","rotating",15,"toluene","2.55 (1.50)","Toluene",92.14,"BTEX","BTEX",1,1
+"31st & Grays Ferry","rotating",15,"etbenz","0.55 (0.09)","Ethylbenzene",106.17,"BTEX","BTEX",1,1
+"31st & Grays Ferry","rotating",15,"xylenes","4.19 (1.44)","Xylenes",106.16,"BTEX","BTEX",1,1
+"31st & Grays Ferry","rotating",15,"mpxylene","3.40 (1.34)","m,p-Xylene 2",106.16,"BTEX","BTEX",1,1
+"31st & Grays Ferry","rotating",15,"oxylene","0.79 (0.10)","o-Xylene",106.16,"BTEX","BTEX",1,1
+"31st & Grays Ferry","rotating",15,"benz1ethyl2methyl","0.13 (0.09)","1-ethyl-2-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"31st & Grays Ferry","rotating",15,"benz1ethyl3methyl","0.39 (0.13)","1-ethyl-3-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"31st & Grays Ferry","rotating",15,"benz1ethyl4methyl","0.18 (0.05)","1-ethyl-4-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"31st & Grays Ferry","rotating",15,"propylbenzene","0.18 (0.08)","Propylbenzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"31st & Grays Ferry","rotating",15,"mesitylene","0.41 (0.10)","Mesitylene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"31st & Grays Ferry","rotating",15,"benzene_1_2_3_trimethyl","0.17 (0.07)","1,2,3-Trimethylbenzene",120.194,"Benzene Derivatives","Alkylbenzenes",2,2
+"31st & Grays Ferry","rotating",15,"benzene_1_4_diethyl","0.12 (0.02)","1,4-Diethylbenzene",134.221,"Benzene Derivatives","Alkylbenzenes",2,2
+"31st & Grays Ferry","rotating",15,"heptane3methyl","0.54 (0.14)","3-methyl-heptane",114.23,"Alkanes","Branched Alkanes",3,3
+"31st & Grays Ferry","rotating",15,"hexane2methyl","0.60 (0.22)","2-methyl-hexane",100.2,"Alkanes","Branched Alkanes",3,3
+"31st & Grays Ferry","rotating",15,"butane_2_methyl","0.27 (0.35)","Isopentane",72.151,"Alkanes","Branched Alkanes",3,3
+"31st & Grays Ferry","rotating",15,"pentane_2_methyl","3.38 (1.74)","Isohexane",86.178,"Alkanes","Branched Alkanes",3,3
+"31st & Grays Ferry","rotating",15,"pentane_3_methyl","1.22 (0.59)","3-Methylpentane",86.178,"Alkanes","Branched Alkanes",3,3
+"31st & Grays Ferry","rotating",15,"pentane_2_4_dimethyl","0.22 (0.06)","2,4-Dimethylpentane",100.205,"Alkanes","Branched Alkanes",3,3
+"31st & Grays Ferry","rotating",15,"pentane_2_3_4_trimethyl","0.28 (0.01)","2,3,4-Trimethylpentane",114.232,"Alkanes","Branched Alkanes",3,3
+"31st & Grays Ferry","rotating",15,"hexane_3_methyl","1.31 (0.39)","3-Methylhexane",100.205,"Alkanes","Branched Alkanes",5,3
+"31st & Grays Ferry","rotating",15,"heptane","0.77 (0.50)","Heptane",100.21,"Alkanes","C6-C9 Alkanes",3,4
+"31st & Grays Ferry","rotating",15,"hexane","0.96 (0.87)","n-Hexane",86.18,"Alkanes","C6-C9 Alkanes",3,4
+"31st & Grays Ferry","rotating",15,"nonane","0.44 (0.24)","Nonane",128.25,"Alkanes","C6-C9 Alkanes",3,4
+"31st & Grays Ferry","rotating",15,"octane","0.27 (0.18)","Octane",114.23,"Alkanes","C6-C9 Alkanes",3,4
+"31st & Grays Ferry","rotating",15,"decane","0.38 (0.15)","Decane",149.29,"Alkanes","C10-C12 Alkanes",3,5
+"31st & Grays Ferry","rotating",15,"dodecane","0.29 (0.15)","Dodecane",170.34,"Alkanes","C10-C12 Alkanes",3,5
+"31st & Grays Ferry","rotating",15,"undecane","0.60 (0.08)","Undecane",156.31,"Alkanes","C10-C12 Alkanes",3,5
+"31st & Grays Ferry","rotating",15,"cyclohexane_methyl","0.94 (0.35)","Methylcyclohexane",98.189,"Cyclohexanes","Cyclohexanes",4,6
+"31st & Grays Ferry","rotating",15,"x2_pentene_z_cis","0.04 (0.02)","cis-2-Pentene",70.1329,"Alkenes","Alkenes",5,7
+"31st & Grays Ferry","rotating",15,"x1_3_butadiene_2_methyl","0.01 (0.03)","Isoprene",68.12,"Alkenes","Alkenes",5,7
+"31st & Grays Ferry","rotating",15,"x1_hexene","0.18 (0.08)","1-Hexene",84.162,"Alkenes","Alkenes",5,7
+"31st & Grays Ferry","rotating",15,"methyl_isobutyl_ketone","0.00 (0.00)","Methyl isobutyl ketone",100.16,"Ketones","Ketones",6,8
+"31st & Grays Ferry","rotating",15,"x2_hexanone","0.01 (0.02)","2-Hexanone",100.161,"Ketones","Ketones",6,8
+"31st & Grays Ferry","rotating",15,"benz12chloro","0.08 (0.01)","1,2-dichlorobenzene",147.01,"Benzene Derivatives","Chlorinated Compounds",2,9
+"31st & Grays Ferry","rotating",15,"tce","0.12 (0.11)","Tetrachloroethylene",165.83,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"31st & Grays Ferry","rotating",15,"trichlorofluoromethane","0.40 (0.38)","Trichloromonofluoromethane",137.37,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"31st & Grays Ferry","rotating",15,"trichloromethane","0.17 (0.07)","Chloroform",119.37,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"31st & Grays Ferry","rotating",15,"carbon_tetrachloride","1.71 (1.15)","Carbon tetrachloride",153.81,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"Crescent Park","rotating",16,"benzene","1.10 (0.39)","Benzene",78.11,"BTEX","BTEX",1,1
+"Crescent Park","rotating",16,"toluene","2.03 (0.58)","Toluene",92.14,"BTEX","BTEX",1,1
+"Crescent Park","rotating",16,"etbenz","0.47 (0.08)","Ethylbenzene",106.17,"BTEX","BTEX",1,1
+"Crescent Park","rotating",16,"xylenes","3.60 (0.56)","Xylenes",106.16,"BTEX","BTEX",1,1
+"Crescent Park","rotating",16,"mpxylene","2.96 (0.47)","m,p-Xylene 2",106.16,"BTEX","BTEX",1,1
+"Crescent Park","rotating",16,"oxylene","0.65 (0.09)","o-Xylene",106.16,"BTEX","BTEX",1,1
+"Crescent Park","rotating",16,"benz1ethyl2methyl","0.12 (0.03)","1-ethyl-2-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Crescent Park","rotating",16,"benz1ethyl3methyl","0.31 (0.07)","1-ethyl-3-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Crescent Park","rotating",16,"benz1ethyl4methyl","0.15 (0.02)","1-ethyl-4-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Crescent Park","rotating",16,"propylbenzene","0.16 (0.05)","Propylbenzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Crescent Park","rotating",16,"mesitylene","0.32 (0.11)","Mesitylene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Crescent Park","rotating",16,"benzene_1_2_3_trimethyl","0.13 (0.02)","1,2,3-Trimethylbenzene",120.194,"Benzene Derivatives","Alkylbenzenes",2,2
+"Crescent Park","rotating",16,"benzene_1_4_diethyl","0.08 (0.01)","1,4-Diethylbenzene",134.221,"Benzene Derivatives","Alkylbenzenes",2,2
+"Crescent Park","rotating",16,"heptane3methyl","0.46 (0.10)","3-methyl-heptane",114.23,"Alkanes","Branched Alkanes",3,3
+"Crescent Park","rotating",16,"hexane2methyl","0.59 (0.21)","2-methyl-hexane",100.2,"Alkanes","Branched Alkanes",3,3
+"Crescent Park","rotating",16,"butane_2_methyl","0.42 (0.01)","Isopentane",72.151,"Alkanes","Branched Alkanes",3,3
+"Crescent Park","rotating",16,"pentane_2_methyl","4.93 (1.84)","Isohexane",86.178,"Alkanes","Branched Alkanes",3,3
+"Crescent Park","rotating",16,"pentane_3_methyl","1.82 (0.67)","3-Methylpentane",86.178,"Alkanes","Branched Alkanes",3,3
+"Crescent Park","rotating",16,"pentane_2_4_dimethyl","0.29 (0.16)","2,4-Dimethylpentane",100.205,"Alkanes","Branched Alkanes",3,3
+"Crescent Park","rotating",16,"pentane_2_3_4_trimethyl","0.25 (0.05)","2,3,4-Trimethylpentane",114.232,"Alkanes","Branched Alkanes",3,3
+"Crescent Park","rotating",16,"hexane_3_methyl","1.31 (0.28)","3-Methylhexane",100.205,"Alkanes","Branched Alkanes",5,3
+"Crescent Park","rotating",16,"heptane","0.73 (0.27)","Heptane",100.21,"Alkanes","C6-C9 Alkanes",3,4
+"Crescent Park","rotating",16,"hexane","0.97 (0.24)","n-Hexane",86.18,"Alkanes","C6-C9 Alkanes",3,4
+"Crescent Park","rotating",16,"nonane","0.35 (0.65)","Nonane",128.25,"Alkanes","C6-C9 Alkanes",3,4
+"Crescent Park","rotating",16,"octane","0.22 (0.54)","Octane",114.23,"Alkanes","C6-C9 Alkanes",3,4
+"Crescent Park","rotating",16,"decane","0.43 (0.09)","Decane",149.29,"Alkanes","C10-C12 Alkanes",3,5
+"Crescent Park","rotating",16,"dodecane","0.21 (0.07)","Dodecane",170.34,"Alkanes","C10-C12 Alkanes",3,5
+"Crescent Park","rotating",16,"undecane","0.42 (0.16)","Undecane",156.31,"Alkanes","C10-C12 Alkanes",3,5
+"Crescent Park","rotating",16,"cyclohexane_methyl","1.04 (0.25)","Methylcyclohexane",98.189,"Cyclohexanes","Cyclohexanes",4,6
+"Crescent Park","rotating",16,"x2_pentene_z_cis","0.04 (0.06)","cis-2-Pentene",70.1329,"Alkenes","Alkenes",5,7
+"Crescent Park","rotating",16,"x1_3_butadiene_2_methyl","0.01 (0.00)","Isoprene",68.12,"Alkenes","Alkenes",5,7
+"Crescent Park","rotating",16,"x1_hexene","0.14 (0.07)","1-Hexene",84.162,"Alkenes","Alkenes",5,7
+"Crescent Park","rotating",16,"methyl_isobutyl_ketone","0.04 (0.02)","Methyl isobutyl ketone",100.16,"Ketones","Ketones",6,8
+"Crescent Park","rotating",16,"x2_hexanone","0.01 (0.03)","2-Hexanone",100.161,"Ketones","Ketones",6,8
+"Crescent Park","rotating",16,"benz12chloro","0.17 (0.04)","1,2-dichlorobenzene",147.01,"Benzene Derivatives","Chlorinated Compounds",2,9
+"Crescent Park","rotating",16,"tce","0.18 (0.01)","Tetrachloroethylene",165.83,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"Crescent Park","rotating",16,"trichlorofluoromethane","1.02 (0.53)","Trichloromonofluoromethane",137.37,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"Crescent Park","rotating",16,"trichloromethane","0.18 (0.02)","Chloroform",119.37,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"Crescent Park","rotating",16,"carbon_tetrachloride","2.10 (0.44)","Carbon tetrachloride",153.81,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"Audenreid School","rotating",18,"benzene","1.56 (0.19)","Benzene",78.11,"BTEX","BTEX",1,1
+"Audenreid School","rotating",18,"toluene","3.56 (0.65)","Toluene",92.14,"BTEX","BTEX",1,1
+"Audenreid School","rotating",18,"etbenz","1.04 (0.25)","Ethylbenzene",106.17,"BTEX","BTEX",1,1
+"Audenreid School","rotating",18,"xylenes","8.25 (1.42)","Xylenes",106.16,"BTEX","BTEX",1,1
+"Audenreid School","rotating",18,"mpxylene","6.81 (1.18)","m,p-Xylene 2",106.16,"BTEX","BTEX",1,1
+"Audenreid School","rotating",18,"oxylene","1.44 (0.24)","o-Xylene",106.16,"BTEX","BTEX",1,1
+"Audenreid School","rotating",18,"benz1ethyl2methyl","0.22 (0.02)","1-ethyl-2-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Audenreid School","rotating",18,"benz1ethyl3methyl","0.62 (0.10)","1-ethyl-3-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Audenreid School","rotating",18,"benz1ethyl4methyl","0.23 (0.03)","1-ethyl-4-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Audenreid School","rotating",18,"propylbenzene","0.28 (0.05)","Propylbenzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Audenreid School","rotating",18,"mesitylene","0.66 (0.09)","Mesitylene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Audenreid School","rotating",18,"benzene_1_2_3_trimethyl","0.26 (0.02)","1,2,3-Trimethylbenzene",120.194,"Benzene Derivatives","Alkylbenzenes",2,2
+"Audenreid School","rotating",18,"benzene_1_4_diethyl","0.18 (0.04)","1,4-Diethylbenzene",134.221,"Benzene Derivatives","Alkylbenzenes",2,2
+"Audenreid School","rotating",18,"heptane3methyl","1.17 (0.25)","3-methyl-heptane",114.23,"Alkanes","Branched Alkanes",3,3
+"Audenreid School","rotating",18,"hexane2methyl","1.51 (0.13)","2-methyl-hexane",100.2,"Alkanes","Branched Alkanes",3,3
+"Audenreid School","rotating",18,"butane_2_methyl","0.42 (0.01)","Isopentane",72.151,"Alkanes","Branched Alkanes",3,3
+"Audenreid School","rotating",18,"pentane_2_methyl","11.13 (2.02)","Isohexane",86.178,"Alkanes","Branched Alkanes",3,3
+"Audenreid School","rotating",18,"pentane_3_methyl","4.11 (1.04)","3-Methylpentane",86.178,"Alkanes","Branched Alkanes",3,3
+"Audenreid School","rotating",18,"pentane_2_4_dimethyl","0.56 (0.07)","2,4-Dimethylpentane",100.205,"Alkanes","Branched Alkanes",3,3
+"Audenreid School","rotating",18,"pentane_2_3_4_trimethyl","0.68 (0.05)","2,3,4-Trimethylpentane",114.232,"Alkanes","Branched Alkanes",3,3
+"Audenreid School","rotating",18,"hexane_3_methyl","3.27 (0.25)","3-Methylhexane",100.205,"Alkanes","Branched Alkanes",5,3
+"Audenreid School","rotating",18,"heptane","1.42 (0.24)","Heptane",100.21,"Alkanes","C6-C9 Alkanes",3,4
+"Audenreid School","rotating",18,"hexane","2.35 (0.35)","n-Hexane",86.18,"Alkanes","C6-C9 Alkanes",3,4
+"Audenreid School","rotating",18,"nonane","0.50 (0.17)","Nonane",128.25,"Alkanes","C6-C9 Alkanes",3,4
+"Audenreid School","rotating",18,"octane","0.44 (0.17)","Octane",114.23,"Alkanes","C6-C9 Alkanes",3,4
+"Audenreid School","rotating",18,"decane","0.45 (0.15)","Decane",149.29,"Alkanes","C10-C12 Alkanes",3,5
+"Audenreid School","rotating",18,"dodecane","0.23 (0.08)","Dodecane",170.34,"Alkanes","C10-C12 Alkanes",3,5
+"Audenreid School","rotating",18,"undecane","0.45 (0.12)","Undecane",156.31,"Alkanes","C10-C12 Alkanes",3,5
+"Audenreid School","rotating",18,"cyclohexane_methyl","2.40 (0.33)","Methylcyclohexane",98.189,"Cyclohexanes","Cyclohexanes",4,6
+"Audenreid School","rotating",18,"x2_pentene_z_cis","0.08 (0.03)","cis-2-Pentene",70.1329,"Alkenes","Alkenes",5,7
+"Audenreid School","rotating",18,"x1_3_butadiene_2_methyl","0.04 (0.02)","Isoprene",68.12,"Alkenes","Alkenes",5,7
+"Audenreid School","rotating",18,"x1_hexene","0.29 (0.09)","1-Hexene",84.162,"Alkenes","Alkenes",5,7
+"Audenreid School","rotating",18,"methyl_isobutyl_ketone","0.04 (0.02)","Methyl isobutyl ketone",100.16,"Ketones","Ketones",6,8
+"Audenreid School","rotating",18,"x2_hexanone","0.01 (0.00)","2-Hexanone",100.161,"Ketones","Ketones",6,8
+"Audenreid School","rotating",18,"benz12chloro","0.19 (0.03)","1,2-dichlorobenzene",147.01,"Benzene Derivatives","Chlorinated Compounds",2,9
+"Audenreid School","rotating",18,"tce","0.15 (0.02)","Tetrachloroethylene",165.83,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"Audenreid School","rotating",18,"trichlorofluoromethane","0.99 (0.49)","Trichloromonofluoromethane",137.37,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"Audenreid School","rotating",18,"trichloromethane","0.21 (0.04)","Chloroform",119.37,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"Audenreid School","rotating",18,"carbon_tetrachloride","2.09 (0.28)","Carbon tetrachloride",153.81,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"Carl Moore Health Center","rotating",19,"benzene","1.44 (0.37)","Benzene",78.11,"BTEX","BTEX",1,1
+"Carl Moore Health Center","rotating",19,"toluene","2.79 (0.49)","Toluene",92.14,"BTEX","BTEX",1,1
+"Carl Moore Health Center","rotating",19,"etbenz","0.74 (0.10)","Ethylbenzene",106.17,"BTEX","BTEX",1,1
+"Carl Moore Health Center","rotating",19,"xylenes","5.87 (0.81)","Xylenes",106.16,"BTEX","BTEX",1,1
+"Carl Moore Health Center","rotating",19,"mpxylene","4.87 (0.72)","m,p-Xylene 2",106.16,"BTEX","BTEX",1,1
+"Carl Moore Health Center","rotating",19,"oxylene","1.00 (0.09)","o-Xylene",106.16,"BTEX","BTEX",1,1
+"Carl Moore Health Center","rotating",19,"benz1ethyl2methyl","0.17 (0.03)","1-ethyl-2-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Carl Moore Health Center","rotating",19,"benz1ethyl3methyl","0.45 (0.03)","1-ethyl-3-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Carl Moore Health Center","rotating",19,"benz1ethyl4methyl","0.19 (0.02)","1-ethyl-4-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Carl Moore Health Center","rotating",19,"propylbenzene","0.22 (0.04)","Propylbenzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Carl Moore Health Center","rotating",19,"mesitylene","0.51 (0.06)","Mesitylene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Carl Moore Health Center","rotating",19,"benzene_1_2_3_trimethyl","0.19 (0.03)","1,2,3-Trimethylbenzene",120.194,"Benzene Derivatives","Alkylbenzenes",2,2
+"Carl Moore Health Center","rotating",19,"benzene_1_4_diethyl","0.14 (0.03)","1,4-Diethylbenzene",134.221,"Benzene Derivatives","Alkylbenzenes",2,2
+"Carl Moore Health Center","rotating",19,"heptane3methyl","0.78 (0.10)","3-methyl-heptane",114.23,"Alkanes","Branched Alkanes",3,3
+"Carl Moore Health Center","rotating",19,"hexane2methyl","0.95 (0.18)","2-methyl-hexane",100.2,"Alkanes","Branched Alkanes",3,3
+"Carl Moore Health Center","rotating",19,"butane_2_methyl","0.42 (0.01)","Isopentane",72.151,"Alkanes","Branched Alkanes",3,3
+"Carl Moore Health Center","rotating",19,"pentane_2_methyl","7.89 (1.65)","Isohexane",86.178,"Alkanes","Branched Alkanes",3,3
+"Carl Moore Health Center","rotating",19,"pentane_3_methyl","2.94 (0.73)","3-Methylpentane",86.178,"Alkanes","Branched Alkanes",3,3
+"Carl Moore Health Center","rotating",19,"pentane_2_4_dimethyl","0.42 (0.06)","2,4-Dimethylpentane",100.205,"Alkanes","Branched Alkanes",3,3
+"Carl Moore Health Center","rotating",19,"pentane_2_3_4_trimethyl","0.45 (0.03)","2,3,4-Trimethylpentane",114.232,"Alkanes","Branched Alkanes",3,3
+"Carl Moore Health Center","rotating",19,"hexane_3_methyl","2.02 (0.50)","3-Methylhexane",100.205,"Alkanes","Branched Alkanes",5,3
+"Carl Moore Health Center","rotating",19,"heptane","1.03 (0.08)","Heptane",100.21,"Alkanes","C6-C9 Alkanes",3,4
+"Carl Moore Health Center","rotating",19,"hexane","1.47 (0.11)","n-Hexane",86.18,"Alkanes","C6-C9 Alkanes",3,4
+"Carl Moore Health Center","rotating",19,"nonane","0.45 (0.17)","Nonane",128.25,"Alkanes","C6-C9 Alkanes",3,4
+"Carl Moore Health Center","rotating",19,"octane","0.31 (0.14)","Octane",114.23,"Alkanes","C6-C9 Alkanes",3,4
+"Carl Moore Health Center","rotating",19,"decane","0.55 (0.24)","Decane",149.29,"Alkanes","C10-C12 Alkanes",3,5
+"Carl Moore Health Center","rotating",19,"dodecane","0.21 (0.10)","Dodecane",170.34,"Alkanes","C10-C12 Alkanes",3,5
+"Carl Moore Health Center","rotating",19,"undecane","0.47 (0.21)","Undecane",156.31,"Alkanes","C10-C12 Alkanes",3,5
+"Carl Moore Health Center","rotating",19,"cyclohexane_methyl","1.77 (0.52)","Methylcyclohexane",98.189,"Cyclohexanes","Cyclohexanes",4,6
+"Carl Moore Health Center","rotating",19,"x2_pentene_z_cis","0.06 (0.06)","cis-2-Pentene",70.1329,"Alkenes","Alkenes",5,7
+"Carl Moore Health Center","rotating",19,"x1_3_butadiene_2_methyl","0.03 (0.01)","Isoprene",68.12,"Alkenes","Alkenes",5,7
+"Carl Moore Health Center","rotating",19,"x1_hexene","0.27 (0.04)","1-Hexene",84.162,"Alkenes","Alkenes",5,7
+"Carl Moore Health Center","rotating",19,"methyl_isobutyl_ketone","0.00 (0.01)","Methyl isobutyl ketone",100.16,"Ketones","Ketones",6,8
+"Carl Moore Health Center","rotating",19,"x2_hexanone","0.01 (0.00)","2-Hexanone",100.161,"Ketones","Ketones",6,8
+"Carl Moore Health Center","rotating",19,"benz12chloro","0.17 (0.04)","1,2-dichlorobenzene",147.01,"Benzene Derivatives","Chlorinated Compounds",2,9
+"Carl Moore Health Center","rotating",19,"tce","0.15 (0.02)","Tetrachloroethylene",165.83,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"Carl Moore Health Center","rotating",19,"trichlorofluoromethane","0.97 (0.49)","Trichloromonofluoromethane",137.37,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"Carl Moore Health Center","rotating",19,"trichloromethane","0.20 (0.05)","Chloroform",119.37,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"Carl Moore Health Center","rotating",19,"carbon_tetrachloride","2.10 (0.46)","Carbon tetrachloride",153.81,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"Vare & New Hope","rotating",20,"benzene","1.41 (0.37)","Benzene",78.11,"BTEX","BTEX",1,1
+"Vare & New Hope","rotating",20,"toluene","1.85 (0.56)","Toluene",92.14,"BTEX","BTEX",1,1
+"Vare & New Hope","rotating",20,"etbenz","0.48 (0.11)","Ethylbenzene",106.17,"BTEX","BTEX",1,1
+"Vare & New Hope","rotating",20,"xylenes","3.58 (0.56)","Xylenes",106.16,"BTEX","BTEX",1,1
+"Vare & New Hope","rotating",20,"mpxylene","2.93 (0.48)","m,p-Xylene 2",106.16,"BTEX","BTEX",1,1
+"Vare & New Hope","rotating",20,"oxylene","0.65 (0.09)","o-Xylene",106.16,"BTEX","BTEX",1,1
+"Vare & New Hope","rotating",20,"benz1ethyl2methyl","0.11 (0.02)","1-ethyl-2-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Vare & New Hope","rotating",20,"benz1ethyl3methyl","0.26 (0.03)","1-ethyl-3-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Vare & New Hope","rotating",20,"benz1ethyl4methyl","0.13 (0.04)","1-ethyl-4-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Vare & New Hope","rotating",20,"propylbenzene","0.13 (0.03)","Propylbenzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Vare & New Hope","rotating",20,"mesitylene","0.32 (0.11)","Mesitylene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Vare & New Hope","rotating",20,"benzene_1_2_3_trimethyl","0.11 (0.03)","1,2,3-Trimethylbenzene",120.194,"Benzene Derivatives","Alkylbenzenes",2,2
+"Vare & New Hope","rotating",20,"benzene_1_4_diethyl","0.07 (0.02)","1,4-Diethylbenzene",134.221,"Benzene Derivatives","Alkylbenzenes",2,2
+"Vare & New Hope","rotating",20,"heptane3methyl","0.56 (0.19)","3-methyl-heptane",114.23,"Alkanes","Branched Alkanes",3,3
+"Vare & New Hope","rotating",20,"hexane2methyl","0.69 (0.23)","2-methyl-hexane",100.2,"Alkanes","Branched Alkanes",3,3
+"Vare & New Hope","rotating",20,"butane_2_methyl","0.35 (0.23)","Isopentane",72.151,"Alkanes","Branched Alkanes",3,3
+"Vare & New Hope","rotating",20,"pentane_2_methyl","5.76 (2.33)","Isohexane",86.178,"Alkanes","Branched Alkanes",3,3
+"Vare & New Hope","rotating",20,"pentane_3_methyl","1.82 (0.50)","3-Methylpentane",86.178,"Alkanes","Branched Alkanes",3,3
+"Vare & New Hope","rotating",20,"pentane_2_4_dimethyl","0.26 (0.08)","2,4-Dimethylpentane",100.205,"Alkanes","Branched Alkanes",3,3
+"Vare & New Hope","rotating",20,"pentane_2_3_4_trimethyl","0.37 (0.15)","2,3,4-Trimethylpentane",114.232,"Alkanes","Branched Alkanes",3,3
+"Vare & New Hope","rotating",20,"hexane_3_methyl","1.51 (0.54)","3-Methylhexane",100.205,"Alkanes","Branched Alkanes",5,3
+"Vare & New Hope","rotating",20,"heptane","0.73 (0.16)","Heptane",100.21,"Alkanes","C6-C9 Alkanes",3,4
+"Vare & New Hope","rotating",20,"hexane","1.08 (0.29)","n-Hexane",86.18,"Alkanes","C6-C9 Alkanes",3,4
+"Vare & New Hope","rotating",20,"nonane","0.36 (0.58)","Nonane",128.25,"Alkanes","C6-C9 Alkanes",3,4
+"Vare & New Hope","rotating",20,"octane","0.32 (0.28)","Octane",114.23,"Alkanes","C6-C9 Alkanes",3,4
+"Vare & New Hope","rotating",20,"decane","0.29 (0.06)","Decane",149.29,"Alkanes","C10-C12 Alkanes",3,5
+"Vare & New Hope","rotating",20,"dodecane","0.10 (0.04)","Dodecane",170.34,"Alkanes","C10-C12 Alkanes",3,5
+"Vare & New Hope","rotating",20,"undecane","0.33 (0.07)","Undecane",156.31,"Alkanes","C10-C12 Alkanes",3,5
+"Vare & New Hope","rotating",20,"cyclohexane_methyl","1.23 (0.55)","Methylcyclohexane",98.189,"Cyclohexanes","Cyclohexanes",4,6
+"Vare & New Hope","rotating",20,"x2_pentene_z_cis","0.06 (0.02)","cis-2-Pentene",70.1329,"Alkenes","Alkenes",5,7
+"Vare & New Hope","rotating",20,"x1_3_butadiene_2_methyl","0.02 (0.03)","Isoprene",68.12,"Alkenes","Alkenes",5,7
+"Vare & New Hope","rotating",20,"x1_hexene","0.20 (0.13)","1-Hexene",84.162,"Alkenes","Alkenes",5,7
+"Vare & New Hope","rotating",20,"methyl_isobutyl_ketone","0.00 (0.01)","Methyl isobutyl ketone",100.16,"Ketones","Ketones",6,8
+"Vare & New Hope","rotating",20,"x2_hexanone","0.01 (0.00)","2-Hexanone",100.161,"Ketones","Ketones",6,8
+"Vare & New Hope","rotating",20,"benz12chloro","0.17 (0.05)","1,2-dichlorobenzene",147.01,"Benzene Derivatives","Chlorinated Compounds",2,9
+"Vare & New Hope","rotating",20,"tce","0.13 (0.03)","Tetrachloroethylene",165.83,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"Vare & New Hope","rotating",20,"trichlorofluoromethane","0.68 (0.41)","Trichloromonofluoromethane",137.37,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"Vare & New Hope","rotating",20,"trichloromethane","0.17 (0.03)","Chloroform",119.37,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"Vare & New Hope","rotating",20,"carbon_tetrachloride","1.94 (0.25)","Carbon tetrachloride",153.81,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"Universal Charter School at Vare","rotating",21,"benzene","1.56 (0.43)","Benzene",78.11,"BTEX","BTEX",1,1
+"Universal Charter School at Vare","rotating",21,"toluene","2.15 (0.36)","Toluene",92.14,"BTEX","BTEX",1,1
+"Universal Charter School at Vare","rotating",21,"etbenz","0.60 (0.04)","Ethylbenzene",106.17,"BTEX","BTEX",1,1
+"Universal Charter School at Vare","rotating",21,"xylenes","4.62 (1.21)","Xylenes",106.16,"BTEX","BTEX",1,1
+"Universal Charter School at Vare","rotating",21,"mpxylene","3.78 (1.02)","m,p-Xylene 2",106.16,"BTEX","BTEX",1,1
+"Universal Charter School at Vare","rotating",21,"oxylene","0.83 (0.19)","o-Xylene",106.16,"BTEX","BTEX",1,1
+"Universal Charter School at Vare","rotating",21,"benz1ethyl2methyl","0.13 (0.00)","1-ethyl-2-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Universal Charter School at Vare","rotating",21,"benz1ethyl3methyl","0.36 (0.04)","1-ethyl-3-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Universal Charter School at Vare","rotating",21,"benz1ethyl4methyl","0.17 (0.04)","1-ethyl-4-methyl-benzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Universal Charter School at Vare","rotating",21,"propylbenzene","0.19 (0.03)","Propylbenzene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Universal Charter School at Vare","rotating",21,"mesitylene","0.40 (0.08)","Mesitylene",120.19,"Benzene Derivatives","Alkylbenzenes",2,2
+"Universal Charter School at Vare","rotating",21,"benzene_1_2_3_trimethyl","0.16 (0.01)","1,2,3-Trimethylbenzene",120.194,"Benzene Derivatives","Alkylbenzenes",2,2
+"Universal Charter School at Vare","rotating",21,"benzene_1_4_diethyl","0.11 (0.02)","1,4-Diethylbenzene",134.221,"Benzene Derivatives","Alkylbenzenes",2,2
+"Universal Charter School at Vare","rotating",21,"heptane3methyl","0.68 (0.18)","3-methyl-heptane",114.23,"Alkanes","Branched Alkanes",3,3
+"Universal Charter School at Vare","rotating",21,"hexane2methyl","0.81 (0.19)","2-methyl-hexane",100.2,"Alkanes","Branched Alkanes",3,3
+"Universal Charter School at Vare","rotating",21,"butane_2_methyl","0.42 (0.13)","Isopentane",72.151,"Alkanes","Branched Alkanes",3,3
+"Universal Charter School at Vare","rotating",21,"pentane_2_methyl","6.82 (1.91)","Isohexane",86.178,"Alkanes","Branched Alkanes",3,3
+"Universal Charter School at Vare","rotating",21,"pentane_3_methyl","2.26 (0.47)","3-Methylpentane",86.178,"Alkanes","Branched Alkanes",3,3
+"Universal Charter School at Vare","rotating",21,"pentane_2_4_dimethyl","0.34 (0.04)","2,4-Dimethylpentane",100.205,"Alkanes","Branched Alkanes",3,3
+"Universal Charter School at Vare","rotating",21,"pentane_2_3_4_trimethyl","0.49 (0.06)","2,3,4-Trimethylpentane",114.232,"Alkanes","Branched Alkanes",3,3
+"Universal Charter School at Vare","rotating",21,"hexane_3_methyl","1.80 (0.43)","3-Methylhexane",100.205,"Alkanes","Branched Alkanes",5,3
+"Universal Charter School at Vare","rotating",21,"heptane","0.82 (0.23)","Heptane",100.21,"Alkanes","C6-C9 Alkanes",3,4
+"Universal Charter School at Vare","rotating",21,"hexane","1.34 (0.35)","n-Hexane",86.18,"Alkanes","C6-C9 Alkanes",3,4
+"Universal Charter School at Vare","rotating",21,"nonane","0.41 (0.28)","Nonane",128.25,"Alkanes","C6-C9 Alkanes",3,4
+"Universal Charter School at Vare","rotating",21,"octane","0.31 (0.11)","Octane",114.23,"Alkanes","C6-C9 Alkanes",3,4
+"Universal Charter School at Vare","rotating",21,"decane","0.42 (0.02)","Decane",149.29,"Alkanes","C10-C12 Alkanes",3,5
+"Universal Charter School at Vare","rotating",21,"dodecane","0.14 (0.04)","Dodecane",170.34,"Alkanes","C10-C12 Alkanes",3,5
+"Universal Charter School at Vare","rotating",21,"undecane","0.38 (0.02)","Undecane",156.31,"Alkanes","C10-C12 Alkanes",3,5
+"Universal Charter School at Vare","rotating",21,"cyclohexane_methyl","1.46 (0.39)","Methylcyclohexane",98.189,"Cyclohexanes","Cyclohexanes",4,6
+"Universal Charter School at Vare","rotating",21,"x2_pentene_z_cis","0.05 (0.05)","cis-2-Pentene",70.1329,"Alkenes","Alkenes",5,7
+"Universal Charter School at Vare","rotating",21,"x1_3_butadiene_2_methyl","0.01 (0.01)","Isoprene",68.12,"Alkenes","Alkenes",5,7
+"Universal Charter School at Vare","rotating",21,"x1_hexene","0.20 (0.06)","1-Hexene",84.162,"Alkenes","Alkenes",5,7
+"Universal Charter School at Vare","rotating",21,"methyl_isobutyl_ketone","0.00 (0.00)","Methyl isobutyl ketone",100.16,"Ketones","Ketones",6,8
+"Universal Charter School at Vare","rotating",21,"x2_hexanone","0.01 (0.00)","2-Hexanone",100.161,"Ketones","Ketones",6,8
+"Universal Charter School at Vare","rotating",21,"benz12chloro","0.17 (0.12)","1,2-dichlorobenzene",147.01,"Benzene Derivatives","Chlorinated Compounds",2,9
+"Universal Charter School at Vare","rotating",21,"tce","0.13 (0.03)","Tetrachloroethylene",165.83,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"Universal Charter School at Vare","rotating",21,"trichlorofluoromethane","0.68 (0.28)","Trichloromonofluoromethane",137.37,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"Universal Charter School at Vare","rotating",21,"trichloromethane","0.24 (0.14)","Chloroform",119.37,"Chlorinated Compounds","Chlorinated Compounds",7,9
+"Universal Charter School at Vare","rotating",21,"carbon_tetrachloride","1.94 (0.39)","Carbon tetrachloride",153.81,"Chlorinated Compounds","Chlorinated Compounds",7,9
