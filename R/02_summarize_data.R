@@ -4,6 +4,7 @@ library(here)
 library(lme4) # Dependency to calculate ICC with psych package
 library(psych)
 library(ggcorrplot)
+library(ggtext)
 
 ########################################################
 # Purpose of this code:
@@ -112,21 +113,17 @@ voc_histogram <- function(df, codebook, output_dir = "results/interim_results/fi
       theme_minimal() +
       labs(
         title = paste("Distribution of VOC Concentrations —", cat_name),
-        x = expression("Concentration ("*mu*"g/"*m^3*")"),
+        x = expression("Concentration ("~mu*"g/"*m^3*")"),
         y = "Count"
       ) +
-      paper_theme +
-      theme(
-        strip.text = element_text(size = 10, face = "bold"),
-        plot.title = element_text(size = 12, face = "bold", hjust = 0.5)
-      )
+      paper_theme 
     
     # Save plot
     ggsave(
       filename = file.path(output_dir, paste0("voccat_", cat_name, "_histograms_summary.png")),
       plot = p,
       width = 4,
-      height = 3
+      height = 4
     )
   }
 }
@@ -173,6 +170,8 @@ voc_boxplot <- function(df, codebook, output_dir = "results/supplemental/figures
       ) %>%
       left_join(cat_info, by = "variable_name")
     
+    ncol_facet <- ceiling(length(unique(df_long$voc_name)) / 2)
+    strip_size <- if (ncol_facet > 2) 10 else 14
     
     # Plot
     p <- df_long %>%
@@ -186,9 +185,10 @@ voc_boxplot <- function(df, codebook, output_dir = "results/supplemental/figures
       geom_boxplot(outlier.color = "black", outlier.size = 0.2, size = 0.2) +
       theme_minimal() +
       labs(
-        title = paste("VOC Concentrations by Site —", cat_name),
+        title = cat_name,
+        subtitle = "Concentration Distribution by Site",
         x = "Site",
-        y = expression("Concentration ("*mu*"g/"*m^3*")"),
+        y = expression("Concentration ("~mu*"g/"*m^3*")"),
         fill = "Site Type"
       ) +
       scale_fill_manual(
@@ -203,18 +203,16 @@ voc_boxplot <- function(df, codebook, output_dir = "results/supplemental/figures
       ) +
       paper_theme +
       coord_flip() + 
-      facet_wrap(~ voc_name, scales = "free_x") +
-      theme(legend.spacing.y = unit(0.5, "pt"),
-            legend.box.spacing = unit(0.5, "pt"),
-            legend.key.size = unit(0.5, "cm"),
-            legend.text = element_text(family = "Open Sans", size = 10),
-            legend.title = element_text(family = "Open Sans", size = 12))
+      facet_wrap(~ voc_name, scales = "free_x", nrow = 2) +
+      theme(legend.position = "bottom",
+            strip.text = element_text(size = strip_size))
+
     
     # Save plot
     ggsave(
       filename = file.path(output_dir, paste0("voccat_bysite_", cat_name, "_boxplot_summary.png")),
       plot = p,
-      width = 5,
+      width = 4,
       height = 4
     )
   }
@@ -328,10 +326,10 @@ colo_plot <- function(v){
   
 }
 
-
-for (v in setdiff(voc_vars, "xylenes")){
-  colo_plot(v)
-}
+# 
+# for (v in setdiff(voc_vars, "xylenes")){
+#   colo_plot(v)
+# }
 
 
 
@@ -379,7 +377,7 @@ correlate <- function(data, corr_vars, season_val = NULL, site_val = NULL, rotat
   p <- ggcorrplot(cor, 
                   type = "full",
                   show.legend = TRUE,
-                  legend.title = "Corr",
+                  legend.title = expression(rho),
                   p.mat = corp,
                   sig.level = 0.05/n_tests, # Bonferroni-corrected 
                   insig = "pch",
@@ -389,7 +387,7 @@ correlate <- function(data, corr_vars, season_val = NULL, site_val = NULL, rotat
                   lab = FALSE
   ) + 
     labs(
-      title = "VOC Spearman Rank Correlations",
+      title = "Spearman Rank Correlations",
       subtitle = subtitle_text,
       x = NULL,
       y = NULL
@@ -484,10 +482,9 @@ voc_ts <- function(df, codebook, output_dir = "results/interim_results/figures")
       facet_wrap(~ voc_name, scales = "free_y") +
       theme_minimal() +
       labs(
-        title = paste("Time Series of VOC Concentrations —", cat_name),
-        subtitle = "Average of Weekly Sites",
-        x = expression("Concentration ("*mu*"g/"*m^3*")"),
-        y = "Date",
+        title = cat_name,
+        y = expression("Concentration ("~mu*"g/"*m^3*")"),
+        x = "Date",
         color = "Site Type"
       ) +
       scale_color_manual(
@@ -501,22 +498,22 @@ voc_ts <- function(df, codebook, output_dir = "results/interim_results/figures")
         )
       ) +
       paper_theme +
+      guides(
+        color = guide_legend(
+          override.aes = list(size = 1, alpha = 1)
+        )
+      ) + 
       theme(
-        strip.text = element_text(size = 10, face = "bold"),
-        plot.title = element_text(size = 12, face = "bold", hjust = 0.5),
-        axis.text.x = element_text(angle = 45, hjust = 1),
-        legend.spacing.y = unit(0.5, "pt"),
-        legend.box.spacing = unit(0.5, "pt"),
-        legend.key.size = unit(0.5, "cm"),
-        legend.text = element_text(family = "Open Sans", size = 10),
-        legend.title = element_text(family = "Open Sans", size = 12)
+        strip.text = element_text(size = 12),
+        legend.position = "bottom",
+        axis.text.x = element_text(angle = 45, hjust = 1)
       )
     # Save plot
     ggsave(
       filename = file.path(output_dir, paste0("voccat_", cat_name, "_ts_summary.png")),
       plot = p,
       width = 4,
-      height = 3
+      height = 4
     )
   }
 }

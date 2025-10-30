@@ -1,10 +1,7 @@
 library(readxl)
 library(tidyverse)
 library(zoo)
-library(ggspatial)
-library(ggrepel)
-library(ggmap)
-library(showtext)
+library(patchwork)
 library(sf)
 
 ########################################################
@@ -46,27 +43,7 @@ category_levels <- codebook %>%
   pull(category_2)
 
 
-# Generate Basemap --------------------------------------------------------
-coords <- vocs %>% filter(!is.na(lat)) %>%
-  st_as_sf(., coords = c("long", "lat"), crs = 4326) %>%
-  st_coordinates()
 
-center <- c(mean(coords[, "X"]), mean(coords[, "Y"]))
-
-#Zoom in bounds for plotting
-xmin <- min(coords[, "X"] - 0.008)
-xmax <- max(coords[, "X"] + 0.005)
-ymin <- min(coords[, "Y"] - 0.005)
-ymax <- max(coords[, "Y"] + 0.005)
-
-basemap <- get_googlemap(center, zoom = 13, maptype = "roadmap",
-                         # Turn off unneeded labels
-                         style = list(
-                           c(feature = "poi", element = "labels.text.fill", visibility = "off"),
-                           c(feature = "poi", element = "labels.text.stroke", visibility = "off"),
-                           c(feature = "poi", element = "labels.icon", visibility = "off")
-                         ))
-ggmap(basemap)
 
 
 
@@ -105,7 +82,6 @@ map_ratio <- function(data, ratio, season_val = NULL, rotating = NULL){
     ratio  # fallback, just print the ratio string
   }
   
-  
   # Plot - build it differently based on rotating
   if (is.null(rotating)) {
     p <- ggmap(basemap) +
@@ -114,18 +90,13 @@ map_ratio <- function(data, ratio, season_val = NULL, rotating = NULL){
         inherit.aes = FALSE,
         aes(fill = ratio_val),
         shape = 21,
-        size = 4,
-        stroke = 0.5,
+        size = 1.5,
+        stroke = 0.1,
         color = "black"
       ) +
-      scale_fill_viridis_c(option = "plasma") +
       coord_sf(expand = FALSE) +
       labs(
-        fill = paste0("Average\n", ratio_text),
-        title = paste("Site-level average", ratio_text, "ratio"),
-        subtitle = season_val,
-        x = NULL,
-        y = NULL
+        fill = bquote("Average " ~ .(ratio_text))
       )
   } else {
     p <- ggmap(basemap) +
@@ -133,40 +104,112 @@ map_ratio <- function(data, ratio, season_val = NULL, rotating = NULL){
         data = df_avg,
         inherit.aes = FALSE,
         aes(fill = ratio_val, shape = site_type),
-        size = 4,
-        stroke = 0.5,
+        size = 1.5,
+        stroke = 0.1,
         color = "black"
       ) +
       scale_shape_manual(
         values = c("stationary" = 21, "rotating" = 22),
-        labels = c("stationary" = "Weekly Sites", "rotating" = "Community Sites")
+        labels = c("stationary" = "Weekly", "rotating" = "Community")
       ) +
-      scale_fill_viridis_c(option = "plasma") +
       coord_sf(expand = FALSE) +
       labs(
-        fill = paste0("Average\n", ratio_text),
-        shape = "Site Type",
-        title = paste("Site-level average", ratio_text, "ratio"),
-        subtitle = season_val,
-        x = NULL,
-        y = NULL
-      )
+        fill = bquote("Average " ~ .(ratio_text)),
+        shape = "Site Type"
+      ) 
   }
   
   p <- p + 
+    lock_to_basemap(basemap) + 
     paper_theme +
+    labs(
+      x = NULL,
+      y = NULL
+    ) + 
     theme(
       legend.position = "right",
-      plot.title = element_text(size = 14, face = "bold")
-    )
+      axis.title = element_blank(),
+      legend.spacing.x = unit(1, "pt")  # reduce gap between boxes
+      
+    ) + 
+    guides(
+      fill = guide_colorbar(
+        barwidth = unit(3, "cm"),
+        barheight = unit(0.25, "cm"),
+        label.vjust = 1.5 
+      ),
+      shape = guide_legend(
+        override.aes = list(size = 2), # smaller points in legend
+        direction = "horizontal",      # horizontal legend
+        label.position = "right",
+        keywidth = unit(0.2, "cm"),
+        keyheight = unit(0.3, "cm")
+      )
+    ) 
   
   return(p)
   
 }
 
-map_ratio(vocs, "tb_ratio")
-map_ratio(vocs, "tb_ratio", "Summer", rotating = 1)
+p_all <- map_ratio(vocs, "tb_ratio") +
+  labs(subtitle = "Year-round") +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 10),
+    axis.text.y = element_text(size = 10),  # keep y labels on the left plot
+  )
 
+p_summer <- map_ratio(vocs, "tb_ratio", "Summer", rotating = 1) +
+  labs(subtitle = "Summer") +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 10),
+    axis.text.y = element_blank(), # remove y labels
+    axis.ticks.y = element_blank()
+  )
+
+p_winter <- map_ratio(vocs, "tb_ratio", "Winter", rotating = 1) +
+  labs(subtitle = "Winter") +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 10),
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank()
+  ) + 
+  annotation_scale(
+    location = "bl",  # bottom-left
+    width_hint = 0.3,
+    text_cex = 0.6
+  ) +
+  annotation_north_arrow(
+    location = "tl",  # top-left
+    which_north = "true",
+    style = north_arrow_fancy_orienteering(text_size = 6)
+  )
+
+
+combined_plot <- (p_all | p_summer | p_winter) +
+  plot_layout(guides = "collect") &
+  theme(legend.position = "bottom")
+
+final_plot <- combined_plot + 
+  plot_annotation(
+    title = "Toluene : Benzene Ratio",
+    theme = theme(
+      plot.title = element_text(
+        size = 20, 
+        face = "bold",
+        hjust = 0.5
+      )
+    )
+  )
+
+
+gg_record(
+  device = "png",
+  width = 4,
+  height = 4,
+  unit = "in"
+)
+
+final_plot
 
 ## To do: add save function
 ## To do: save time series plots.

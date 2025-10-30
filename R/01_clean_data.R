@@ -105,6 +105,10 @@ write.csv(cleandata_mgm3, "data/clean/dat_mgm3.csv")
 #Write colo_dataset
 write.csv(cleandata_colo, "data/clean/colos.csv")
 
+# Save coordinates to create basemap
+coords <- cleandata_sample %>% filter(!is.na(lat)) %>%
+  st_as_sf(., coords = c("long", "lat"), crs = 4326) %>%
+  st_coordinates()
 
-
+write_rds(coords, "data/clean/coords.rds")
 
