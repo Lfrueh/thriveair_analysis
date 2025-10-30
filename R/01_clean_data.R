@@ -71,7 +71,9 @@ cleandata <- rawdata %>%
   mutate(
     tot_weeks = n_distinct(week)
   ) %>%
-  ungroup() 
+  ungroup() %>%
+  # Filter out the June 2023 date since we only sampled once that month
+  filter(as.Date(end_date) > as.Date("2023-07-01"))
 
 cleandata_colo <- cleandata %>%
   group_by(site, week) %>%

@@ -1,7 +1,7 @@
 library(showtext)
 library(sysfonts)
 library(tidyverse)
-library(camcorder) # just to preview plots
+#library(camcorder) # just to preview plots
 library(ggspatial)
 library(ggrepel)
 library(ggmap)
@@ -60,27 +60,27 @@ paper_theme <- theme_bw(base_family = "opensans") + # Base theme
 
 
 # ## Test paper theme
- p <- cars %>%
-   mutate(category = case_when(speed < 10 ~ "A", TRUE ~ "B")) %>%
-   ggplot() +
-   geom_point(aes(x = dist, y = speed, color = dist)) +
-   labs(
-     title = "title",
-     subtitle = "subtitle",
-     color = "legend title"
-   ) +
-   facet_wrap(~category) +
-   paper_theme
-
- gg_record(
-   device = "png",
-   width = 4,
-   height = 4,
-   unit = "in"
- )
-
- p
- 
+ # p <- cars %>%
+ #   mutate(category = case_when(speed < 10 ~ "A", TRUE ~ "B")) %>%
+ #   ggplot() +
+ #   geom_point(aes(x = dist, y = speed, color = dist)) +
+ #   labs(
+ #     title = "title",
+ #     subtitle = "subtitle",
+ #     color = "legend title"
+ #   ) +
+ #   facet_wrap(~category) +
+ #   paper_theme
+ # 
+ # gg_record(
+ #   device = "png",
+ #   width = 4,
+ #   height = 4,
+ #   unit = "in"
+ # )
+ # 
+ # p
+ # 
  
 
 # Basemap and Map Theme ---------------------------------------------------
@@ -105,21 +105,7 @@ paper_theme <- theme_bw(base_family = "opensans") + # Base theme
                             c(feature = "poi", element = "labels.text.stroke", visibility = "off"),
                             c(feature = "poi", element = "labels.icon", visibility = "off")
                           ))
- 
- xrange <- xmax - xmin
- yrange <- ymax - ymin
- 
- xmin_zoom <- xmin + 0.05 * xrange
- xmax_zoom <- xmax - 0.05 * xrange
- ymin_zoom <- ymin + 0.05 * yrange
- ymax_zoom <- ymax - 0.05 * yrange
- 
- ggmap(basemap) +
-   coord_sf(
-     xlim = c(xmin_zoom, xmax_zoom),
-     ylim = c(ymin_zoom, ymax_zoom),
-     expand = FALSE
-   )
+
 
  
  coord_zoom <- function(zoom = 0.05) {
@@ -140,6 +126,7 @@ paper_theme <- theme_bw(base_family = "opensans") + # Base theme
      expand = FALSE
    )
  }
+ 
  
 
  # Function to force locking to basemap
