@@ -5,6 +5,9 @@ library(lme4) # Dependency to calculate ICC with psych package
 library(psych)
 library(ggcorrplot)
 library(ggtext)
+library(ggpattern)
+library(ggnewscale)
+library(sf)
 
 ########################################################
 # Purpose of this code:
@@ -20,7 +23,8 @@ source("R/00_plot_theme.R")
 # Get Data ----------------------------------------------------------------
 
 ## Codebook ----
-codebook <- read_excel(here("data","codebook.xlsx"))
+codebook <- read_excel(here("data","codebook.xlsx")) %>%
+  arrange(category_2no, sort_in_category)
 
 voc_vars <- codebook %>% 
   filter(variable_name != "btex") %>% pull(variable_name)
@@ -46,40 +50,215 @@ vocs <- vocs_all %>% select(-ends_with('flag'))
 colos <- read_csv("data/clean/colos.csv", col_select = -1) %>%
   select(-ends_with('flag'), -starts_with("xylenes"), -btex) 
 
+
+# Create Site Summary Map -------------------------------------------------
+## Note that this will take a little while due to landuse 
+base <- ggmap(basemap) 
+
+# Former refinery tax parcels from Open Data Philly
+refinery <- st_read(here("data", "shp", "refinery.shp")) %>%
+  st_transform(crs = 4326)
+
+# Land use map from OpenData Philly https://opendataphilly.org/datasets/land-use/
+# Clipped to study area to ease plotting
+landuse <- st_read(here("data", "shp", "landuse_ssw.shp")) %>%
+  st_transform(crs = 4326) %>%
+  # Filter out roads and water, since these are marked on the basemap
+  filter(!c_dig1desc %in% c("5", "8")) %>%
+  # Describe landuse categories
+  mutate(landuse = case_when(
+    c_dig1desc == "1" ~ "Residential",
+    c_dig1desc == "2" ~ "Commercial",
+    c_dig1desc == "3" ~ "Industrial",
+    c_dig1desc == "4" ~ "Institution",
+    c_dig1desc == "6" ~ "Recreation",
+    c_dig1desc == "7" ~ "Open Space",
+    c_dig1desc == "9" ~ "Vacant"
+  ))
+
+# Monitoring sites
+sites_sf <- vocs %>%
+  select(site, site_type, site_traffic, long, lat) %>%
+  distinct() %>%
+  st_as_sf(coords = c("long", "lat"),
+           crs = 4326)
+
+# Color scale for landuse
+landuse_colors <- c(
+  "Residential" = "#f0e000", 
+  "Commercial"  = "#ed6baa", 
+  "Industrial"  = "#b8561d", 
+  "Institution" = "#b68dcc", 
+  "Recreation"  = "#a3de95", 
+  "Open Space"  = "#006400", 
+  "Vacant"      = "#b2b2b2"
+)
+
+# fake legend for Former Refinery
+fake_refinery <- data.frame(x = 1, y = 1)
+
+
+sitemap <- ggmap(basemap) + 
+  # Dummy refinery point to force legend
+  geom_point(
+    data = fake_refinery,
+    aes(x = x, y = y, fill = "Former Refinery"),
+    shape = 22, size = 4, color = NA, inherit.aes = FALSE
+  ) +
+  scale_fill_manual(
+    name = NULL,
+    values = c("Former Refinery" = "grey80"),
+    guide = guide_legend(
+      override.aes = list(
+        shape = 22,          # square
+        fill = "grey80",
+        pattern = "stripe",  # if using ggpattern
+        pattern_spacing = 0.01,
+        pattern_angle = 45
+      ),
+      order = 2
+    )
+  ) +
+  
+  # Former Refinery site
+  geom_sf_pattern(data = refinery, 
+                  aes(fill = "Former Refinery"), #dummy variable for legend
+                  inherit.aes = FALSE, alpha = 0.6,
+                  pattern = "stripe", pattern_spacing = 0.01,
+                  pattern_alpha = 0.5) + 
+  new_scale_fill() +
+  # Land Use
+  geom_sf(data = landuse, aes(fill = landuse), lwd = 0, alpha = 0.6,
+          inherit.aes = FALSE) + 
+  scale_fill_manual(values = landuse_colors,
+                    name = "Land Use",
+                    guide = guide_legend(order = 1)
+  )  + 
+  new_scale_fill() + 
+  # Monitor site points
+  geom_sf(data = sites_sf, inherit.aes = FALSE,
+          aes(shape = site_type, fill = site_traffic),
+          color = "black", stroke = 0.2, size = 2.5) + 
+  scale_shape_manual(
+    values = c("stationary" = 21, "rotating" = 22),
+    labels = c("stationary" = "Weekly", "rotating" = "Community"),
+    name = "Site Type"
+  ) +
+  scale_fill_manual(
+    values = c(
+      "Low" = "blue",
+      "High" = "red"
+    ),
+    name = "Traffic",
+    guide = guide_legend(
+      override.aes = list(
+        shape = 21,      # make sure legend keys are filled circles
+        color = "black", # outline to match your points
+        fill = c("red", "blue")
+      )
+    )
+  ) + 
+  # North arrow
+  annotation_north_arrow(
+    location = "br",  # bottom-right
+    height = unit(1, "cm"),
+    width = unit(1, "cm"),
+    which_north = "true",
+    style = north_arrow_orienteering(text_size = 16,
+                                     line_width = 0.5,
+                                     text_face = "bold")
+  ) +
+  coord_zoom(1.15) + 
+  labs(
+    y = NULL,
+    x = NULL,
+    title = "Monitoring Sites",
+    subtitle = "Land Use and Traffic Density Considerations"
+  ) + 
+  paper_theme + 
+  theme(
+    legend.position = "right",
+    legend.box = "vertical",
+    legend.direction = "vertical",
+    legend.box.spacing = unit(0.25, "cm"), 
+    legend.spacing = unit(0.25, "cm"),
+    legend.margin = margin(t = 0, r = 0, b = 0, l = 2),  
+    legend.key.size = unit(0.5, "cm")
+  )
+
+
+ggsave(
+  filename = here("results", "figures", "sites_landuse_traffic.png"),
+  plot = sitemap,
+  width = unit(4, "in"),
+  height = unit(4, "in")
+  
+)
+
+
 # Summary Statistics ------------------------------------------------------
 ## Overall ----
 ### Table ----
-voc_summary <- vocs %>%
-  summarize(
-    across(
-      all_of(voc_vars),
-      ~ sprintf("%.2f [%.2f]", median(.x, na.rm = TRUE), IQR(.x, na.rm = TRUE)),
-      .names = "{.col}"
-    )
-  ) %>%
-  pivot_longer(all_of(voc_vars),names_to = "variable_name", values_to = "overall") %>%
-  left_join(., codebook, by = "variable_name") %>%
-  arrange(category_2no, variable_name) %>%
-  select(variable_name, category_2, overall)
+# In main text: summarize by weekly vs. community sites, 
+# then by industrial indicator
 
-voc_sitetype_summary <- vocs %>%
-  group_by(site_type) %>%
-  summarize(
-    across(
-      all_of(voc_vars),
-      ~ sprintf("%.2f [%.2f]", median(.x, na.rm = TRUE), IQR(.x, na.rm = TRUE)),
-      .names = "{.col}"
-    )
-  ) %>%
-  pivot_longer(all_of(voc_vars),names_to = "variable_name", values_to = "summary") %>%
-  left_join(., codebook, by = "variable_name") %>%
-  arrange(site_type, category_2no, variable_name) %>%
-  select(variable_name, site_type, category_2, summary) %>%
-  pivot_wider(names_from = site_type, values_from = summary) %>%
-  left_join(., voc_summary, by = c("variable_name", "category_2"))
+create_t1 <- function(strat_val){
+  t1_list <- vocs %>%
+    group_by(site_type) %>%  # split by site_type
+    group_map(~ {
+      # .x is the subset for this site_type
+      vars <- voc_vars  # variables to summarize
+      cat_vars <- NULL  # specify categorical variables if any
+      CreateTableOne(vars = vars,
+                     strata = strat_val,
+                     data = .x,
+                     factorVars = cat_vars,
+                     addOverall = TRUE,
+                     test = TRUE)  # test = TRUE gives p-values
+    })
+  
+  names(t1_list) <- c("rotating", "stationary")
+  
+  return(t1_list)
+}
 
 
-write_excel_csv(voc_sitetype_summary, "results/tables/voc_by_sitetype_summary.csv")
+# Convert TableOne object to a data.frame for easier manipulation
+tidy_t1 <- function(tab) {
+  df <- print(tab, quote = FALSE, noSpaces = TRUE, printToggle = FALSE)
+  
+  df <- as.data.frame(df, stringsAsFactors = FALSE) %>%
+    rownames_to_column(var = "variable_name_messy") %>%
+    mutate(variable_name = 
+             str_remove(variable_name_messy, " \\(.*\\)$")) %>%
+    left_join(codebook, by = "variable_name") %>%
+    arrange(category_2no, sort_in_category)
+  return(df)
+}
+
+t1_industry <- create_t1("industrial_20")
+t1_traffic <- create_t1("site_traffic")
+t1_ind_traf <- create_t1("ind_traf")
+
+
+# Get table for each site type and save
+write_csv(tidy_t1(t1_industry[["stationary"]]), 
+          here("results", "tables", "stationary_voc_by_industry.csv"))
+write_csv(tidy_t1(t1_industry[["rotating"]]), 
+          here("results", "tables", "rotating_voc_by_industry.csv"))
+
+# Traffic goes in supplemental
+write_csv(tidy_t1(t1_traffic[["stationary"]]), 
+          here("results", "supplemental","tables", "stationary_voc_by_traffic.csv"))
+write_csv(tidy_t1(t1_traffic[["rotating"]]), 
+          here("results", "supplemental","tables", "rotating_voc_by_traffic.csv"))
+
+# Bivariate goes in supplemental
+write_csv(tidy_t1(t1_ind_traf[["stationary"]]), 
+          here("results", "supplemental","tables", "stationary_voc_by_traffic_industry.csv"))
+
+
+
 
 ### Histograms ----
 # Function to plot and save histograms
@@ -248,9 +427,11 @@ flag_summary <- vocs_all %>%
   # calculate percentages
   mutate(percentage = round(100 * count / n_sample, 1),
          n_perc     = paste0(count, " (", percentage, "%)")) %>%
+  # keep individual VOCs only
+  filter(!variable_name %in% c("btex", "xylenes")) %>%
   # join in metadata
   left_join(codebook, by = "variable_name") %>%
-  arrange(category_2no)
+  arrange(category_2no, sort_in_category)
 
 # Wide format for easier reading as supplemental table
 flag_summary_wide <- flag_summary %>%

@@ -1,0 +1,5 @@
+model,term,estimate,CI
+tb_ratio,industrial_20Non-Industrial,-0.285,"(-0.376, -0.194)"
+tb_ratio,site_trafficLow,0.12,"(0.029, 0.212)"
+xe_ratio,industrial_20Non-Industrial,-0.206,"(-0.319, -0.094)"
+xe_ratio,site_trafficLow,-0.112,"(-0.225, 0)"

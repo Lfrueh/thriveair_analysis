@@ -3,6 +3,7 @@ library(tidyverse)
 library(zoo)
 library(patchwork)
 library(sf)
+library(broom.mixed)
 library(RColorBrewer)
 
 ########################################################
@@ -42,111 +43,58 @@ category_levels <- codebook %>%
 
 
 # Table of BTEX Ratios ----------------------------------------------------
-## In main text: stationary site BTEX ratios for the whole year
-## Plot of land use & traffic vs. BTEX ratios
-## In supplement: table of all ratio means and every BTEX species by site
-## Maps & seasonal maps of both ratios
-## In supplement: combo map / time series for both ratios
 
-# Do a simple time series calculation:
-# library(lme4)
-# lmer(value ~ traffic_group + week + (1 | week), data = df)
-# To see if the values are meaningfully different after accounting for week effects
-
-
+## Ratios for all sites
 ratio_means_site <- vocs %>%
   group_by(site_type, site) %>%
   summarize(
     across(
-      ends_with("_ratio"),
+      c(ends_with("_ratio"), "benzene", "toluene", "etbenz", "mpxylene", "oxylene"),
       ~ sprintf("%.2f (%.2f)", mean(.x, na.rm = TRUE), sd(.x, na.rm = TRUE))
     ),
     .groups = "drop"
   )
 
-ratio_means_landuse_st <- vocs %>%
-  group_by(land_use_short, site) %>%
-  summarize(
-    n_sites = n_distinct(site),
-    across(
-      c(ends_with("_ratio"),"benzene", "toluene", "etbenz", "mpxylene"),
-      ~ sprintf("%.2f (%.2f)", mean(.x, na.rm = TRUE), sd(.x, na.rm = TRUE))
-    ),
-    .groups = "drop"
-  )
+# Save to supplemental
+write_csv(ratio_means_site, here("results", "supplemental", "tables", "ratios_by_site.csv"))
 
-
-t <- vocs %>%
-  group_by(season, site_traffic) %>%
+## Ratios by land-use type
+ratio_means_landuse <- vocs %>%
+  group_by(industrial_20, site_traffic) %>%
   summarize(
     across(
-      ends_with("_ratio"),
+      c(ends_with("_ratio"), "benzene", "toluene", "etbenz", "mpxylene", "oxylene"),
       ~ sprintf("%.2f (%.2f)", mean(.x, na.rm = TRUE), sd(.x, na.rm = TRUE))
     ),
     .groups = "drop"
   )
 
+write_csv(ratio_means_landuse, here("results", "tables", "btex_ratio_landuse.csv"))
 
 
-vocs %>% 
-  filter(site_type == "stationary") %>%
-  mutate(end_date = as.Date(end_date)) %>%
-  group_by(land_use_short, end_date) %>%
-  summarize(xe_ratio = mean(xe_ratio, na.rm = TRUE), .groups = "drop") %>%
-  ggplot() + 
-  geom_line(aes(x = as.Date(end_date), y = xe_ratio, color = land_use_short)) + 
-  labs(
-    x = "Date",
-    y = "X/E Ratio",
-    subtitle = "(m+p)-Xylenes:Ethylbenzene Ratio"
-  ) + 
-#  scale_color_manual(values = colors) +
-  paper_theme 
 
-vocs %>% 
-  filter(site_type == "stationary") %>%
-  mutate(end_date = as.Date(end_date)) %>%
-  group_by(land_use_short, end_date) %>%
-  summarize(tb_ratio = mean(tb_ratio, na.rm = TRUE), .groups = "drop") %>%
-  ggplot() + 
-  geom_line(aes(x = as.Date(end_date), y = tb_ratio, color = land_use_short)) + 
-  labs(
-    x = "Date",
-    y = "T/B Ratio",
-    subtitle = "Toluene:Benzene Ratio"
-  ) + 
-  #  scale_color_manual(values = colors) +
-  paper_theme 
+# Ratios by Land Use Type -------------------------------------------------
 
-vocs %>% 
-  filter(site_type == "stationary") %>%
-  mutate(end_date = as.Date(end_date)) %>%
-  group_by(site_traffic, end_date) %>%
-  summarize(xe_ratio = mean(xe_ratio, na.rm = TRUE), .groups = "drop") %>%
-  ggplot() + 
-  geom_line(aes(x = as.Date(end_date), y = xe_ratio, color = site_traffic)) + 
-  labs(
-    x = "Date",
-    y = "X/E Ratio",
-    subtitle = "(m+p)-Xylenes:Ethylbenzene Ratio"
-  ) + 
-  #  scale_color_manual(values = colors) +
-  paper_theme 
+# Models
+m  <- lmer(tb_ratio ~ industrial_20 + site_traffic + (1|week), data = vocs)
+m2 <- lmer(xe_ratio ~ industrial_20 + site_traffic + (1|week), data = vocs)
 
-vocs %>% 
-  filter(site_type == "stationary") %>%
-  mutate(end_date = as.Date(end_date)) %>%
-  group_by(site_traffic, end_date) %>%
-  summarize(tb_ratio = mean(tb_ratio, na.rm = TRUE), .groups = "drop") %>%
-  ggplot() + 
-  geom_line(aes(x = as.Date(end_date), y = tb_ratio, color = site_traffic)) + 
-  labs(
-    x = "Date",
-    y = "T/B Ratio",
-    subtitle = "Toluene:Benzene Ratio"
-  ) + 
-  #  scale_color_manual(values = colors) +
-  paper_theme 
+# Combine tidy outputs
+ratio_lmer <- bind_rows(
+  tidy(m, effects = "fixed", conf.int = TRUE, conf.level = 0.95) %>%
+    mutate(model = "tb_ratio"),
+  tidy(m2, effects = "fixed", conf.int = TRUE, conf.level = 0.95) %>%
+    mutate(model = "xe_ratio")
+) %>%
+  select(model, term, estimate, conf.low, conf.high) %>%
+  mutate(
+    CI = paste0("(", round(conf.low, 3), ", ", round(conf.high, 3), ")"),
+    estimate = round(estimate, 3)
+  ) %>%
+  select(model, term, estimate, CI) %>%
+  filter(term != "(Intercept)")
+
+write_csv(ratio_lmer, here("results", "interim_results", "tables", "btex_ratio_lmer.csv"))
 
 
 # Maps --------------------------------------------------------------------
