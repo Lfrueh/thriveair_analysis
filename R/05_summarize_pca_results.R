@@ -12,7 +12,10 @@ library(scales)
 
 source("R/00_plot_theme.R")  
 
-# Codebook ----
+
+# Codebook ----------------------------------------------------------------
+
+
 codebook <- read_excel('data/codebook.xlsx')
 voc_vars <- codebook %>% 
   #Ignore total BTEX and total Xylenes in favor of individual ones.
@@ -24,7 +27,9 @@ category_levels <- codebook %>%
   pull(category_2)
 
 
-# Functions -----
+
+# Functions ---------------------------------------------------------------
+
 ## Plot Loadings ----
 plot_loadings <- function(result_object, object_name, weighted = NULL, cluster = NULL){
   
@@ -72,106 +77,26 @@ plot_loadings <- function(result_object, object_name, weighted = NULL, cluster =
     paper_theme + 
     theme(
       axis.text.x = element_text(angle = 30),
-      legend.key.height = unit(2, "pt"),
-      legend.key.width = unit(5, "pt")
+      legend.key.height = unit(0.3, "in"),
+      legend.key.width = unit(0.3, "in")
     )
   
-  ggsave(
-    filename = here("results", "figures", paste0(object_name,".png")),
-    plot = plot,
-    dpi = 320,
-    units = "in",
-    width = 4,
-    height = 4
-  )
-  
-}
-
-
-
-score_timeseries <- function(result_object, object_name, weighted = NULL, cluster = NULL){
-  
-  detect_text <- if(str_detect(object_name, "lowdetect")) "Includes low-detect compounds" else NULL
-  weight_text <- if(str_detect(object_name, "_w")) "Weighted" else NULL
-  cluster_text <- if (str_detect(object_name, "wk_")){
-    if (str_detect(object_name, "_glmer")){
-      "Clustered (Gamma GLMM, log)"
-    } else {
-      "Clustered (LMM)"
-    }
-  } else NULL
-  
-  detail_text <- paste(compact(list(weight_text, cluster_text, detect_text)), collapse = ", ")
-  
-  df <- result_object$scores
-  
-  comp_names <- df %>%
-    select(starts_with("Dim.")) %>%
-    names()
-
-  # Will save one plot for each component
-  for (comp in comp_names){
-    comp_number <- str_sub(comp, -1, -1)  
-    
-    site_avg <- df %>%
-      group_by(site) %>%
-      summarize(avg_val = mean(.data[[comp]], na.rm = TRUE))  %>%
-      arrange(avg_val)
-    
-    df <- df %>% 
-      mutate(site = factor(site, levels = site_avg$site)) 
-    
-    dfs <- df %>% filter(site_type == "stationary")
-    
-    dfr1 <- df %>% filter(site_type == "rotating", between(start_date, as.Date("2023-12-06"), as.Date("2024-02-14")))
-      
-    dfr2 <- df %>% filter(site_type == "rotating", between(start_date, as.Date("2023-08-09"), as.Date("2023-10-25")))
-      
-    # Assign colors to sites based on avg_val using custom gradient
-    # Interpolate colors from low -> mid -> high
-    custom_palette <- colorRampPalette(c("#086788", "darkgrey", "#DD1C1A"))
-    colors <- custom_palette(nrow(site_avg))
-    
-    names(colors) <- site_avg$site
-      
-    comp_ts <- ggplot() + 
-      geom_line(data = dfs, aes(x = start_date, y = .data[[comp]], color = site, group = site),
-                linewidth = 0.1) +
-      geom_line(data = dfr1, aes(x = start_date, y = .data[[comp]], color = site, group = site, 
-                                 show.legend = FALSE),
-                linewidth = 0.3, linetype = 2) +
-      geom_line(data = dfr2, aes(x = start_date, y = .data[[comp]], color = site, group = site,
-                                 show.legend = FALSE),
-                linewidth = 0.3, linetype = 2) +
-      labs(
-        title = paste0("Component ", comp_number, " Score Over Time"),
-        subtitle = detail_text,
-        x = "Sample Start Date",
-        y = paste0("Comp. ",comp_number," Score"),
-        color = paste0("Average Comp. ",comp_number," Score")
-      ) +
-      scale_color_manual(values = colors) +
-      paper_theme + 
-      theme(
-        plot.background = element_rect("white"),
-        legend.title = element_text(size = 20, lineheight = 0.5),
-        legend.key.height = unit(2, "pt")
-        
-      ) 
-    
-    
-    ggsave(
-      plot = comp_ts,
-      filename = here(filename = here("results", "figures", paste0(object_name,"_comp_",comp_number,"_score_timeseries.png"))),
-      height = 4, width = 4, units = "in",
-      dpi = 320
-      
-    )
-    
+  # Save sensitivity analyses to supplemental
+  if (str_detect(object_name, "sens")){
+    outpath <- here("results","supplemental","figures")
+  } else {
+    outpath <- here("results", "figures")
   }
   
   
-  
+  ggsave(
+    filename = here(outpath, paste0(object_name,".png")),
+    plot = plot,
+    dpi = 320,
+    units = "in",
+    width = 8,
+    height = 8
+  )
   
 }
 
@@ -224,37 +149,33 @@ map_avg_scores <- function(result_object, object_name, weighted = NULL, cluster 
   
 
   comp_plot <- ggmap(basemap) +
-    geom_sf(data = df, inherit.aes = FALSE, color="black",
-            size = 4.5, aes(shape = site_type)) + 
     # In-range data
     geom_sf(data = df, 
-            inherit.aes = FALSE, aes(color = .data[[comp]],
-                                                         
+            inherit.aes = FALSE, aes(fill = .data[[comp]],
                                      shape = site_type),
-            size = 4) + 
+            size = 8, color = "black", stroke = 0.4) + 
     coord_sf(expand = FALSE) + 
-    scale_color_gradient2(low = "#086788", mid = "darkgrey",high = "#DD1C1A",
+    scale_fill_gradient2(low = "#086788", mid = "darkgrey",high = "#DD1C1A",
                           midpoint = q_med) + 
-                         # limits = c(q_low, q_high),
-                        #  oob = scales::squish) + 
     scale_x_continuous(limits = c(xmin, xmax), expand = c(0, 0)) +
     scale_y_continuous(limits = c(ymin, ymax), expand = c(0, 0)) + 
     scale_shape_manual(
-      values = c("stationary" = 16, "rotating" = 18),
-      labels = c("stationary" = "Stationary", "rotating" = "Rotating")
-    ) + 
+      values = c("stationary" = 21, "rotating" = 22),
+      labels = c("stationary" = "Weekly", "rotating" = "Community"),
+      name = "Site Type"
+    ) +
     labs(
       title = paste0("Average Component ", comp_number, " Score"),
       subtitle = detail_text,
       x = NULL,
       y = NULL,
-      color = paste0("Comp. ",comp_number," Score"),
+      fill = paste0("Comp. ",comp_number," Score"),
       shape = "Site Type"
     ) +
     annotation_north_arrow(
       location = "tl", which_north = "grid",
-      height = unit(0.3, "in"), width = unit(0.3, "in"),
-      style = north_arrow_orienteering(text_size = 20)
+      height = unit(0.6, "in"), width = unit(0.6, "in"),
+      style = north_arrow_orienteering(text_size = 30)
     ) +
     annotation_scale(
       data = df,
@@ -262,21 +183,28 @@ map_avg_scores <- function(result_object, object_name, weighted = NULL, cluster 
       location = "br",
       width_hint = 0.5,
       text_cex = 2,
-      height = unit(0.1, "cm")
+      height = unit(0.2, "cm")
     ) +
     paper_theme + 
     theme(
       plot.background = element_rect("white"),
    #   axis.text.x = element_blank(),
    #   axis.text.y = element_blank(),
-      legend.title = element_text(size = 20, lineheight = 0.5)
+      legend.title = element_text(size = 30, lineheight = 0.5)
     ) 
+  
+  # Save sensitivity analyses to supplemental
+  if (str_detect(object_name, "sens")){
+    outpath <- here("results","supplemental","figures")
+  } else {
+    outpath <- here("results", "figures")
+  }
   
   
   ggsave(
     plot = comp_plot,
-    filename = here(filename = here("results", "figures", paste0(object_name,"_comp_",comp_number,"_score_map.png"))),
-    height = 4, width = 4, units = "in",
+    filename = here(filename = here(outpath, paste0(object_name,"_comp_",comp_number,"_score_map.png"))),
+    height = 8, width = 8, units = "in",
     dpi = 320
     
   )
@@ -286,31 +214,146 @@ map_avg_scores <- function(result_object, object_name, weighted = NULL, cluster 
   
 }
 
-# Get results ----
-resultpath <- here("results", "pca_results")
+
+# Get Results -------------------------------------------------------------
+
+resultpath <- here("results", "interim_results", "pca_results")
 results <- list.files(resultpath, full.names = TRUE)
 
 results_list <- lapply(results,  readRDS)
 names(results_list) <- tools::file_path_sans_ext(list.files(resultpath))
 
-# Plot loadings ----
+
+# Tabulate Results --------------------------------------------------------
+## Tabulating main analysis results only
+main_results <- results_list[["mainanalysis_wk_pca_w_glmer"]]$scores
+
+## Scores for all sites
+pca_scores_site <- main_results %>%
+  group_by(site_type, site) %>%
+  summarize(
+    across(
+      starts_with("Dim"),
+      ~ sprintf("%.2f (%.2f)", mean(.x, na.rm = TRUE), sd(.x, na.rm = TRUE))
+    ),
+    .groups = "drop"
+  )
+
+# Save to supplemental
+write_csv(pca_scores_site, here("results", "supplemental", "tables", "pca_scores_by_site.csv"))
+
+## Scores by land-use type
+pca_scores_landuse <- main_results %>%
+  group_by(industrial_20, site_traffic) %>%
+  summarize(
+    across(
+      starts_with("Dim"),
+      ~ sprintf("%.2f (%.2f)", mean(.x, na.rm = TRUE), sd(.x, na.rm = TRUE))
+    ),
+    .groups = "drop"
+  )
+
+write_csv(pca_scores_landuse, here("results", "tables", "pca_scores_by_landuse.csv"))
+
+
+
+
+
+# Plot Loadings -----------------------------------------------------------
 for (r in names(results_list)) {
   plot_loadings(result_object = results_list[[r]], object_name = r)
 }
 
-# Map average scores ----
+
+# Map Average Scores ------------------------------------------------------
 for (r in names(results_list)) {
   map_avg_scores(result_object = results_list[[r]], object_name = r)
 }
 
-# TO FIX BEFORE PUBLICATION:
-# time series probably not even worth it to look at time series since we only sampled for a week or two here and there.
-# Time series of scores ----
-# Perhaps better would just be like time series of stationary sites only
-# AND then bar plot of summer vs. winter including all sites?
-# or by land use categories....
-for (r in names(results_list[1])) {
-  score_timeseries(result_object = results_list[[r]], object_name = r)
-}
 
+
+# Time Series Plots -------------------------------------------------------
+
+colors <- c(
+  "#E41A1C",  # red
+  "#2C3E73",  # dark blue
+  "#4DAF4A",  # green
+  "#984EA3",  # purple
+  "#FF7F00",  # orange
+  "#00A0B0",  # dark cyan
+  "#A65628",  # brown
+  "#F781BF",  # pink
+  "#999999"   # gray
+)
+
+
+
+pca_ts <- main_results %>% 
+  pivot_longer(cols = Dim.1:Dim.4, names_to = "comp", values_to = "score") %>%
+  mutate(comp = str_replace(comp, "Dim.", "Component ")) %>%
+  group_by(site) %>%
+  filter(site_type == "stationary") %>%
+  ggplot() + 
+  geom_line(aes(x = as.Date(end_date), y = score, color = site)) + 
+  labs(
+    x = "Date",
+    y = "Score"
+  ) + 
+  facet_wrap(~comp, scales = "free_y") + 
+  scale_color_manual(values = colors) +
+  paper_theme + 
+  theme(legend.position = "none")
+
+
+
+vocs_sf <- read_csv(here("data", "clean", "dat_mgm3.csv")) %>%
+  filter(site_type == "stationary") %>%
+  select(site, long, lat) %>%
+  distinct() %>%
+  st_as_sf(coords = c("long", "lat"), crs = 4326)
+
+site_map <- ggmap(basemap) +
+  geom_sf(
+    data = vocs_sf,
+    inherit.aes = FALSE,
+    aes(fill = site),
+    shape = 21,
+    size = 5,
+    stroke = 0.5,
+    color = "black"
+  ) +
+  coord_zoom(1.15) + 
+  scale_fill_manual(values = colors) + 
+  labs(
+    x = NULL,
+    y = NULL,
+    fill = "Site"
+  ) + 
+  paper_theme + 
+  annotation_north_arrow(
+    location = "br",  # bottom-right
+    height = unit(1, "cm"),
+    width = unit(1, "cm"),
+    which_north = "true",
+    style = north_arrow_orienteering(text_size = 16,
+                                     line_width = 0.5,
+                                     text_face = "bold")
+  ) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )
+
+
+
+pca_ts_map <- pca_ts + site_map + guide_area() + 
+  plot_layout(
+    design = "aa \n bc",
+    guides = "collect",
+    widths = c(1.3, 1)
+  )
+
+ggsave(here("results","figures","pca_main_timeseries_stationary.png"),
+       pca_ts_map,
+       width = unit(8, "in"),
+       height = unit(8, "in"))
 

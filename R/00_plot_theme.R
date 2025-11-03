@@ -1,7 +1,6 @@
 library(showtext)
 library(sysfonts)
 library(tidyverse)
-#library(camcorder) # just to preview plots
 library(ggspatial)
 library(ggrepel)
 library(ggmap)
@@ -30,6 +29,7 @@ options(
 
 # Define consistent theme for plots and maps -----------------
 ## GGPlot themes -----
+# Note that this is optimized for an 8inch by 8inch ggsave.
 paper_theme <- theme_bw(base_family = "opensans") + # Base theme
   theme(
     # Plot & strip background
@@ -43,45 +43,21 @@ paper_theme <- theme_bw(base_family = "opensans") + # Base theme
     # Text options
     text = element_text(family = "Open Sans"),
     ## Axis title
-    axis.title.x = element_text(family = "Open Sans", size = 20),
-    axis.title.y = element_text(family = "Open Sans", size = 20),
-    axis.text = element_text(family = "Open Sans", size = 16),
+    axis.title.x = element_text(family = "Open Sans", size = 40),
+    axis.title.y = element_text(family = "Open Sans", size = 40),
+    axis.text = element_text(family = "Open Sans", size = 32),
     ## Plot titles
-    plot.title = element_text(family = "Open Sans", size = 28),
-    plot.subtitle = element_text(family = "Open Sans", size = 20),
-    strip.text = element_text(family = "Open Sans", size = 20,
+    plot.title = element_text(family = "Open Sans", size = 56),
+    plot.subtitle = element_text(family = "Open Sans", size = 40),
+    strip.text = element_text(family = "Open Sans", size = 40,
                               margin = margin(t = 2, b = 2)),
     ## Legend options
-    legend.title = element_text(family = "Open Sans", size = 20),
-    legend.text = element_text(family = "Open Sans", size = 16,
+    legend.title = element_text(family = "Open Sans", size = 40),
+    legend.text = element_text(family = "Open Sans", size = 32,
                                margin = margin(l = 1))
   )
 
 
-
-# ## Test paper theme
- # p <- cars %>%
- #   mutate(category = case_when(speed < 10 ~ "A", TRUE ~ "B")) %>%
- #   ggplot() +
- #   geom_point(aes(x = dist, y = speed, color = dist)) +
- #   labs(
- #     title = "title",
- #     subtitle = "subtitle",
- #     color = "legend title"
- #   ) +
- #   facet_wrap(~category) +
- #   paper_theme
- # 
- # gg_record(
- #   device = "png",
- #   width = 4,
- #   height = 4,
- #   unit = "in"
- # )
- # 
- # p
- # 
- 
 
 # Basemap and Map Theme ---------------------------------------------------
  vocs_raw <- read_csv(here("data", "clean", "dat_mgm3.csv"), col_select = -1) %>%

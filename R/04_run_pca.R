@@ -43,7 +43,7 @@ runpca <- function(weighted = FALSE, weekcluster = FALSE, model_type = "lmer", h
       filter(!(variable_name %in% c("xylenes", "btex"))) %>% pull(variable_name)
     
   } else {
-    low_detects <- read_csv("results/tables/flag_summary.csv") %>%
+    low_detects <- read_csv("results/interim_results/tables/flag_summary.csv") %>%
       filter((flag_type == "reg" & percentage <=40) | (flag_type == "nd" & percentage >=30) ) %>%
       pull(variable_name)
     
@@ -53,7 +53,7 @@ runpca <- function(weighted = FALSE, weekcluster = FALSE, model_type = "lmer", h
     data <- vocs %>% select(-all_of(low_detects))
   }
   
-  unreliable_vars <- read_csv("results/tables/reliability_results.csv") %>%
+  unreliable_vars <- read_csv("results/supplemental/tables/reliability_results.csv") %>%
     filter(ICC <= reliability_threshold | is.na(ICC)) %>%
     pull(variable)
 

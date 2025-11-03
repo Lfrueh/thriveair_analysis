@@ -132,8 +132,8 @@ map_ratio <- function(data, ratio, season_val = NULL, rotating = NULL){
         inherit.aes = FALSE,
         aes(fill = ratio_val),
         shape = 21,
-        size = 1.5,
-        stroke = 0.1,
+        size = 3,
+        stroke = 0.2,
         color = "black"
       ) +
       coord_sf(expand = FALSE) +
@@ -146,8 +146,8 @@ map_ratio <- function(data, ratio, season_val = NULL, rotating = NULL){
         data = df_avg,
         inherit.aes = FALSE,
         aes(fill = ratio_val, shape = site_type),
-        size = 1.5,
-        stroke = 0.1,
+        size = 3,
+        stroke = 0.4,
         color = "black"
       ) +
       scale_shape_manual(
@@ -172,12 +172,12 @@ map_ratio <- function(data, ratio, season_val = NULL, rotating = NULL){
     theme(
       legend.position = "right",
       axis.title = element_blank(),
-      legend.spacing.x = unit(1, "pt")  # reduce gap between boxes
+      legend.spacing.x = unit(2, "pt")  # reduce gap between boxes
       
     ) + 
     guides(
       fill = guide_colorbar(direction = "horizontal",
-                            barheight = unit(0.4, "cm"),
+                            barheight = unit(0.8, "cm"),
                             label.vjust = -1.2),
       shape = guide_legend(
         override.aes = list(size = 2),
@@ -198,14 +198,14 @@ combine_ratio_maps <- function(ratio_val){
   p_all <- map_ratio(vocs, ratio_val) +
     labs(subtitle = "Year-round") +
     theme(
-      axis.text.x = element_text(angle = 45, hjust = 1, size = 10),
-      axis.text.y = element_text(size = 10),  # keep y labels on the left plot
+      axis.text.x = element_text(angle = 45, hjust = 1, size = 20),
+      axis.text.y = element_text(size = 20),  # keep y labels on the left plot
     ) 
   
   p_summer <- map_ratio(vocs, ratio_val, "Summer", rotating = 1) +
     labs(subtitle = "Summer") +
     theme(
-      axis.text.x = element_text(angle = 45, hjust = 1, size = 10),
+      axis.text.x = element_text(angle = 45, hjust = 1, size = 20),
       axis.text.y = element_blank(), # remove y labels
       axis.ticks.y = element_blank()
     )
@@ -222,8 +222,8 @@ combine_ratio_maps <- function(ratio_val){
       height = unit(0.5, "cm"),
       width = unit(0.5, "cm"),
       which_north = "true",
-      style = north_arrow_orienteering(text_size = 10,
-                                       line_width = 0.5,
+      style = north_arrow_orienteering(text_size = 20,
+                                       line_width = 1,
                                        text_face = "bold")
     )
   
@@ -249,7 +249,7 @@ combine_ratio_maps <- function(ratio_val){
        title = ratio_text,
        theme = theme(
          plot.title = element_text(
-           size = 22, 
+           size = 44, 
            hjust = 0.5
          )
        )
@@ -260,8 +260,8 @@ combine_ratio_maps <- function(ratio_val){
      filename = here("results", "figures", paste0(ratio_val,"_map.png")),
      plot = print(final_plot),
      device = "png",
-     width = 4,
-     height = 4,
+     width = 8,
+     height = 8,
      unit = "in"
      
    )

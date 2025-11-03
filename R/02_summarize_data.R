@@ -138,7 +138,7 @@ sitemap <- ggmap(basemap) +
   # Monitor site points
   geom_sf(data = sites_sf, inherit.aes = FALSE,
           aes(shape = site_type, fill = site_traffic),
-          color = "black", stroke = 0.2, size = 2.5) + 
+          color = "black", stroke = 0.4, size = 5) + 
   scale_shape_manual(
     values = c("stationary" = 21, "rotating" = 22),
     labels = c("stationary" = "Weekly", "rotating" = "Community"),
@@ -161,11 +161,11 @@ sitemap <- ggmap(basemap) +
   # North arrow
   annotation_north_arrow(
     location = "br",  # bottom-right
-    height = unit(1, "cm"),
-    width = unit(1, "cm"),
+    height = unit(2, "cm"),
+    width = unit(2, "cm"),
     which_north = "true",
-    style = north_arrow_orienteering(text_size = 16,
-                                     line_width = 0.5,
+    style = north_arrow_orienteering(text_size = 32,
+                                     line_width = 1,
                                      text_face = "bold")
   ) +
   coord_zoom(1.15) + 
@@ -180,18 +180,18 @@ sitemap <- ggmap(basemap) +
     legend.position = "right",
     legend.box = "vertical",
     legend.direction = "vertical",
-    legend.box.spacing = unit(0.25, "cm"), 
-    legend.spacing = unit(0.25, "cm"),
+    legend.box.spacing = unit(0.5, "cm"), 
+    legend.spacing = unit(0.5, "cm"),
     legend.margin = margin(t = 0, r = 0, b = 0, l = 2),  
-    legend.key.size = unit(0.5, "cm")
+    legend.key.size = unit(1, "cm")
   )
 
 
 ggsave(
   filename = here("results", "figures", "sites_landuse_traffic.png"),
   plot = sitemap,
-  width = unit(4, "in"),
-  height = unit(4, "in")
+  width = unit(8, "in"),
+  height = unit(8, "in")
   
 )
 
@@ -301,8 +301,8 @@ voc_histogram <- function(df, codebook, output_dir = "results/interim_results/fi
     ggsave(
       filename = file.path(output_dir, paste0("voccat_", cat_name, "_histograms_summary.png")),
       plot = p,
-      width = 4,
-      height = 4
+      width = 8,
+      height = 8
     )
   }
 }
@@ -350,7 +350,7 @@ voc_boxplot <- function(df, codebook, output_dir = "results/supplemental/figures
       left_join(cat_info, by = "variable_name")
     
     ncol_facet <- ceiling(length(unique(df_long$voc_name)) / 2)
-    strip_size <- if (ncol_facet > 2) 10 else 14
+    strip_size <- if (ncol_facet > 2) 20 else 28
     
     # Plot
     p <- df_long %>%
@@ -361,7 +361,7 @@ voc_boxplot <- function(df, codebook, output_dir = "results/supplemental/figures
         ))
       ) %>%
       ggplot(aes(x = site, y = value, fill = site_type)) +
-      geom_boxplot(outlier.color = "black", outlier.size = 0.2, size = 0.2) +
+      geom_boxplot(outlier.color = "black", outlier.size = 0.4, size = 0.4) +
       theme_minimal() +
       labs(
         title = cat_name,
@@ -391,8 +391,8 @@ voc_boxplot <- function(df, codebook, output_dir = "results/supplemental/figures
     ggsave(
       filename = file.path(output_dir, paste0("voccat_bysite_", cat_name, "_boxplot_summary.png")),
       plot = p,
-      width = 4,
-      height = 4
+      width = 8,
+      height = 8
     )
   }
 }
@@ -564,7 +564,7 @@ correlate <- function(data, corr_vars, season_val = NULL, site_val = NULL, rotat
                   insig = "pch",
                   pch = 4,
                   pch.col = "gray",
-                  pch.cex = 0.5,
+                  pch.cex = 1,
                   lab = FALSE
   ) + 
     labs(
@@ -577,8 +577,8 @@ correlate <- function(data, corr_vars, season_val = NULL, site_val = NULL, rotat
     scale_y_discrete(labels = name_map_colored[rownames(cor)]) +
     paper_theme + 
     theme(
-      axis.text.x = element_markdown(angle = 45, hjust = 1, size = 10, lineheight = 0.9, margin = margin(t = 2)),
-      axis.text.y = element_markdown(size = 10, lineheight = 0.9, margin = margin(r = 2))
+      axis.text.x = element_markdown(angle = 45, hjust = 1, size = 20, lineheight = 0.9, margin = margin(t = 2)),
+      axis.text.y = element_markdown(size = 20, lineheight = 0.9, margin = margin(r = 2))
     ) + 
     guides(
       fill = guide_colorbar(
@@ -597,8 +597,8 @@ correlate <- function(data, corr_vars, season_val = NULL, site_val = NULL, rotat
   
   ggsave(filename,
          plot = p,
-         width = unit(4, "in"),
-         height = unit(4, "in"))
+         width = unit(8, "in"),
+         height = unit(8, "in"))
   
 }
 
@@ -658,8 +658,8 @@ voc_ts <- function(df, codebook, output_dir = "results/interim_results/figures")
     # Plot histograms for each VOC
     p <- df_long %>%
       ggplot(aes(x = as.Date(end_date), y = value)) +
-      geom_point(aes(color = site_type), size = 0.1, alpha = 0.5) +
-      geom_smooth(color = "black", linewidth = 0.2) +
+      geom_point(aes(color = site_type), size = 0.4, alpha = 0.5) +
+      geom_smooth(color = "black", linewidth = 0.4) +
       facet_wrap(~ voc_name, scales = "free_y") +
       theme_minimal() +
       labs(
@@ -681,11 +681,11 @@ voc_ts <- function(df, codebook, output_dir = "results/interim_results/figures")
       paper_theme +
       guides(
         color = guide_legend(
-          override.aes = list(size = 1, alpha = 1)
+          override.aes = list(size = 2, alpha = 1)
         )
       ) + 
       theme(
-        strip.text = element_text(size = 12),
+        strip.text = element_text(size = 24),
         legend.position = "bottom",
         axis.text.x = element_text(angle = 45, hjust = 1)
       )
@@ -693,8 +693,8 @@ voc_ts <- function(df, codebook, output_dir = "results/interim_results/figures")
     ggsave(
       filename = file.path(output_dir, paste0("voccat_", cat_name, "_ts_summary.png")),
       plot = p,
-      width = 4,
-      height = 4
+      width = 8,
+      height = 8
     )
   }
 }
