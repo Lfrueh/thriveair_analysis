@@ -11,7 +11,10 @@ library(here)
 # will be run, accounting for various clustering. 
 ########################################################
 
-#Codebook ----
+
+# Codebook ----------------------------------------------------------------
+
+
 codebook <- read_excel(here("data", "codebook.xlsx"))
 voc_vars <- codebook %>% 
   #Ignore total BTEX and total Xylenes in favor of individual ones.
@@ -24,12 +27,19 @@ category_levels <- codebook %>%
 
 
 
-#Functions ----
+
+# Functions ---------------------------------------------------------------
+
 ## Run PCA ----
 # Function to run PCA and extract scores and loadings, under various conditions
 # Returns a list object with PCA results, loadings, and scores.
 runpca <- function(weighted = FALSE, weekcluster = FALSE, model_type = "lmer", highdetect = FALSE,
-                   reliability_threshold = 0.4) {
+                   reliability_threshold = 0.4, stationary_only = FALSE) {
+  
+  # If stationary sites only, then filter 
+  if (stationary_only){
+    vocs <- vocs %>% filter(site_type == "stationary")
+  }
   
   # Ensure model_type is valid
   if (!model_type %in% c("lmer", "glmer")) {
@@ -39,12 +49,12 @@ runpca <- function(weighted = FALSE, weekcluster = FALSE, model_type = "lmer", h
   if (!highdetect){
     data <- vocs
     voc_vars <- codebook %>% 
-      #Ignore total BTEX and total Xylenes in favor of individual ones.
+      #Ignore total BTEX and total Xylenes in favor of individual chemicals.
       filter(!(variable_name %in% c("xylenes", "btex"))) %>% pull(variable_name)
     
   } else {
     low_detects <- read_csv("results/interim_results/tables/flag_summary.csv") %>%
-      filter((flag_type == "reg" & percentage <=40) | (flag_type == "nd" & percentage >=30) ) %>%
+      filter((flag_type == "reg" & percentage <=40) | (flag_type == "nd" & percentage >=30)) %>%
       pull(variable_name)
     
     #Define new VOC variables that don't include the low-detects
@@ -215,16 +225,22 @@ runpca <- function(weighted = FALSE, weekcluster = FALSE, model_type = "lmer", h
 }
 
 
-#Get data -----
+
+# Get Data ----------------------------------------------------------------
+
 vocs <- read_csv(here("data", "clean", "dat_ppb.csv"), col_select = -1) %>%
   # Only keep individual BTEX and xylenes species
   # Remove flag value
   dplyr::select(-btex, -xylenes, -ends_with('flag')) 
 
-#Analyses ----
+
+
+# Save Results Path -------------------------------------------------------
 
 saveto <- here("results", "interim_results","pca_results")
-## Main Analysis ----
+
+
+# Primary Analysis --------------------------------------------------------
 # This analysis employs a multilevel gamma model (because residuals are not normally distributed as required by lmer).
 # Clustering by week is accounted for in this multilevel model, and PCA is ran on the residual variance 
 # that remains unexplained after week effects.
@@ -238,7 +254,9 @@ write_rds(wk_pca_w_glmer, here(saveto, "mainanalysis_wk_pca_w_glmer.rds"))
 
 
 
-# Sensitivity Analyses -----
+
+# Sensitivity Analyses ----------------------------------------------------
+
 ## SA1: Including low-detect compounds --------
 #Weighted, GLMER
 wk_lowdetect_pca_w_glmer <- runpca(weekcluster = TRUE, weighted = TRUE, model_type = "glmer", highdetect = FALSE,
@@ -270,3 +288,8 @@ write_rds(pca_uw, here(saveto, "sens5a_pca_uw.rds"))
 pca_w <- runpca(weighted = TRUE, highdetect = TRUE)
 write_rds(pca_w, here(saveto, "sens5b_pca_w.rds"))
 
+## SA6: Stationary sites only --------------
+# Stationary sites were all sampled the same number of weeks, so week weighting is moot.
+wk_pca_uw_glmer_stationary <- runpca(weekcluster = TRUE, weighted = FALSE, model_type = "lmer",
+                                     highdetect = TRUE, stationary_only = TRUE)
+write_rds(wk_pca_uw_glmer_stationary, here(saveto, "sens6_wk_pca_uw_glmer_stationary.rds"))

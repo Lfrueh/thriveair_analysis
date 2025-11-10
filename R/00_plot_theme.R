@@ -64,7 +64,7 @@ paper_theme <- theme_bw(base_family = "opensans") + # Base theme
    filter(!is.na(site_id) & !is.na(site)) 
  
 # Generate Basemap --------------------------------------------------------
- coords <- readRDS("data/clean/coords.rds")
+ coords <- readRDS("data/raw/coords.rds")
  
  center <- c(mean(coords[, "X"]), mean(coords[, "Y"]))
  

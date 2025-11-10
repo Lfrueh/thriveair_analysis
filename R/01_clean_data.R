@@ -67,7 +67,7 @@ landuse_assignments <- left_join(polys, sitenames, by = "site_id") %>%
   select(-ind, -landuse, -area_pt, -tot_area) %>%
   ungroup()
 
-write_csv(landuse_assignments, "data/clean/landuse_assignments.csv")
+write_csv(landuse_assignments, "data/raw/landuse_assignments.csv")
 
 ## Traffic Assignments ----------------------------------------------------
 # Traffic was assigned using weighted road density using the method
@@ -204,7 +204,7 @@ coords <- cleandata_sample %>% filter(!is.na(lat)) %>%
   st_as_sf(., coords = c("long", "lat"), crs = 4326) %>%
   st_coordinates()
 
-write_rds(coords, "data/clean/coords.rds")
+write_rds(coords, "data/raw/coords.rds")
 
 
 

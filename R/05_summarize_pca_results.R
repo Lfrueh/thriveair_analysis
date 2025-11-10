@@ -35,15 +35,16 @@ plot_loadings <- function(result_object, object_name, weighted = NULL, cluster =
   
   detect_text <- if(str_detect(object_name, "lowdetect")) "Includes low-detect compounds" else NULL
   weight_text <- if(str_detect(object_name, "_w")) "Weighted" else NULL
+  sitetype_text <- if(str_detect(object_name, "stationary")) "Weekly Sites Only" else NULL
   cluster_text <- if (str_detect(object_name, "wk_")){
     if (str_detect(object_name, "_glmer")){
-      "Clustered (Gamma GLMM, log)"
+      "Adjusted for within-week clustering (Gamma)"
     } else {
-      "Clustered (LMM)"
+      "Adjusted for within-week clustering (Gaussian)"
     }
   } else NULL
   
-  detail_text <- paste(compact(list(weight_text, cluster_text, detect_text)), collapse = ", ")
+  detail_text <- paste(compact(list(weight_text, cluster_text, detect_text, sitetype_text)), collapse = ", ")
   
   df <- result_object$loadings
   pctvar <- result_object$pctvar
@@ -104,15 +105,16 @@ map_avg_scores <- function(result_object, object_name, weighted = NULL, cluster 
   
   detect_text <- if(str_detect(object_name, "lowdetect")) "Includes low-detect compounds" else NULL
   weight_text <- if(str_detect(object_name, "_w")) "Weighted" else NULL
+  sitetype_text <- if(str_detect(object_name, "stationary")) "Weekly Sites Only" else NULL
   cluster_text <- if (str_detect(object_name, "wk_")){
     if (str_detect(object_name, "_glmer")){
-      "Clustered (Gamma GLMM, log)"
+      "Adjusted for within-week clustering (Gamma)"
     } else {
-      "Clustered (LMM)"
+      "Adjusted for within-week clustering (Gaussian)"
     }
   } else NULL
   
-  detail_text <- paste(compact(list(weight_text, cluster_text, detect_text)), collapse = ", ")
+  detail_text <- paste(compact(list(weight_text, cluster_text, detect_text, sitetype_text)), collapse = ", ")
   
   df <- result_object$scores %>%
     group_by(site_id) %>%
@@ -126,7 +128,6 @@ map_avg_scores <- function(result_object, object_name, weighted = NULL, cluster 
     select(starts_with("Dim.")) %>%
     names()
   
-  print(comp_names)
   
   # Will save one map for each component
   for (comp in comp_names){
@@ -155,10 +156,10 @@ map_avg_scores <- function(result_object, object_name, weighted = NULL, cluster 
                                      shape = site_type),
             size = 8, color = "black", stroke = 0.4) + 
     coord_sf(expand = FALSE) + 
-    scale_fill_gradient2(low = "#086788", mid = "darkgrey",high = "#DD1C1A",
-                          midpoint = q_med) + 
-    scale_x_continuous(limits = c(xmin, xmax), expand = c(0, 0)) +
-    scale_y_continuous(limits = c(ymin, ymax), expand = c(0, 0)) + 
+    coord_zoom(1.15) + 
+    # scale_fill_gradient2(low = "#086788", mid = "darkgrey",high = "#DD1C1A",
+    #                       midpoint = q_med) + 
+     scale_fill_gradient2(low = "#086788", mid = "darkgrey",high = "#DD1C1A") + 
     scale_shape_manual(
       values = c("stationary" = 21, "rotating" = 22),
       labels = c("stationary" = "Weekly", "rotating" = "Community"),
@@ -225,7 +226,7 @@ names(results_list) <- tools::file_path_sans_ext(list.files(resultpath))
 
 
 # Tabulate Results --------------------------------------------------------
-## Tabulating main analysis results only
+## Tabulating main analysis results only ------
 main_results <- results_list[["mainanalysis_wk_pca_w_glmer"]]$scores
 
 ## Scores for all sites
@@ -242,7 +243,7 @@ pca_scores_site <- main_results %>%
 # Save to supplemental
 write_csv(pca_scores_site, here("results", "supplemental", "tables", "pca_scores_by_site.csv"))
 
-## Scores by land-use type
+## Scores by land-use type -------
 pca_scores_landuse <- main_results %>%
   group_by(industrial_20, site_traffic) %>%
   summarize(
@@ -257,7 +258,48 @@ write_csv(pca_scores_landuse, here("results", "tables", "pca_scores_by_landuse.c
 
 
 
+# Box Plot of Scores ------------------------------------------------------
 
+pca_score_boxplot <- main_results %>%
+  mutate(
+    site = factor(site, levels = c(
+      main_results %>% filter(site_type == "stationary") %>% pull(site) %>% unique(),
+      main_results %>% filter(site_type == "rotating") %>% pull(site) %>% unique()
+    ))
+  ) %>%
+  pivot_longer(Dim.1:Dim.4, names_to = "comp", values_to = "score") %>%
+  mutate(comp = str_replace(comp, "Dim.", "Component ")) %>%
+  ggplot(aes(x = site, y = score, fill = site_type)) +
+  geom_boxplot(outlier.color = "black", outlier.size = 0.4, size = 0.4) +
+  theme_minimal() +
+  labs(
+    title = "Scores by Site",
+    x = "Site",
+    y = "Score",
+    fill = "Site Type"
+  ) +
+  scale_fill_manual(
+    values = c(
+      "rotating" = "#1f77b4",
+      "stationary" = "#ff7f0e"
+    ),
+    labels = c(
+      "rotating" = "Community Sites",
+      "stationary" = "Weekly Sites"
+    )
+  ) +
+  paper_theme +
+  coord_flip() + 
+  facet_wrap(~ comp, scales = "free_x", nrow = 2) +
+  theme(legend.position = "bottom")
+
+ggsave(
+  here("results", "supplemental", "figures", "pca_score_boxplot.png"),
+  plot = pca_score_boxplot,
+  width = unit(8, "in"),
+  height = unit(8, "in"),
+  dpi = 320
+)
 
 # Plot Loadings -----------------------------------------------------------
 for (r in names(results_list)) {

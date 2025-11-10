@@ -356,8 +356,8 @@ voc_boxplot <- function(df, codebook, output_dir = "results/supplemental/figures
     p <- df_long %>%
       mutate(
         site = factor(site, levels = c(
-          df %>% filter(site_type == "stationary") %>% dplyr::pull(site) %>% unique(),
-          df %>% filter(site_type == "rotating") %>% dplyr::pull(site) %>% unique()
+          df %>% filter(site_type == "stationary") %>% pull(site) %>% unique(),
+          df %>% filter(site_type == "rotating") %>% pull(site) %>% unique()
         ))
       ) %>%
       ggplot(aes(x = site, y = value, fill = site_type)) +
@@ -398,6 +398,75 @@ voc_boxplot <- function(df, codebook, output_dir = "results/supplemental/figures
 }
 
 voc_boxplot(vocs, codebook)
+
+
+# Time Series Plots -------------------------------------------------------
+## Function to make time series plots
+voc_ts <- function(df, codebook, output_dir = "results/supplemental/figures") {
+  
+  # Loop over each category
+  for (cat_name in names(category_groups)) {
+    
+    cat_info <- category_groups[[cat_name]]
+    voc_vars <- cat_info$variable_name
+    
+    # Pivot df longer for VOCs in this category
+    df_long <- df %>%
+      tidyr::pivot_longer(
+        cols = dplyr::all_of(voc_vars),
+        names_to = "variable_name",
+        values_to = "value"
+      ) %>%
+      dplyr::left_join(cat_info, by = "variable_name")
+    
+    # Plot histograms for each VOC
+    p <- df_long %>%
+      ggplot(aes(x = as.Date(end_date), y = value)) +
+      geom_point(aes(color = site_type), size = 0.4, alpha = 0.5) +
+      geom_smooth(color = "black", linewidth = 0.4) +
+      facet_wrap(~ voc_name, scales = "free_y") +
+      theme_minimal() +
+      labs(
+        title = cat_name,
+        y = expression("Concentration ("~mu*"g/"*m^3*")"),
+        x = "Date",
+        color = "Site Type"
+      ) +
+      scale_color_manual(
+        values = c(
+          "rotating" = "#1f77b4",
+          "stationary" = "#ff7f0e"
+        ),
+        labels = c(
+          "rotating" = "Community Sites",
+          "stationary" = "Weekly Sites"
+        )
+      ) +
+      paper_theme +
+      guides(
+        color = guide_legend(
+          override.aes = list(size = 2, alpha = 1)
+        )
+      ) + 
+      theme(
+        strip.text = element_text(size = 24),
+        legend.position = "bottom",
+        axis.text.x = element_text(angle = 45, hjust = 1)
+      )
+    # Save plot
+    ggsave(
+      filename = file.path(output_dir, paste0("voccat_", cat_name, "_ts_summary.png")),
+      plot = p,
+      width = 8,
+      height = 8
+    )
+  }
+}
+
+voc_ts(vocs, codebook)
+
+
+
 
 
 
@@ -633,75 +702,6 @@ correlate(vocs, ind_vocs, "Winter")
 correlate(vocs, ind_vocs, rotating = "incl_rotating")
 correlate(vocs, ind_vocs, "Summer", rotating = "incl_rotating")
 correlate(vocs, ind_vocs, "Winter", rotating = "incl_rotating")
-
-
-
-# Time Series Plots -------------------------------------------------------
-## Function to make time series plots
-voc_ts <- function(df, codebook, output_dir = "results/interim_results/figures") {
-  
-  # Loop over each category
-  for (cat_name in names(category_groups)) {
-    
-    cat_info <- category_groups[[cat_name]]
-    voc_vars <- cat_info$variable_name
-    
-    # Pivot df longer for VOCs in this category
-    df_long <- df %>%
-      tidyr::pivot_longer(
-        cols = dplyr::all_of(voc_vars),
-        names_to = "variable_name",
-        values_to = "value"
-      ) %>%
-      dplyr::left_join(cat_info, by = "variable_name")
-    
-    # Plot histograms for each VOC
-    p <- df_long %>%
-      ggplot(aes(x = as.Date(end_date), y = value)) +
-      geom_point(aes(color = site_type), size = 0.4, alpha = 0.5) +
-      geom_smooth(color = "black", linewidth = 0.4) +
-      facet_wrap(~ voc_name, scales = "free_y") +
-      theme_minimal() +
-      labs(
-        title = cat_name,
-        y = expression("Concentration ("~mu*"g/"*m^3*")"),
-        x = "Date",
-        color = "Site Type"
-      ) +
-      scale_color_manual(
-        values = c(
-          "rotating" = "#1f77b4",
-          "stationary" = "#ff7f0e"
-        ),
-        labels = c(
-          "rotating" = "Community Sites",
-          "stationary" = "Weekly Sites"
-        )
-      ) +
-      paper_theme +
-      guides(
-        color = guide_legend(
-          override.aes = list(size = 2, alpha = 1)
-        )
-      ) + 
-      theme(
-        strip.text = element_text(size = 24),
-        legend.position = "bottom",
-        axis.text.x = element_text(angle = 45, hjust = 1)
-      )
-    # Save plot
-    ggsave(
-      filename = file.path(output_dir, paste0("voccat_", cat_name, "_ts_summary.png")),
-      plot = p,
-      width = 8,
-      height = 8
-    )
-  }
-}
-
-voc_ts(vocs, codebook)
-
-
 
 
 
