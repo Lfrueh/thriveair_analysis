@@ -9,6 +9,7 @@ library(ggrepel)
 library(ggmap)
 library(here)
 library(scales)
+library(openxlsx)
 
 source("R/00_plot_theme.R")  
 
@@ -229,20 +230,6 @@ names(results_list) <- tools::file_path_sans_ext(list.files(resultpath))
 ## Tabulating main analysis results only ------
 main_results <- results_list[["mainanalysis_wk_pca_w_glmer"]]$scores
 
-## Scores for all sites
-pca_scores_site <- main_results %>%
-  group_by(site_type, site) %>%
-  summarize(
-    across(
-      starts_with("Dim"),
-      ~ sprintf("%.2f (%.2f)", mean(.x, na.rm = TRUE), sd(.x, na.rm = TRUE))
-    ),
-    .groups = "drop"
-  )
-
-# Save to supplemental
-write_csv(pca_scores_site, here("results", "supplemental", "tables", "pca_scores_by_site.csv"))
-
 ## Scores by land-use type -------
 pca_scores_landuse <- main_results %>%
   group_by(industrial_20, site_traffic) %>%
@@ -256,6 +243,51 @@ pca_scores_landuse <- main_results %>%
 
 write_csv(pca_scores_landuse, here("results", "tables", "pca_scores_by_landuse.csv"))
 
+
+# Heatmap of Scores -------------------------------------------------------
+## Scores for all sites
+pca_scores_site <- main_results %>%
+  group_by(site, site_type, land_use, industrial_20, site_traffic, nearby_sources) %>%
+  summarize(
+    across(
+      starts_with("Dim"),
+      ~ round(mean(.x, na.rm = TRUE),2))
+    ,
+    .groups = "drop"
+  ) %>%
+  rename_with(~str_replace(.x, "Dim.", "Component_")) %>%
+  mutate(site_type = case_when(
+    site_type == "stationary" ~ "Weekly",
+    site_type == "rotating" ~ "Community"
+  )) %>%
+  relocate(nearby_sources, .after = "Component_4") %>%
+  arrange(industrial_20, site_traffic, land_use, site_type, site)
+
+
+# Create a workbook and add data
+wb <- createWorkbook()
+addWorksheet(wb, "PCA Scores")
+
+writeData(wb, "PCA Scores", pca_scores_site)
+
+# Get all the component columns
+component_cols <- grep("^Component", names(pca_scores_site), value = TRUE)
+
+# Apply red-white-blue gradient to each component column separately
+for (col in component_cols) {
+  conditionalFormatting(
+    wb,
+    sheet = "PCA Scores",
+    cols = col,
+    rows = 2:(nrow(pca_scores_site) + 1),
+    style = c("#086788", "white","#DD1C1A"),
+    type = "colorScale",
+    rule = c(min(pca_scores_site[[col]], na.rm = TRUE), 0, max(pca_scores_site[[col]], na.rm = TRUE))
+  )
+}
+
+# Save Excel workbook
+saveWorkbook(wb, "results/tables/pca_scores_site_conditional.xlsx", overwrite = TRUE)
 
 
 # Box Plot of Scores ------------------------------------------------------
@@ -314,7 +346,7 @@ for (r in names(results_list)) {
 
 
 
-# Time Series Plots -------------------------------------------------------
+# Time Series Plot + Map for Main Analysis -------------------------------
 
 colors <- c(
   "#E41A1C",  # red
@@ -384,7 +416,6 @@ site_map <- ggmap(basemap) +
   theme(
     axis.text.x = element_text(angle = 45, hjust = 1)
   )
-
 
 
 pca_ts_map <- pca_ts + site_map + guide_area() + 

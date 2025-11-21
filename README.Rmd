@@ -20,6 +20,7 @@ Abstract goes here
 │   │   ├── sitenames.xlsx <--- clean site names
 │   │   ├── landuse_100mbuffer.csv <--- land use buffers from ArcGIS Pro
 │   │   ├── landuse_assignments.csv <--- land use assignments by site (created in R/01_clean_data.R)
+│   │   ├── pointsources.xlsx <--- potential sources near monitor sites
 │   │   ├── coords.rds <--- monitoring site coordinates (created in R/01_clean_data.R)
 │   │   ├── landuse_key.xlsx <--- key to land use types
 │   │   └── site_traffic.xlsx <--- traffic designations from ArcGIS Pro
@@ -57,7 +58,7 @@ Abstract goes here
 ### Code Details
 
 | Folder | File Name | Details |
-|-------|----------------|--------------------------------------------------|
+|----|----|----|
 | R | 00_plot_theme | Create basemap and ggplot theme to be sourced in all other code dealing with mapping and/or visualization. |
 | R | 01_clean_data | Clean raw data, link data to site information and source classes. |
 | R | 02_summarize_data | Summary statistics, distribution plots, and reliability calculations |

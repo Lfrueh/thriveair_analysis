@@ -109,7 +109,7 @@ runpca <- function(weighted = FALSE, weekcluster = FALSE, model_type = "lmer", h
       ) %>%
       nest()
     
-    # Define the model formula based on clustering arguments
+    # Define the model formula based on clustering within week
     model_formula <- concentration ~ (1 | week)
     
     # Run the mixed-effects model
@@ -119,17 +119,43 @@ runpca <- function(weighted = FALSE, weekcluster = FALSE, model_type = "lmer", h
           if (model_type == "lmer") {
             lmer(model_formula, data = .x)
           } else if (model_type == "glmer") {
-            glmer(model_formula, family = Gamma(link = "log"), data = .x)
+            glmer(model_formula, family = Gamma(link = "log"), data = .x,
+                  control = glmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 1e6)))
           }
         }),
-        residuals = map2(model, data, ~ residuals(.x, type = "response"))
+        residuals = map2(model, data, ~ residuals(.x, type = "response")),
+        # Calculate *week mean* for each week within that VOC
+        week_means = map2(model, data, ~ {
+          fitted_vals <- fitted(.x)
+          .x %>%
+            mutate(week_mean = ave(fitted_vals, week, FUN = mean)) %>%
+            select(week, week_mean)
+        })
       )
     
-    # Extract residuals and reshape into a matrix for PCA
+    # Extract residuals and fitted values (weekly means)
+    # residual_df <- resids %>%
+    #   select(-model) %>%
+    #   unnest(c(data, residuals, fitted_vals)) %>%
+    #   rename(week_mean = fitted_vals) %>%  
+    #   pivot_wider(names_from = voc, values_from = c(residuals, week_mean), id_cols = site:tot_weeks) %>%
+    #   rename_with(~ str_remove(.x, "^residuals_"), starts_with("residuals_")) 
+    
     residual_df <- resids %>%
-      select(-model) %>%
+      select(voc, data, residuals, week_means) %>%
       unnest(c(data, residuals)) %>%
-      pivot_wider(names_from = voc, values_from = residuals, id_cols = site:tot_weeks) 
+      left_join(
+        resids %>%
+          select(voc, week_means) %>%
+          unnest(week_means),
+        by = c("voc", "week")
+      ) %>%
+      pivot_wider(
+        names_from = voc,
+        values_from = c(residuals, week_mean),
+        id_cols = site:tot_weeks
+      ) %>%
+      rename_with(~ str_remove(.x, "^residuals_"), starts_with("residuals_"))
     
     # Update voc_vars to reflect any dropped variables due to failed convergence
     voc_vars <- intersect(voc_vars, names(residual_df))
@@ -213,11 +239,17 @@ runpca <- function(weighted = FALSE, weekcluster = FALSE, model_type = "lmer", h
       select(-(all_of(voc_vars)))
   }
   
+  # Store data for calculating absolute principal component scores (ACPS)
+  if (weekcluster) {
+    acps_data <- residual_df  # Save this
+  } else {
+    acps_data <- vocs
+  }
   
   
   ## Return results and scores
-  final_result <- list(pca_results, loadings, scores, pctvar)
-  names(final_result) <- c("pca_results", "loadings", "scores", "pctvar")
+  final_result <- list(pca_results, loadings, scores, pctvar, acps_data)
+  names(final_result) <- c("pca_results", "loadings", "scores", "pctvar", "acps_data")
   
   return(final_result)
   
@@ -225,6 +257,153 @@ runpca <- function(weighted = FALSE, weekcluster = FALSE, model_type = "lmer", h
 }
 
 
+## Calculate APCS --------
+# Function to calculate Absolute Principal Component Scores
+# and estimate source contributions
+calculate_apcs <- function(pca_result_list, original_data, voc_vars, weekcluster = FALSE) {
+  
+  # Extract components from your list
+  # One set of loadings for the whole dataset
+  loadings <- pca_result_list$loadings
+  # One score per component per site-week measurement
+  scores <- pca_result_list$scores
+  pctvar <- pca_result_list$pctvar
+  
+  # Get component names
+  comp_names <- loadings %>%
+    select(starts_with("Dim")) %>%
+    names()
+  
+  # Extract eigenvalues
+  eigenvalues <- pctvar$eigenvalue
+  
+  # Calculate standard deviations (square root of eigenvalues)
+  component_sds <- sqrt(eigenvalues)
+  
+  # Calculate APCS by multiplying scores by SDs
+  apcs <- scores %>%
+    mutate(across(all_of(comp_names), 
+                  ~.x * component_sds[as.numeric(str_extract(cur_column(), "\\d+"))],
+                  .names = "APCS_{.col}"))
+  
+  # Prepare loading matrix for calculations
+  loading_df <- loadings %>%
+    select(variable_name, all_of(comp_names)) 
+  
+  # Calculate component contributions to each VOC concentration 
+  # This will be done for each data row (site-week)
+  # This creates a long-format dataframe with contributions
+  contributions <- map_dfr(1:nrow(scores), function(obs_idx) {
+    
+    site_info <- scores %>% slice(obs_idx) %>% select(site, week)
+    
+    # Get APCS values for this site
+    site_apcs <- apcs %>% 
+      slice(obs_idx) %>% 
+      select(starts_with("APCS_")) %>%
+      as.numeric()
+    
+    # Calculate contribution for each VOC
+    voc_contributions <- map_dfr(voc_vars, function(voc) {
+      
+      # Get loadings for this VOC
+      voc_loadings <- loading_df %>%
+        filter(variable_name == voc) %>%
+        select(all_of(comp_names)) %>%
+        as.numeric()
+      
+      # Calculate contribution from each component
+      comp_contributions <- site_apcs * voc_loadings
+      
+      tibble(
+        variable_name = voc,
+        !!!set_names(as.list(comp_contributions), 
+                     paste0("contribution_", comp_names))
+      )
+    })
+    
+    bind_cols(site_info, voc_contributions)
+  })
+  
+  # Calculate total contribution by component at each site
+  total_contributions <- contributions %>%
+    group_by(site, week) %>% 
+    summarise(across(starts_with("contribution_"), sum, na.rm = TRUE),
+              .groups = "drop")
+  
+  # We need within-week fitted values for week-adjusted predictions
+  if ("week_mean_benzene" %in% names(original_data)){
+  voc_means_by_week <- original_data %>%
+    select(site, week, starts_with("week_mean_")) %>%
+    pivot_longer(
+      cols = starts_with("week_mean_"),
+      names_to = "variable_name",
+      names_prefix = "week_mean_",
+      values_to = "week_mean"
+    )
+  }
+  
+  voc_means <- original_data %>%
+    select(all_of(voc_vars)) %>%
+    summarise(across(everything(), mean, na.rm = TRUE)) %>%
+    pivot_longer(
+      cols = everything(),
+      names_to = "variable_name",
+      values_to = "mean"
+    )
+  
+  # Calculate predicted concentrations
+  # Have to add back in the mean since PCA was mean-standardized
+  # For non-clustered predictions, just add back in the global mean
+  # for clustered prediction, add the weekly fitted mean to the residual
+  if (weekcluster) {
+    predicted_conc <- contributions %>%
+      left_join(voc_means_by_week, by = c("site", "week", "variable_name")) %>%
+      mutate(
+        total_contribution = rowSums(select(., starts_with("contribution_")), na.rm = TRUE),
+        predicted_conc = week_mean + total_contribution
+      )
+  } else {
+    predicted_conc <- contributions %>%
+      left_join(voc_means, by = "variable_name") %>%
+      mutate(
+        total_contribution = rowSums(select(., starts_with("contribution_")), na.rm = TRUE),
+        predicted_conc = mean + total_contribution
+      )
+  }
+  
+  
+  # Calculate validation metrics (this is done on the residuals for week clustered)
+  # This will be in long format
+  validation <- predicted_conc %>%
+    left_join(
+      vocs %>%
+        pivot_longer(cols = all_of(voc_vars), 
+                     names_to = "variable_name", 
+                     values_to = "observed_conc"),
+      by = c("site", "week", "variable_name")
+    ) %>%
+    filter(!is.na(observed_conc))
+  
+  # Overall R-squared
+  if(nrow(validation) > 0) {
+    rsq <- cor(validation$predicted_conc, validation$observed_conc, 
+               use = "complete.obs")^2
+  } else {
+    rsq <- NA
+  }
+  
+  # Return list of results
+  list(
+    apcs = apcs,
+    contributions_by_voc = contributions,
+    total_contributions = total_contributions,
+    predicted_concentrations = predicted_conc,
+    validation = validation,
+    rsquared = rsq,
+    component_sds = component_sds
+  )
+}
 
 # Get Data ----------------------------------------------------------------
 
@@ -252,8 +431,21 @@ wk_pca_w_glmer <- runpca(weighted = TRUE, weekcluster = TRUE, model_type = "glme
                          reliability_threshold = 0.4)
 write_rds(wk_pca_w_glmer, here(saveto, "mainanalysis_wk_pca_w_glmer.rds"))
 
+# Get the VOC variables used in this analysis
+voc_vars_used <- wk_pca_w_glmer$loadings %>% pull(variable_name)
 
+#I'm confused. When I look at the predicted concentrations I'm getting ridiculous values
+# like 43 micrograms per meter cubed for 1-hexene which has a max value of 1.57 in the actual data.
+# Here's what I need:
+# I want to do source apportionment. If there's no way to do it with the residual PCA, then whatever.
+# In that case, we should just run it on the raw concentrations instead.
 
+apcs_results <- calculate_apcs(
+  pca_result_list = wk_pca_w_glmer,
+  original_data = wk_pca_w_glmer$acps_data,
+  voc_vars = voc_vars_used,
+  weekcluster = TRUE
+)
 
 # Sensitivity Analyses ----------------------------------------------------
 

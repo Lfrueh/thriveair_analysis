@@ -16,6 +16,11 @@ sitenames <- read_excel("data/raw/sitenames.xlsx") %>%
   select(-name_long, -name_old)
 
 
+## Point sources -----------------------------------------------------------
+
+pointsources <- read_excel("data/raw/pointsources.xlsx")
+
+
 ## Land Use Assignments ---------------------------------------------------
 # Land use was downloaded from OpenDataPhilly. 
 # In ArcGIS Pro: Each site was assigned a 100m buffer, 
@@ -78,7 +83,8 @@ write_csv(landuse_assignments, "data/raw/landuse_assignments.csv")
 traffic_assignments <- read_excel("data/raw/site_traffic.xlsx")
 
 # Join together and export site info
-site_info <- left_join(landuse_assignments, traffic_assignments, by = "site_id") 
+site_info <- left_join(landuse_assignments, traffic_assignments, by = "site_id") %>%
+  left_join(., pointsources, by = "site")
 
 
 # Create bivariate category
