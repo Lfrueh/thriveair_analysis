@@ -705,4 +705,58 @@ correlate(vocs, ind_vocs, "Summer", rotating = "incl_rotating")
 correlate(vocs, ind_vocs, "Winter", rotating = "incl_rotating")
 
 
+# Summarize EPA Fenceline Monitoring Data ---------------------------------
+
+## Uses data from EPA fenceline benzene monitoring dashboard
+## https://awsedap.epa.gov/public/extensions/Fenceline_Monitoring/Fenceline_Monitoring.html?sheet=MonitoringDashboard
+## for Philadelphia Energy Solutions
+
+epa_data <- read_excel(here("data", "clean", "epa_pes_data.xlsx")) %>%
+  janitor::clean_names() %>%
+  mutate(period_start_date = as.Date(period_start_date)) %>%
+  mutate(across(ends_with("_dc"), ~as.numeric(.))) %>%
+  # Filter out pre-2019, since annual average is 0
+  # There are sampling averages then, but no annual
+  filter(year(period_start_date) > 2018) %>%
+  filter(annual_avg_dc > 0)
+
+epa_data %>%
+  select(period_start_date, annual_avg_dc, sampling_period_dc) %>%
+  pivot_longer(annual_avg_dc:sampling_period_dc, names_to = "meas", values_to = "value") %>%
+  mutate(meas = recode(meas,
+                       "annual_avg_dc" = "Annual Average",
+                       "sampling_period_dc" = "2-Week Average")) %>%
+  ggplot(aes(x = period_start_date, y = value, color = meas)) +
+  geom_vline(xintercept = as.Date("2019-06-21"), color = "grey25", linetype = "dotted") + 
+  geom_hline(aes(yintercept = 9, color = "EPA Action Level"), linetype = 2) +
+  geom_line(linewidth = 0.5) +
+  scale_color_manual(
+    name = NULL,
+    values = c(
+      "Annual Average" = "#ed5b2d",
+      "2-Week Average" = "darkgrey",
+      "EPA Action Level" = "darkblue"
+    ),
+    breaks = c("Annual Average", "2-Week Average", "EPA Action Level")
+  ) +
+  labs(
+    x = "Sampling Period Start Date",
+    y = expression(Delta*"C ("*mu*"g/"*m^3*")"),
+    color = NULL,
+    title = "PES Refinery Perimeter Benzene Monitoring",
+    subtitle = "2019-2022"
+  ) +
+  scale_x_date(expand = c(0,0)) + 
+  paper_theme + 
+  theme(
+    legend.position = "bottom"
+  ) 
+
+ggsave(
+  filename = here("results", "supplemental", "figures","EPA_PES_monitoring.png"),
+  height = 8, width = 8, units = "in",
+  dpi = 320
+  
+)
+
 
