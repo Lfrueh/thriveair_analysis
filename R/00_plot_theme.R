@@ -60,7 +60,7 @@ paper_theme <- theme_bw(base_family = "opensans") + # Base theme
 
 
 # Basemap and Map Theme ---------------------------------------------------
- vocs_raw <- read_csv(here("data", "clean", "dat_mgm3.csv"), col_select = -1) %>%
+ vocs_raw <- read_csv(here("data", "clean", "dat_mgm3.csv")) %>%
    filter(!is.na(site_id) & !is.na(site)) 
  
 # Generate Basemap --------------------------------------------------------

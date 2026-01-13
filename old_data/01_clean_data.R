@@ -136,7 +136,7 @@ rawdata <- read_excel("data/raw/rawdata.xlsx") %>%
     ),
     btex = benzene + toluene + etbenz + mpxylene + oxylene,
     btex_flag = case_when(
-      benzene_flag == "ULOD" | toluene_flag == "ULOD" & etbenz_flag == "ULOD" |mpxylene_flag == "ULOD" | oxylene_flag == "ULOD" ~ "ULOD",
+      benzene_flag == "ULOD" | toluene_flag == "ULOD" & etbenz_flag == "ULOD" | mpxylene_flag == "ULOD" | oxylene_flag == "ULOD" ~ "ULOD",
       TRUE ~ "REG"
     )
     ) %>%
@@ -198,6 +198,8 @@ cleandata_mgm3 <- cleandata_sample %>%
 
 #Write clean dataset
 write.csv(cleandata_sample, "data/clean/dat_ppb.csv")
+
+test <- read_csv("data/clean/dat_ppb.csv")
 
 write.csv(cleandata_mgm3, "data/clean/dat_mgm3.csv")
 

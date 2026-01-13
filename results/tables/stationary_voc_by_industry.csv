@@ -1,41 +1,41 @@
-variable_name_messy,Overall,Industrial,Non-Industrial,p,test,variable_name,voc_name,mw,category_1,category_2,category_2no,sort_in_category
-benzene (mean (SD)),1.35 (0.91),1.46 (1.08),1.21 (0.61),0.005,,benzene,Benzene,78.11,BTEX,BTEX,1,1
-toluene (mean (SD)),2.32 (1.36),2.60 (1.57),1.97 (0.96),<0.001,,toluene,Toluene,92.14,BTEX,BTEX,1,2
-etbenz (mean (SD)),0.72 (0.87),0.87 (1.12),0.54 (0.32),<0.001,,etbenz,Ethylbenzene,106.17,BTEX,BTEX,1,3
-mpxylene (mean (SD)),4.74 (4.66),5.69 (5.77),3.55 (2.25),<0.001,,mpxylene,(m+p)-Xylenes,106.16,BTEX,BTEX,1,4
-oxylene (mean (SD)),1.05 (1.21),1.27 (1.55),0.77 (0.46),<0.001,,oxylene,o-Xylene,106.16,BTEX,BTEX,1,5
-xylenes (mean (SD)),5.78 (5.83),6.96 (7.26),4.33 (2.70),<0.001,,xylenes,Total Xylenes,106.16,BTEX,BTEX,1,6
-benzene_1_4_diethyl (mean (SD)),0.19 (0.29),0.26 (0.37),0.11 (0.08),<0.001,,benzene_1_4_diethyl,"1,4-Diethylbenzene",134.221,Benzene Derivatives,Alkylbenzenes,2,1
-benzene_1_2_3_trimethyl (mean (SD)),0.24 (0.28),0.29 (0.35),0.17 (0.10),<0.001,,benzene_1_2_3_trimethyl,"1,2,3-Trimethylbenzene",120.194,Benzene Derivatives,Alkylbenzenes,2,2
-benz1ethyl2methyl (mean (SD)),0.20 (0.23),0.25 (0.29),0.14 (0.07),<0.001,,benz1ethyl2methyl,1-Ethyl-2-Methylbenzene,120.19,Benzene Derivatives,Alkylbenzenes,2,3
-benz1ethyl3methyl (mean (SD)),0.49 (0.56),0.60 (0.72),0.34 (0.19),<0.001,,benz1ethyl3methyl,1-Ethyl-3-Methylbenzene,120.19,Benzene Derivatives,Alkylbenzenes,2,4
-benz1ethyl4methyl (mean (SD)),0.23 (0.31),0.30 (0.40),0.16 (0.09),<0.001,,benz1ethyl4methyl,1-Ethyl-4-Methylbenzene,120.19,Benzene Derivatives,Alkylbenzenes,2,5
-propylbenzene (mean (SD)),0.28 (0.40),0.36 (0.51),0.18 (0.11),<0.001,,propylbenzene,Propylbenzene,120.19,Benzene Derivatives,Alkylbenzenes,2,6
-mesitylene (mean (SD)),0.68 (0.99),0.88 (1.27),0.44 (0.27),<0.001,,mesitylene,Mesitylene,120.19,Benzene Derivatives,Alkylbenzenes,2,7
-hexane (mean (SD)),1.54 (1.66),1.91 (2.07),1.10 (0.74),<0.001,,hexane,n-Hexane,86.18,Alkanes,C6-C9 Alkanes,3,1
-heptane (mean (SD)),1.22 (1.56),1.54 (1.99),0.82 (0.51),<0.001,,heptane,Heptane,100.21,Alkanes,C6-C9 Alkanes,3,2
-octane (mean (SD)),0.51 (0.62),0.63 (0.78),0.36 (0.25),<0.001,,octane,Octane,114.23,Alkanes,C6-C9 Alkanes,3,3
-nonane (mean (SD)),0.68 (0.76),0.80 (0.93),0.54 (0.45),<0.001,,nonane,Nonane,128.25,Alkanes,C6-C9 Alkanes,3,4
-decane (mean (SD)),0.70 (0.78),0.86 (0.99),0.49 (0.26),<0.001,,decane,Decane,149.29,Alkanes,C10-C12 Alkanes,4,1
-undecane (mean (SD)),0.97 (1.32),1.24 (1.68),0.65 (0.45),<0.001,,undecane,Undecane,156.31,Alkanes,C10-C12 Alkanes,4,2
-dodecane (mean (SD)),0.60 (0.98),0.79 (1.25),0.37 (0.38),<0.001,,dodecane,Dodecane,170.34,Alkanes,C10-C12 Alkanes,4,3
-butane_2_methyl (mean (SD)),0.44 (0.28),0.47 (0.32),0.40 (0.21),0.018,,butane_2_methyl,Isopentane,72.151,Alkanes,Other Alkanes,5,1
-pentane_2_methyl (mean (SD)),7.46 (6.47),8.99 (7.83),5.56 (3.37),<0.001,,pentane_2_methyl,Isohexane,86.178,Alkanes,Other Alkanes,5,2
-hexane2methyl (mean (SD)),1.12 (1.22),1.43 (1.50),0.73 (0.49),<0.001,,hexane2methyl,2-Methylhexane,100.2,Alkanes,Other Alkanes,5,3
-hexane_3_methyl (mean (SD)),2.52 (2.87),3.23 (3.57),1.65 (1.12),<0.001,,hexane_3_methyl,3-Methylhexane,100.205,Alkanes,Other Alkanes,5,4
-heptane3methyl (mean (SD)),1.26 (2.17),1.71 (2.80),0.71 (0.57),<0.001,,heptane3methyl,3-Methylheptane,114.23,Alkanes,Other Alkanes,5,5
-pentane_3_methyl (mean (SD)),2.99 (3.10),3.75 (3.78),2.05 (1.49),<0.001,,pentane_3_methyl,3-Methylpentane,86.178,Alkanes,Other Alkanes,5,6
-pentane_2_4_dimethyl (mean (SD)),0.53 (0.64),0.69 (0.81),0.33 (0.20),<0.001,,pentane_2_4_dimethyl,"2,4-Dimethylpentane",100.205,Alkanes,Other Alkanes,5,7
-pentane_2_3_4_trimethyl (mean (SD)),0.68 (0.80),0.89 (0.99),0.43 (0.30),<0.001,,pentane_2_3_4_trimethyl,"2,3,4-Trimethylpentane",114.232,Alkanes,Other Alkanes,5,8
-cyclohexane_methyl (mean (SD)),2.87 (5.14),3.75 (6.62),1.78 (1.67),<0.001,,cyclohexane_methyl,Methylcyclohexane,98.189,Cyclohexanes,Other Alkanes,5,9
-x1_hexene (mean (SD)),0.27 (0.43),0.35 (0.56),0.18 (0.14),<0.001,,x1_hexene,1-Hexene,84.162,Alkenes,Alkenes,6,1
-x2_pentene_z_cis (mean (SD)),0.07 (0.13),0.08 (0.17),0.05 (0.04),0.004,,x2_pentene_z_cis,cis-2-Pentene,70.1329,Alkenes,Alkenes,6,2
-x1_3_butadiene_2_methyl (mean (SD)),0.07 (0.10),0.07 (0.09),0.08 (0.11),0.192,,x1_3_butadiene_2_methyl,Isoprene,68.12,Alkenes,Alkenes,6,3
-x2_hexanone (mean (SD)),0.01 (0.02),0.01 (0.03),0.01 (0.02),0.900,,x2_hexanone,2-Hexanone,100.161,Ketones,Ketones,7,1
-methyl_isobutyl_ketone (mean (SD)),0.02 (0.03),0.02 (0.03),0.02 (0.03),0.457,,methyl_isobutyl_ketone,Methyl isobutyl ketone,100.16,Ketones,Ketones,7,2
-trichloromethane (mean (SD)),0.17 (0.06),0.16 (0.07),0.18 (0.06),0.001,,trichloromethane,Chloroform,119.37,Chlorinated Compounds,Chlorinated Compounds,8,1
-carbon_tetrachloride (mean (SD)),1.74 (0.60),1.73 (0.63),1.76 (0.57),0.633,,carbon_tetrachloride,Carbon tetrachloride,153.81,Chlorinated Compounds,Chlorinated Compounds,8,2
-tce (mean (SD)),0.14 (0.09),0.14 (0.10),0.13 (0.06),0.038,,tce,Tetrachloroethylene,165.83,Chlorinated Compounds,Chlorinated Compounds,8,3
-trichlorofluoromethane (mean (SD)),0.68 (0.47),0.70 (0.48),0.66 (0.45),0.437,,trichlorofluoromethane,Trichlorofluoromethane,137.37,Chlorinated Compounds,Chlorinated Compounds,8,4
-benz12chloro (mean (SD)),0.13 (0.09),0.09 (0.07),0.17 (0.10),<0.001,,benz12chloro,"1,2-dichlorobenzene",147.01,Benzene Derivatives,Chlorinated Compounds,8,5
-n,405,224,181,,,n,NA,NA,NA,NA,NA,NA
+variable_name_messy,Overall,Industrial,Non-Industrial,p,test,variable_name,voc_name,variable_name_old,mw,category_1,category_2,category_2no,sort_in_category
+benzene (median [IQR]),"1.21 [0.82, 1.64]","1.27 [0.87, 1.72]","1.10 [0.76, 1.55]",0.018,nonnorm,benzene,Benzene,benzene,78.11,BTEX,BTEX,1,1
+toluene (median [IQR]),"1.95 [1.47, 2.87]","2.18 [1.56, 3.16]","1.70 [1.38, 2.50]",<0.001,nonnorm,toluene,Toluene,toluene,92.14,BTEX,BTEX,1,2
+ethylbenzene (median [IQR]),"0.52 [0.40, 0.75]","0.60 [0.43, 0.83]","0.46 [0.36, 0.61]",<0.001,nonnorm,ethylbenzene,Ethylbenzene,etbenz,106.17,BTEX,BTEX,1,3
+m_p_xylene_2 (median [IQR]),"3.42 [2.58, 5.14]","4.00 [2.97, 5.67]","3.03 [2.42, 4.09]",<0.001,nonnorm,m_p_xylene_2,(m+p)-Xylenes,mpxylene,106.16,BTEX,BTEX,1,4
+o_xylene (median [IQR]),"0.75 [0.57, 1.10]","0.86 [0.64, 1.24]","0.68 [0.52, 0.87]",<0.001,nonnorm,o_xylene,o-Xylene,oxylene,106.16,BTEX,BTEX,1,5
+xylenes (median [IQR]),"4.14 [3.16, 6.18]","4.92 [3.64, 6.97]","3.71 [2.94, 4.95]",<0.001,nonnorm,xylenes,Total Xylenes,xylenes,106.16,BTEX,BTEX,1,6
+benzene_1_4_diethyl (median [IQR]),"0.12 [0.07, 0.20]","0.15 [0.08, 0.26]","0.10 [0.07, 0.14]",<0.001,nonnorm,benzene_1_4_diethyl,"1,4-Diethylbenzene",benzene_1_4_diethyl,134.221,Benzene Derivatives,Alkylbenzenes,2,1
+benzene_1_2_3_trimethyl (median [IQR]),"0.17 [0.13, 0.26]","0.19 [0.13, 0.32]","0.15 [0.11, 0.20]",<0.001,nonnorm,benzene_1_2_3_trimethyl,"1,2,3-Trimethylbenzene",benzene_1_2_3_trimethyl,120.194,Benzene Derivatives,Alkylbenzenes,2,2
+benzene_1_ethyl_2_methyl (median [IQR]),"0.14 [0.10, 0.22]","0.17 [0.12, 0.26]","0.12 [0.10, 0.16]",<0.001,nonnorm,benzene_1_ethyl_2_methyl,1-Ethyl-2-Methylbenzene,benz1ethyl2methyl,120.19,Benzene Derivatives,Alkylbenzenes,2,3
+benzene_1_ethyl_3_methyl (median [IQR]),"0.34 [0.25, 0.53]","0.41 [0.27, 0.65]","0.30 [0.24, 0.41]",<0.001,nonnorm,benzene_1_ethyl_3_methyl,1-Ethyl-3-Methylbenzene,benz1ethyl3methyl,120.19,Benzene Derivatives,Alkylbenzenes,2,4
+benzene_1_ethyl_4_methyl (median [IQR]),"0.16 [0.11, 0.24]","0.19 [0.13, 0.31]","0.14 [0.11, 0.18]",<0.001,nonnorm,benzene_1_ethyl_4_methyl,1-Ethyl-4-Methylbenzene,benz1ethyl4methyl,120.19,Benzene Derivatives,Alkylbenzenes,2,5
+benzene_propyl (median [IQR]),"0.18 [0.12, 0.28]","0.23 [0.15, 0.36]","0.15 [0.12, 0.21]",<0.001,nonnorm,benzene_propyl,Propylbenzene,propylbenzene,120.19,Benzene Derivatives,Alkylbenzenes,2,6
+mesitylene (median [IQR]),"0.42 [0.32, 0.69]","0.53 [0.34, 0.88]","0.37 [0.28, 0.50]",<0.001,nonnorm,mesitylene,Mesitylene,mesitylene,120.19,Benzene Derivatives,Alkylbenzenes,2,7
+n_hexane (median [IQR]),"1.10 [0.68, 1.82]","1.32 [0.79, 2.27]","0.86 [0.61, 1.43]",<0.001,nonnorm,n_hexane,n-Hexane,hexane,86.18,Alkanes,C6-C9 Alkanes,3,1
+heptane (median [IQR]),"0.84 [0.57, 1.33]","0.97 [0.64, 1.78]","0.67 [0.51, 0.96]",<0.001,nonnorm,heptane,Heptane,heptane,100.21,Alkanes,C6-C9 Alkanes,3,2
+octane (median [IQR]),"0.36 [0.24, 0.59]","0.43 [0.27, 0.69]","0.30 [0.20, 0.45]",<0.001,nonnorm,octane,Octane,octane,114.23,Alkanes,C6-C9 Alkanes,3,3
+nonane (median [IQR]),"0.54 [0.25, 0.85]","0.60 [0.32, 1.00]","0.47 [0.22, 0.74]",0.002,nonnorm,nonane,Nonane,nonane,128.25,Alkanes,C6-C9 Alkanes,3,4
+decane (median [IQR]),"0.46 [0.32, 0.76]","0.51 [0.33, 0.94]","0.43 [0.31, 0.57]",<0.001,nonnorm,decane,Decane,decane,149.29,Alkanes,C10-C12 Alkanes,4,1
+undecane (median [IQR]),"0.59 [0.39, 0.98]","0.63 [0.41, 1.49]","0.55 [0.37, 0.86]",0.002,nonnorm,undecane,Undecane,undecane,156.31,Alkanes,C10-C12 Alkanes,4,2
+dodecane (median [IQR]),"0.30 [0.18, 0.62]","0.33 [0.20, 0.88]","0.27 [0.16, 0.46]",0.001,nonnorm,dodecane,Dodecane,dodecane,170.34,Alkanes,C10-C12 Alkanes,4,3
+butane_2_methyl (median [IQR]),"0.62 [0.31, 1.18]","0.81 [0.37, 1.43]","0.47 [0.25, 0.91]",<0.001,nonnorm,butane_2_methyl,Isopentane,butane_2_methyl,72.151,Alkanes,Other Alkanes,5,1
+pentane_2_methyl (median [IQR]),"5.97 [3.71, 10.64]","7.71 [4.46, 13.63]","4.72 [3.28, 7.27]",<0.001,nonnorm,pentane_2_methyl,Isohexane,pentane_2_methyl,86.178,Alkanes,Other Alkanes,5,2
+hexane_2_methyl (median [IQR]),"0.75 [0.51, 1.34]","0.95 [0.59, 1.64]","0.61 [0.43, 0.89]",<0.001,nonnorm,hexane_2_methyl,2-Methylhexane,hexane2methyl,100.2,Alkanes,Other Alkanes,5,3
+hexane_3_methyl (median [IQR]),"1.69 [1.16, 3.02]","2.12 [1.35, 3.79]","1.39 [0.94, 1.92]",<0.001,nonnorm,hexane_3_methyl,3-Methylhexane,hexane_3_methyl,100.205,Alkanes,Other Alkanes,5,4
+heptane_3_methyl (median [IQR]),"0.69 [0.45, 1.26]","0.87 [0.53, 1.65]","0.56 [0.38, 0.81]",<0.001,nonnorm,heptane_3_methyl,3-Methylheptane,heptane3methyl,114.23,Alkanes,Other Alkanes,5,5
+pentane_3_methyl (median [IQR]),"2.10 [1.29, 3.96]","2.81 [1.46, 5.34]","1.57 [1.12, 2.45]",<0.001,nonnorm,pentane_3_methyl,3-Methylpentane,pentane_3_methyl,86.178,Alkanes,Other Alkanes,5,6
+pentane_2_4_dimethyl (median [IQR]),"0.34 [0.23, 0.61]","0.44 [0.27, 0.82]","0.28 [0.20, 0.39]",<0.001,nonnorm,pentane_2_4_dimethyl,"2,4-Dimethylpentane",pentane_2_4_dimethyl,100.205,Alkanes,Other Alkanes,5,7
+pentane_2_3_4_trimethyl (median [IQR]),"0.44 [0.28, 0.76]","0.56 [0.33, 1.09]","0.36 [0.25, 0.56]",<0.001,nonnorm,pentane_2_3_4_trimethyl,"2,3,4-Trimethylpentane",pentane_2_3_4_trimethyl,114.232,Alkanes,Other Alkanes,5,8
+cyclohexane_methyl (median [IQR]),"1.61 [1.02, 3.22]","2.08 [1.22, 4.54]","1.39 [0.85, 2.04]",<0.001,nonnorm,cyclohexane_methyl,Methylcyclohexane,cyclohexane_methyl,98.189,Cyclohexanes,Other Alkanes,5,9
+x1_hexene (median [IQR]),"0.20 [0.11, 0.31]","0.23 [0.14, 0.38]","0.17 [0.09, 0.24]",<0.001,nonnorm,x1_hexene,1-Hexene,x1_hexene,84.162,Alkenes,Alkenes,6,1
+x2_pentene_z_cis (median [IQR]),"0.04 [0.02, 0.08]","0.04 [0.02, 0.09]","0.04 [0.01, 0.07]",0.002,nonnorm,x2_pentene_z_cis,cis-2-Pentene,x2_pentene_z_cis,70.1329,Alkenes,Alkenes,6,2
+x1_3_butadiene_2_methyl (median [IQR]),"0.03 [0.01, 0.10]","0.01 [0.01, 0.09]","0.03 [0.01, 0.11]",0.285,nonnorm,x1_3_butadiene_2_methyl,Isoprene,x1_3_butadiene_2_methyl,68.12,Alkenes,Alkenes,6,3
+x2_hexanone (median [IQR]),"0.01 [0.01, 0.01]","0.01 [0.01, 0.01]","0.01 [0.01, 0.01]",0.639,nonnorm,x2_hexanone,2-Hexanone,x2_hexanone,100.161,Ketones,Ketones,7,1
+methyl_isobutyl_ketone (median [IQR]),"0.00 [0.00, 0.04]","0.00 [0.00, 0.04]","0.00 [0.00, 0.04]",0.364,nonnorm,methyl_isobutyl_ketone,Methyl isobutyl ketone,methyl_isobutyl_ketone,100.16,Ketones,Ketones,7,2
+trichloromethane (median [IQR]),"0.17 [0.14, 0.20]","0.16 [0.13, 0.18]","0.18 [0.14, 0.22]",0.002,nonnorm,trichloromethane,Chloroform,trichloromethane,119.37,Chlorinated Compounds,Chlorinated Compounds,8,1
+carbon_tetrachloride (median [IQR]),"1.74 [1.26, 2.12]","1.75 [1.26, 2.13]","1.74 [1.26, 2.12]",0.942,nonnorm,carbon_tetrachloride,Carbon tetrachloride,carbon_tetrachloride,153.81,Chlorinated Compounds,Chlorinated Compounds,8,2
+tetrachloroethylene (median [IQR]),"0.12 [0.09, 0.16]","0.12 [0.09, 0.18]","0.12 [0.09, 0.15]",0.260,nonnorm,tetrachloroethylene,Tetrachloroethylene,tce,165.83,Chlorinated Compounds,Chlorinated Compounds,8,3
+trichloromonofluoromethane (median [IQR]),"0.61 [0.31, 0.94]","0.61 [0.32, 0.94]","0.60 [0.29, 0.93]",0.829,nonnorm,trichloromonofluoromethane,Trichlorofluoromethane,trichlorofluoromethane,137.37,Chlorinated Compounds,Chlorinated Compounds,8,4
+benzene_1_2_dichloro (median [IQR]),"0.11 [0.07, 0.16]","0.09 [0.05, 0.12]","0.15 [0.11, 0.22]",<0.001,nonnorm,benzene_1_2_dichloro,"1,2-dichlorobenzene",benz12chloro,147.01,Benzene Derivatives,Chlorinated Compounds,8,5
+n,408,227,181,,,n,NA,NA,NA,NA,NA,NA,NA

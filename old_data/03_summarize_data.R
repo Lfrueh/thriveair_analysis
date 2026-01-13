@@ -44,12 +44,12 @@ categories <- codebook %>%
 category_groups <- split(categories, categories$category_2)
 
 ## VOC Data -----
-vocs_all <- read_csv("data/clean/dat_mgm3.csv", col_select = -1)
+vocs_all <- read_csv("data/clean/dat_mgm3.csv")
 
-vocs <- vocs_all %>% select(-ends_with('flag')) 
+vocs <- vocs_all %>% select(-ends_with("_unc"), -ends_with("_unc")) 
 
 colos <- read_csv("data/clean/colos.csv", col_select = -1) %>%
-  select(-ends_with('flag'), -starts_with("xylenes"), -btex) 
+  select(-ends_with("_flag"), -ends_with("_unc"), -starts_with("xylenes"), -btex) 
 
 
 # Create Site Summary Map -------------------------------------------------
@@ -519,12 +519,19 @@ write_csv(flag_summary_wide, "results/supplemental/tables/flag_summary_wide.csv"
 # Make dataset that compares value + co-located value for each VOC
 colo_wide <- colos %>%
   mutate(id = paste0(site,"_",week)) %>%
-  select(id, sample, any_of(voc_vars)) %>%
-  mutate(sample = tolower(sample)) %>%
-  pivot_wider(names_from = sample, values_from = any_of(voc_vars))
+  select(id, sample_type, any_of(voc_vars)) %>%
+  pivot_wider(names_from = sample_type, values_from = any_of(voc_vars))
 
 # Helper function: Calculate Root Mean Squared Error (RMSE)
 rmse <- function(x, y) sqrt(mean((x - y)^2, na.rm = TRUE))
+
+# Helper function: Calculate mean RPD
+mean_rpd <- function(x, y) {
+  # RPD = |x - y| / ((x + y) / 2) * 100
+  # Only calculate for pairs where both are above LOD (optional filter)
+  rpd_values <- abs(x - y) / ((x + y) / 2) * 100
+  mean(rpd_values, na.rm = TRUE)
+}
 
 # Calculate reliability statistics for each pair of values
 reliability_results <- map_dfr(intersect(voc_vars, names(colos)), function(v) {
@@ -538,6 +545,9 @@ reliability_results <- map_dfr(intersect(voc_vars, names(colos)), function(v) {
   fit <- lm(y ~ x)
   r2_val <- summary(fit)$r.squared
   
+  # Mean RPD
+  rpd_val <- mean_rpd(x, y)
+  
   # ICC (two-way random, consistency)
   icc_mat <- cbind(x, y)
   icc_val <- ICC(icc_mat, missing = TRUE)$results
@@ -548,6 +558,7 @@ reliability_results <- map_dfr(intersect(voc_vars, names(colos)), function(v) {
     variable = v,
     RMSE = round(rmse_val,2),
     R2 = round(r2_val,2),
+    mean_RPD = round(rpd_val, 1),
     ICC = round(icc_val,2)
   )
 }) %>% 
@@ -577,10 +588,10 @@ colo_plot <- function(v){
   
 }
 
-# 
-# for (v in setdiff(voc_vars, "xylenes")){
-#   colo_plot(v)
-# }
+ 
+ for (v in setdiff(voc_vars, "xylenes")){
+   colo_plot(v)
+ }
 
 
 

@@ -5,6 +5,7 @@ library(patchwork)
 library(sf)
 library(broom.mixed)
 library(RColorBrewer)
+library(here)
 
 ########################################################
 # Purpose of this code:
@@ -16,7 +17,7 @@ source("R/00_plot_theme.R")
 # Get Data ----------------------------------------------------------------
 
 ## VOCs ----
-vocs_raw <- read_csv(here("data", "clean", "dat_mgm3.csv"), col_select = -1) %>%
+vocs_raw <- read_csv(here("data", "clean", "dat_mgm3.csv")) %>%
   filter(!is.na(site_id) & !is.na(site)) 
 
 # Create BTEX Ratios of interest:
@@ -24,7 +25,7 @@ vocs_raw <- read_csv(here("data", "clean", "dat_mgm3.csv"), col_select = -1) %>%
 # (m+p) xylenes / ethylbenzene ratio
 vocs <- vocs_raw %>% 
   mutate(tb_ratio = toluene/benzene,
-         xe_ratio = mpxylene/etbenz)
+         xe_ratio = m_p_xylene_2/ethylbenzene)
 
 ratio_means_date <- vocs %>%
   group_by(end_date = as.Date(end_date)) %>%
@@ -49,27 +50,27 @@ ratio_means_site <- vocs %>%
   group_by(site_type, site) %>%
   summarize(
     across(
-      c(ends_with("_ratio"), "benzene", "toluene", "etbenz", "mpxylene", "oxylene"),
+      c(ends_with("_ratio"), "benzene", "toluene", "ethylbenzene", "m_p_xylene_2", "o_xylene"),
       ~ sprintf("%.2f (%.2f)", mean(.x, na.rm = TRUE), sd(.x, na.rm = TRUE))
     ),
     .groups = "drop"
   )
 
 # Save to supplemental
-write_csv(ratio_means_site, here("results", "supplemental", "tables", "ratios_by_site.csv"))
+write_excel_csv(ratio_means_site, here("results", "supplemental", "tables", "ratios_by_site.csv"))
 
 ## Ratios by land-use type
 ratio_means_landuse <- vocs %>%
   group_by(industrial_20, site_traffic) %>%
   summarize(
     across(
-      c(ends_with("_ratio"), "benzene", "toluene", "etbenz", "mpxylene", "oxylene"),
+      c(ends_with("_ratio"), "benzene", "toluene", "ethylbenzene", "m_p_xylene_2", "o_xylene"),
       ~ sprintf("%.2f (%.2f)", mean(.x, na.rm = TRUE), sd(.x, na.rm = TRUE))
     ),
     .groups = "drop"
   )
 
-write_csv(ratio_means_landuse, here("results", "tables", "btex_ratio_landuse.csv"))
+write_excel_csv(ratio_means_landuse, here("results", "tables", "btex_ratio_landuse.csv"))
 
 
 
@@ -336,7 +337,7 @@ site_map <- ggmap(basemap) +
   labs(
     x = NULL,
     y = NULL,
-    fill = "Site"
+    fill = NULL
   ) + 
   paper_theme + 
   annotation_north_arrow(
@@ -347,10 +348,22 @@ site_map <- ggmap(basemap) +
     style = north_arrow_orienteering(text_size = 16,
                                      line_width = 0.5,
                                      text_face = "bold")
-  )
+  ) + 
+  theme(
+    axis.text.x = element_blank(),
+    axis.text.y = element_blank(),
+    legend.position = c(0.5, -0.01),  
+    legend.justification = c(0.5, 1)   
+  )  +
+  guides(fill = guide_legend(ncol = 1, byrow = TRUE))
+
+
+
 
 ratio_ts_map <- (tb_ts/xe_ts + plot_layout(guides = "collect")|site_map)  +
   plot_layout(widths = c(1.5, 1))  # TS plots twice as wide as map
+
+
 
 ggsave(here("results", "supplemental", "figures", "ratio_ts_map.png"),
        ratio_ts_map,

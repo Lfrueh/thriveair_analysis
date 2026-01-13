@@ -27,14 +27,14 @@ category_levels <- codebook %>%
   distinct(category_2) %>%
   pull(category_2)
 
-
+site_info <- read_csv("data/site_info.csv")
 
 # Functions ---------------------------------------------------------------
 
 ## Plot Loadings ----
 plot_loadings <- function(result_object, object_name, weighted = NULL, cluster = NULL){
   
-  detect_text <- if(str_detect(object_name, "lowdetect")) "Includes low-detect compounds" else NULL
+  detect_text <- if(str_detect(object_name, "include_all")) "Includes all compounds" else NULL
   weight_text <- if(str_detect(object_name, "_w")) "Weighted" else NULL
   sitetype_text <- if(str_detect(object_name, "stationary")) "Weekly Sites Only" else NULL
   cluster_text <- if (str_detect(object_name, "wk_")){
@@ -66,7 +66,7 @@ plot_loadings <- function(result_object, object_name, weighted = NULL, cluster =
     ggplot() +
     aes(x = voc_name, y = contribution, fill = category_2) + 
     geom_col() +
-    facet_wrap(~dimension) + 
+    facet_wrap(~dimension, ncol = 2) + 
     # theme_bw() + 
     coord_flip() + 
     labs(
@@ -104,7 +104,7 @@ plot_loadings <- function(result_object, object_name, weighted = NULL, cluster =
 
 map_avg_scores <- function(result_object, object_name, weighted = NULL, cluster = NULL){
   
-  detect_text <- if(str_detect(object_name, "lowdetect")) "Includes low-detect compounds" else NULL
+  detect_text <- if(str_detect(object_name, "include_all")) "Includes all compounds" else NULL
   weight_text <- if(str_detect(object_name, "_w")) "Weighted" else NULL
   sitetype_text <- if(str_detect(object_name, "stationary")) "Weekly Sites Only" else NULL
   cluster_text <- if (str_detect(object_name, "wk_")){
@@ -228,7 +228,7 @@ names(results_list) <- tools::file_path_sans_ext(list.files(resultpath))
 
 # Tabulate Results --------------------------------------------------------
 ## Tabulating main analysis results only ------
-main_results <- results_list[["mainanalysis_wk_pca_w_glmer"]]$scores
+main_results <- results_list[["mainanalysis_wk_pca_w_lmer"]]$scores
 
 ## Scores by land-use type -------
 pca_scores_landuse <- main_results %>%
@@ -345,88 +345,308 @@ for (r in names(results_list)) {
 }
 
 
+# Plot PMF Results -------------------------------
 
-# Time Series Plot + Map for Main Analysis -------------------------------
+get_pmf_factors <- function(site_type = c("allsites","stationary")){
+  
+  if (site_type == "stationary"){
+    factor_file <- "stationary_pmf_bs_fpeak.xlsx"
+  } else {
+    factor_file <- "allsites_pmf_bs_fpeak.xlsx"
+  }
+  
+  
+  # Get factor information
+  readsheet <- function(sheetname){
+    read_excel(file.path("results", "pmf_results", factor_file),
+               sheet = sheetname) %>%
+      janitor::clean_names() %>%
+      mutate(across(fpeak_value_conc:bs_95th_pct_factor, ~as.numeric(.x))) %>%
+      rename(variable_name = species)
+  }
+  
+  # For a four-factor solution
+  sheets <- c("Factor 1", "Factor 2", "Factor 3", "Factor 4")
+  
+  pmf_fac <- map(sheets, ~readsheet(.x))
+  names(pmf_fac) <- sheets
 
-colors <- c(
-  "#E41A1C",  # red
-  "#2C3E73",  # dark blue
-  "#4DAF4A",  # green
-  "#984EA3",  # purple
-  "#FF7F00",  # orange
-  "#00A0B0",  # dark cyan
-  "#A65628",  # brown
-  "#F781BF",  # pink
-  "#999999"   # gray
+  
+  pmf_fac_results <- bind_rows(pmf_fac, .id = "factor") %>%
+    left_join(., codebook, by = "variable_name") %>%
+    mutate(total_mass = sum(bs_median_conc)) %>%
+    group_by(factor) %>%
+    # Calculate % mass explained by each factor
+    mutate(
+      total_mass_fac = paste0(" (",round(100*sum(bs_median_conc) / total_mass,0),"%)")
+    ) %>%
+    # Normalize concentration contributions for plotting
+    mutate(denominator = sum(bs_median_conc),
+           bs_median_conc = 100*bs_median_conc/denominator,
+           bs_95th_conc = 100*bs_95th_conc/denominator,
+           bs_5th_conc = 100*bs_5th_conc/denominator) %>%
+    ungroup() %>%
+    mutate(factor_text = paste0(factor, total_mass_fac))
+  
+  return(pmf_fac_results)
+  
+  
+}
+
+
+plot_pmf_factors <- function(site_type = "allsites", print = FALSE){
+  
+  if (site_type == "stationary"){
+    subtitle_text = "Weekly sites only"
+    
+    data <- pmf_factors_stationary
+    
+  } else {
+    subtitle_text = "All sites"
+    
+    data <- pmf_factors
+  }
+
+  # 
+  # if (variable == "concentration"){
+  #   y_var = "bs_median_conc"
+  #   ci_low = "bs_5th_conc"
+  #   ci_high = "bs_95th_conc"
+  #   
+  #   title_text = "Relative VOC Mass Contributions to Each Factor"
+  #   y_text = "Normalized Mass (%)"
+  # 
+  # } else {
+  #   y_var = "bs_median_pct_species"
+  #   ci_low = "bs_5th_pct_species"
+  #   ci_high = "bs_95th_pct_species"
+  #   
+  #   title_text = "Percent of Species Due to Each Factor"
+  #   y_text = "% of Species"
+  # }
+  
+  file_name <- paste0(site_type,"_pmf.png")
+  
+  data$category_2 <- factor(data$category_2,levels = category_levels)
+  
+  data <- data %>%
+    arrange(category_2, voc_name) %>%
+    mutate(voc_name = factor(voc_name, levels = unique(voc_name))) # Set the order for voc_name
+  
+  # Plot 1: VOC Contribution to Factors
+  plot1 <- data %>%
+    ggplot() +
+    aes(x = voc_name, y = bs_median_conc, fill = category_2) + 
+    geom_col() +
+    geom_errorbar(
+      aes(ymin = bs_5th_conc, ymax = bs_95th_conc),
+      width = 0.5,      
+      color = "gray50",  
+      linewidth = 0.3  
+    ) +
+    facet_wrap(~factor_text, scales = "free_x") + 
+    coord_flip() + 
+    labs(
+      title = "Relative VOC Contributions to Each Factor",
+      subtitle = subtitle_text,
+      y = "Normalized Concentration (%)",
+      x = "VOC",
+      fill = "VOC Group"
+    ) +
+    paper_theme + 
+    theme(
+      axis.text.x = element_text(angle = 30),
+      legend.key.height = unit(0.3, "in"),
+      legend.key.width = unit(0.3, "in")
+    )  
+  
+  
+  ggsave(
+    file.path("results", "figures", paste0("fact_contrib_", file_name)),
+    plot = plot1,
+    width = unit(8, "in"),
+    height = unit(8, "in"),
+    dpi = 320
+  )
+  
+  # Plot 2: Factor Contributions to Total VOC Mass
+  
+  plot2 <- data %>%
+    ggplot() + 
+    aes(x = voc_name, y = bs_median_pct_species, fill = factor) + 
+    geom_bar(position = position_stack(reverse = TRUE), stat = "identity") + 
+    coord_flip() + 
+    theme_minimal() +
+    scale_fill_manual(
+      values = c(
+        "#1F3A8A",  # dark blue
+        "#F59E0B",  # bright orange
+        "#B91C1C",  # deep red
+        "#16A34A"   # bright green
+      )
+    ) + 
+    labs(x =  "VOC",y = "Contribution (%)",
+         fill = "Factor") +
+    paper_theme
+    
+  
+  ggsave(
+    file.path("results", "figures", paste0("species_contrib_", file_name)),
+    plot = plot2,
+    width = unit(8, "in"),
+    height = unit(8, "in"),
+    dpi = 320
+  )
+    
+    
+    
+  if(print){
+    print(plot1)
+    print(plot2)
+  }
+  
+}
+
+pmf_factors <- get_pmf_factors("allsites")
+plot_pmf_factors("allsites")
+
+pmf_factors_stationary <- get_pmf_factors("stationary")
+plot_pmf_factors("stationary")
+
+
+
+# Main PMF Analysis: Contributions to Sites
+
+pmf_contribs <- read_excel("results/pmf_results/allsites_contributions_bs_fpeak.xlsx") 
+
+site_contribs <- pmf_contribs %>%
+  group_by(site_id2) %>%
+  summarize(
+    total_mass = sum(factor_1) + sum(factor_2) + sum(factor_3) + sum(factor_4),
+    factor_1 = 100*sum(factor_1)/total_mass,
+    factor_2 = 100*sum(factor_2/total_mass),
+    factor_3 = 100*sum(factor_3)/total_mass,
+    factor_4 = 100*sum(factor_4)/total_mass
+  ) %>%
+  ungroup() %>%
+  pivot_longer(
+    factor_1:factor_4, names_to = "factor", values_to = "Contribution"
+  ) %>%
+  mutate(Factor = str_to_title(str_replace_all(factor, "_", " ")),
+         site_id = as.numeric(str_remove_all(site_id2, "site_"))) %>%
+  left_join(., site_info, by = "site_id") %>%
+  mutate(
+    industrial_traffic = interaction(paste0(site_traffic," Traffic"),industrial_20, sep = " "),
+    site_label = if_else(
+      site_type == "stationary",
+      paste0("**", site, "**"),  # Markdown bold
+      site
+    )
+  )
+
+
+
+site_contrib_plot <- site_contribs %>%
+  ggplot() + 
+  aes(x = site_label, y = Contribution, fill = Factor) + 
+  geom_bar(position = position_stack(reverse = TRUE), stat = "identity") + 
+  coord_flip() + 
+  facet_wrap(~industrial_traffic, scales = "free_y", space = "free_y") +
+  theme_minimal() +
+  scale_fill_manual(
+    values = c(
+      "#1F3A8A",  # dark blue
+      "#F59E0B",  # bright orange
+      "#B91C1C",  # deep red
+      "#16A34A"   # bright green
+    )
+  ) + 
+  scale_y_continuous(expand = c(0,0)) +
+  labs(x =  "Site",y = "Contribution (%)") +
+  paper_theme + 
+  theme(
+    legend.position = "bottom",
+    axis.text.y = element_markdown(),
+    strip.text.y = element_text(angle = 0, hjust = 0),
+    panel.spacing = unit(0.5, "lines"),
+    plot.margin = margin(l = 10, t = 10, r = 10, unit = "pt") 
+  )
+
+
+
+ggsave(
+  file.path("results", "figures", "sites_factors_allsites.png"),
+  plot = site_contrib_plot,
+  width = unit(8, "in"),
+  height = unit(8, "in"),
+  dpi = 320
+)
+
+site_ts <- pmf_contribs %>%
+  pivot_longer(
+    factor_1:factor_4, names_to = "factor", values_to = "cont"
+  ) %>%
+  mutate(Factor = str_to_title(str_replace_all(factor, "_", " ")),
+         site_id = as.numeric(str_remove_all(site_id2, "site_")),
+         date = lubridate::make_date(year = paste0("20",str_sub(end_date,7,8)),
+                                     month = str_sub(end_date,1,2),
+                                     day = str_sub(end_date,4,5))) %>%
+  left_join(., site_info, by = "site_id") %>%
+  group_by(site_id, end_date) %>%
+  mutate(norm_cont = 100*cont/sum(cont)) %>%
+  ungroup() %>%
+  mutate(
+    industrial_traffic = interaction(paste0(site_traffic," Traffic"),industrial_20, sep = " "),
+    site_long = paste0(site, "\n", industrial_traffic)
+  ) %>%
+  mutate(    site_long = factor(
+    site_long,
+    levels = site_long %>%
+      tibble(site_long = ., industrial_traffic = industrial_traffic) %>%
+      distinct() %>%
+      arrange(industrial_traffic, site_long) %>%
+      pull(site_long)
+  ))
+
+site_ts_plot <- site_ts %>%
+  filter(site_id < 10) %>%
+  ggplot() + 
+  geom_line(aes(x = date, y = norm_cont, color = Factor)) + 
+  scale_color_manual(
+    values = c(
+      "#1F3A8A",  # dark blue
+      "#F59E0B",  # bright orange
+      "#B91C1C",  # deep red
+      "#16A34A"   # bright green
+    )
+  ) + 
+  facet_wrap(~site_long) + 
+  labs(
+    x = "Date",
+    y = "Relative Contribution (%)"
+  ) + 
+  paper_theme + 
+  theme(
+    axis.text.x = element_text(
+      angle = 30,
+    hjust = 1,
+    vjust = 1
+  ),
+  strip.text = element_text(lineheight=0.3)
+  ) + 
+  scale_x_date(date_labels = "%b %y")
+
+
+
+ggsave(
+  file.path("results", "figures", "sites_factors_timeseries.png"),
+  plot = site_ts_plot,
+  width = unit(8, "in"),
+  height = unit(8, "in"),
+  dpi = 320
 )
 
 
 
-pca_ts <- main_results %>% 
-  pivot_longer(cols = Dim.1:Dim.4, names_to = "comp", values_to = "score") %>%
-  mutate(comp = str_replace(comp, "Dim.", "Component ")) %>%
-  group_by(site) %>%
-  filter(site_type == "stationary") %>%
-  ggplot() + 
-  geom_line(aes(x = as.Date(end_date), y = score, color = site)) + 
-  labs(
-    x = "Date",
-    y = "Score"
-  ) + 
-  facet_wrap(~comp, scales = "free_y") + 
-  scale_color_manual(values = colors) +
-  paper_theme + 
-  theme(legend.position = "none")
 
-
-
-vocs_sf <- read_csv(here("data", "clean", "dat_mgm3.csv")) %>%
-  filter(site_type == "stationary") %>%
-  select(site, long, lat) %>%
-  distinct() %>%
-  st_as_sf(coords = c("long", "lat"), crs = 4326)
-
-site_map <- ggmap(basemap) +
-  geom_sf(
-    data = vocs_sf,
-    inherit.aes = FALSE,
-    aes(fill = site),
-    shape = 21,
-    size = 5,
-    stroke = 0.5,
-    color = "black"
-  ) +
-  coord_zoom(1.15) + 
-  scale_fill_manual(values = colors) + 
-  labs(
-    x = NULL,
-    y = NULL,
-    fill = "Site"
-  ) + 
-  paper_theme + 
-  annotation_north_arrow(
-    location = "br",  # bottom-right
-    height = unit(1, "cm"),
-    width = unit(1, "cm"),
-    which_north = "true",
-    style = north_arrow_orienteering(text_size = 16,
-                                     line_width = 0.5,
-                                     text_face = "bold")
-  ) +
-  theme(
-    axis.text.x = element_text(angle = 45, hjust = 1)
-  )
-
-
-pca_ts_map <- pca_ts + site_map + guide_area() + 
-  plot_layout(
-    design = "aa \n bc",
-    guides = "collect",
-    widths = c(1.3, 1)
-  )
-
-ggsave(here("results","figures","pca_main_timeseries_stationary.png"),
-       pca_ts_map,
-       width = unit(8, "in"),
-       height = unit(8, "in"))
 
