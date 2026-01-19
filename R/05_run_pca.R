@@ -125,7 +125,12 @@ runpca <- function(weighted = FALSE, weekcluster = FALSE, model_type = "lmer", i
             lmer(model_formula, data = .x)
           } else if (model_type == "glmer") {
             glmer(model_formula, family = Gamma(link = "log"), data = .x,
-                  control = glmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 1e6)))
+                  control = glmerControl(optimizer = "bobyqa", 
+                                         optCtrl = list(maxfun = 1e6),
+                                         check.conv.grad = .makeCC("warning", tol = 0.05, relTol = NULL)
+                                         )
+                  )
+            
           }
         }),
         residuals = map2(model, data, ~ residuals(.x, type = "response"))
@@ -254,9 +259,9 @@ saveto <- here("results", "interim_results","pca_results")
 # Rows are weighted by the total number of observations at that site over the year, upweighting more-sampled sites.
 # Main analysis restricts to compounds with at least 40% REG samples and those with ICC > 0.4.
 
-#Weighted, LMER
-wk_pca_w_lmer <- runpca(weighted = TRUE, weekcluster = TRUE, model_type = "lmer")
-write_rds(wk_pca_w_lmer, here(saveto, "mainanalysis_wk_pca_w_lmer.rds"))
+#Weighted, GLMER
+wk_pca_w_glmer <- runpca(weighted = TRUE, weekcluster = TRUE, model_type = "glmer")
+write_rds(wk_pca_w_glmer, here(saveto, "mainanalysis_wk_pca_w_glmer.rds"))
 
 
 # Sensitivity Analyses ----------------------------------------------------
@@ -275,15 +280,15 @@ write_rds(pca_stationary, here(saveto, "sens1b_pca_stationary.rds"))
 
 ## SA2: Modify Main Analysis ----
 ### 2a. Unweighted by total weeks ----
-wk_pca_uw_lmer <- runpca(weekcluster = TRUE, weighted = FALSE, model_type = "lmer",
+wk_pca_uw_glmer <- runpca(weekcluster = TRUE, weighted = FALSE, model_type = "glmer",
                                     stationary_only = FALSE)
-write_rds(wk_pca_uw_lmer, here(saveto, "sens2a_wk_pca_uw_lmer.rds"))
+write_rds(wk_pca_uw_glmer, here(saveto, "sens2a_wk_pca_uw_glmer.rds"))
 
-### 2b. Use gamma instead of gaussian distribution -----
-wk_pca_w_glmer <- runpca(weighted = TRUE, weekcluster = TRUE, model_type = "glmer")
-write_rds(wk_pca_w_glmer, here(saveto, "sens2b_wk_pca_w_glmer.rds"))
+### 2b. Use gaussian instead of gamma distribution -----
+wk_pca_w_lmer <- runpca(weighted = TRUE, weekcluster = TRUE, model_type = "lmer")
+write_rds(wk_pca_w_lmer, here(saveto, "sens2b_wk_pca_w_lmer.rds"))
 
 ### 2c. Include weekly sites only
-wk_pca_w_lmer_stationary <- runpca(weekcluster = TRUE, weighted = TRUE, model_type = "lmer",
+wk_pca_w_glmer_stationary <- runpca(weekcluster = TRUE, weighted = TRUE, model_type = "glmer",
                                      stationary_only = TRUE)
-write_rds(wk_pca_w_lmer_stationary, here(saveto, "sens2c_wk_pca_w_lmer_stationary.rds"))
+write_rds(wk_pca_w_glmer_stationary, here(saveto, "sens2c_wk_pca_w_glmer_stationary.rds"))

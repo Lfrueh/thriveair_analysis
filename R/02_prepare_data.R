@@ -2,6 +2,7 @@ library(tidyverse)
 library(readxl)
 library(here)
 library(openxlsx)
+library(stringi)
 
 
 
@@ -62,7 +63,16 @@ clean_compound_names <- function(data){
 # Keep only compounds of interest for this project
 raw_tenax <- raw_tenax %>%
   clean_compound_names(.) %>%
-  select(file_name, all_of(voc_vars))
+  select(file_name, all_of(voc_vars), all_of(unit_vars))
+
+# Check that all of the units are in nL (otherwise would have to convert)
+unit_tbl <- raw_tenax %>% summarize(across(all_of(unit_vars), ~ toString(unique(.)))) %>%
+  pivot_longer(everything(), names_to = "compound", values_to = "unit")
+
+# Because all units are the same, we can drop them from the dataset
+raw_tenax <- raw_tenax %>%
+  select(-all_of(unit_vars))
+
 
 # Figure out where the start of data is
 start_line <- which(grepl("^start of data", raw_tenax[[1]], ignore.case = TRUE))
@@ -291,15 +301,22 @@ process_voc_data <- function(batch_date, unit = "ppb"){
 
     df <- df %>%
       mutate(
-        # Convert to ppb
+        # Conversion factor to ppb using (1000/(UTR*time))
         conversion_factor = 1000 / (params$utr_1_wk * time_difference),
-        # Blank-correct values
+        # Blank-correct values: (raw amount * multiplier - blank)
         blank_corrected_value = (.data[[voc]]*multiplier) - params$blank,
         # Measurement flags
         !!flag_col := case_when(
-          .data[[voc]] < params$lod_raw & blank_corrected_value > 0 ~ "LOD",
+          # Above upper limit, then flag ULOD
           .data[[voc]] > params$ulod ~ "ULOD",
-          blank_corrected_value <= 0 ~ "ND",
+          
+          # Non-detects: raw value = 0 or blank-corrected value is negative
+          (.data[[voc]] == 0) | (blank_corrected_value < 0) ~ "ND",
+          
+          # LOD: Below LOD but non-zero
+          (.data[[voc]] > 0) & (.data[[voc]] < params$lod_raw) ~ "LOD",
+          
+          # All others: regular (including when blank-corrected == 0)
           TRUE ~ "REG"
         ),
         # Calculate uncertainty in nL (raw units)
@@ -312,10 +329,13 @@ process_voc_data <- function(batch_date, unit = "ppb"){
           # For non-detect values, we use equation 5-1
           .data[[flag_col]] == "ND" ~ (5/6) * params$lod_raw
         ),
-        # Now we can do the calculation.
+        # Conver to ppb.
      !!voc := case_when(
-       # Replace close-to-zero values with 0.0001
-       .data[[flag_col]] == "ND" ~ pmax(round((params$lod_raw/2 * conversion_factor), 4), 0.0001),
+       # Replace NDs with LOD/2, convert to ppb
+       .data[[flag_col]] == "ND" ~ round((params$lod_raw/2 * conversion_factor), 4),
+       # Replace >ULOD measurements with the ULOD, convert to ppb
+       .data[[flag_col]] == "ULOD" ~ round(params$ulod*conversion_factor, 4),
+       # Convert REG values to ULOD
        TRUE ~ round(blank_corrected_value * conversion_factor, 4)
      ),
      # Convert uncertainty to ppb
@@ -324,7 +344,7 @@ process_voc_data <- function(batch_date, unit = "ppb"){
       relocate(!!flag_col, .after = !!voc) %>%
       relocate(!!unc_col, .after = !!flag_col)
     
-    
+    # Convert to micrograms per meter cubed if specified in function arguments
     if (unit == "mgm3"){
       df <- df %>%
         mutate(
@@ -403,6 +423,8 @@ write_excel_csv(colo, "data/clean/colos.csv")
 
 # Save data for PMF -----
 dat_forpmf <- voc_ppb %>%
+  # Replace zero values with 0.0001 to avoid PMF errors. 
+  mutate(across(voc_vars, ~replace(.,.==0,0.0001))) %>%
   filter(sample_type == "sample") %>%
   mutate(site_id2 = paste0("site_", site_id)) %>%
   # Arrange by site and then date per EPA instructions

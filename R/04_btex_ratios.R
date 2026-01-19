@@ -140,7 +140,8 @@ map_ratio <- function(data, ratio, season_val = NULL, rotating = NULL){
       coord_sf(expand = FALSE) +
       labs(
         fill = "Mean"
-      )
+      ) 
+      
   } else {
     p <- ggmap(basemap) +
       geom_sf(
@@ -193,28 +194,37 @@ map_ratio <- function(data, ratio, season_val = NULL, rotating = NULL){
 }
 
 
-# Should the combined maps go in supplemental? 
-# Maybe just focus on time series and year round map for stationary sites?
+
 combine_ratio_maps <- function(ratio_val){
+  
+  if(ratio_val == "tb_ratio"){
+    scale_lims <- c(1,3)
+  } else{
+    scale_lims <- c(5,8)
+  }
+
+  
   p_all <- map_ratio(vocs, ratio_val) +
     labs(subtitle = "Year-round") +
     theme(
       axis.text.x = element_text(angle = 45, hjust = 1, size = 20),
       axis.text.y = element_text(size = 20),  # keep y labels on the left plot
-    ) 
+    ) +
+    scale_fill_viridis_c(limits = scale_lims, option = "turbo")
   
   p_summer <- map_ratio(vocs, ratio_val, "Summer", rotating = 1) +
     labs(subtitle = "Summer") +
     theme(
-      axis.text.x = element_text(angle = 45, hjust = 1, size = 20),
+      axis.text.x = element_blank(),
       axis.text.y = element_blank(), # remove y labels
       axis.ticks.y = element_blank()
-    )
+    ) +
+    scale_fill_viridis_c(limits = scale_lims, option = "turbo")
   
   p_winter <- map_ratio(vocs, ratio_val, "Winter", rotating = 1) +
     labs(subtitle = "Winter") +
     theme(
-      axis.text.x = element_text(angle = 45, hjust = 1, size = 10),
+      axis.text.x = element_blank(),
       axis.text.y = element_blank(),
       axis.ticks.y = element_blank()
     ) + 
@@ -226,7 +236,8 @@ combine_ratio_maps <- function(ratio_val){
       style = north_arrow_orienteering(text_size = 20,
                                        line_width = 1,
                                        text_face = "bold")
-    )
+    ) +
+    scale_fill_viridis_c(limits = scale_lims, option = "turbo")
   
   
   combined_plot <- (p_all | p_summer | p_winter) +
@@ -258,7 +269,7 @@ combine_ratio_maps <- function(ratio_val){
   
    
    ggsave(
-     filename = here("results", "figures", paste0(ratio_val,"_map.png")),
+     filename = here("results", "supplemental","figures", paste0(ratio_val,"_map.png")),
      plot = print(final_plot),
      device = "png",
      width = 8,
@@ -269,7 +280,6 @@ combine_ratio_maps <- function(ratio_val){
    
   
 }
-
 
 combine_ratio_maps("tb_ratio") 
 combine_ratio_maps("xe_ratio") 

@@ -362,6 +362,13 @@ voc_boxplot <- function(df, codebook, output_dir = "results/supplemental/figures
         values_to = "value"
       ) %>%
       left_join(cat_info, by = "variable_name")
+    
+    # Dynamically change facet title size based on number of columns
+    n_facets <- df_long %>% distinct(voc_name) %>% nrow()
+    n_cols <- ceiling(n_facets / 2)
+    
+    strip_size <-if(n_cols < 3) {38} else 28
+    strip_wrap <- if(n_cols < 3) {15} else 20
   
     
     # Plot
@@ -394,10 +401,10 @@ voc_boxplot <- function(df, codebook, output_dir = "results/supplemental/figures
       ) +
       paper_theme +
       coord_flip() + 
-      facet_wrap(~ voc_name, scales = "free_x", nrow=2,
-                 labeller = labeller(voc_name = function(x) hard_wrap(x, width = 15))) +
+      facet_wrap(~ voc_name, scales = "free_x", nrow= ifelse(n_facets <=8, 2, 3),
+                 labeller = labeller(voc_name = function(x) hard_wrap(x, width = strip_wrap))) +
       theme(legend.position = "bottom",
-            strip.text = element_text(size = 38, lineheight = 0.3))
+            strip.text = element_text(size = strip_size, lineheight = 0.3))
 
     
     # Save plot
@@ -405,7 +412,7 @@ voc_boxplot <- function(df, codebook, output_dir = "results/supplemental/figures
       filename = file.path(output_dir, paste0("voccat_bysite_", cat_name, "_boxplot_summary.png")),
       plot = p,
       width = 8,
-      height = 8
+      height = ifelse(n_facets <=8, 8, 12)
     )
   }
 }
@@ -432,13 +439,20 @@ voc_ts <- function(df, codebook, output_dir = "results/supplemental/figures") {
       ) %>%
       dplyr::left_join(cat_info, by = "variable_name")
     
+    # Dynamically change facet title size based on number of columns
+    n_facets <- df_long %>% distinct(voc_name) %>% nrow()
+    n_cols <- ceiling(n_facets / 2)
+    
+    strip_size <-if(n_cols < 3) {48} else 34
+    strip_wrap <- if(n_cols < 3) {24} else 28
+    
     # Plot histograms for each VOC
     p <- df_long %>%
       ggplot(aes(x = as.Date(end_date), y = value)) +
       geom_point(aes(color = site_type), size = 0.6, alpha = 0.7) +
       geom_smooth(color = "black", linewidth = 0.4) +
       facet_wrap(~ voc_name, scales = "free_y",
-               labeller = labeller(voc_name = function(x) hard_wrap(x, width = 19))) +
+               labeller = labeller(voc_name = function(x) hard_wrap(x, width = strip_wrap))) +
       theme_minimal() +
       labs(
         title = cat_name,
@@ -463,7 +477,7 @@ voc_ts <- function(df, codebook, output_dir = "results/supplemental/figures") {
         )
       ) + 
       theme(
-        strip.text = element_text(size = 48, lineheight = 0.3),
+        strip.text = element_text(size = strip_size, lineheight = 0.3),
         legend.position = "bottom",
         axis.text.x = element_text(angle = 45, hjust = 1)
       )

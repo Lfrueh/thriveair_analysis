@@ -34,7 +34,6 @@ site_info <- read_csv("data/site_info.csv")
 ## Plot Loadings ----
 plot_loadings <- function(result_object, object_name, weighted = NULL, cluster = NULL){
   
-  detect_text <- if(str_detect(object_name, "include_all")) "Includes all compounds" else NULL
   weight_text <- if(str_detect(object_name, "_w")) "Weighted" else NULL
   sitetype_text <- if(str_detect(object_name, "stationary")) "Weekly Sites Only" else NULL
   cluster_text <- if (str_detect(object_name, "wk_")){
@@ -45,7 +44,7 @@ plot_loadings <- function(result_object, object_name, weighted = NULL, cluster =
     }
   } else NULL
   
-  detail_text <- paste(compact(list(weight_text, cluster_text, detect_text, sitetype_text)), collapse = ", ")
+  detail_text <- paste(compact(list(weight_text, cluster_text, sitetype_text)), collapse = ", ")
   
   df <- result_object$loadings
   pctvar <- result_object$pctvar
@@ -84,10 +83,10 @@ plot_loadings <- function(result_object, object_name, weighted = NULL, cluster =
     )
   
   # Save sensitivity analyses to supplemental
-  if (str_detect(object_name, "sens")){
-    outpath <- here("results","supplemental","figures")
+  if (str_detect(object_name, "mainanalysis")){
+    outpath <- here("results","figures")
   } else {
-    outpath <- here("results", "figures")
+    outpath <- here("results", "supplemental", "figures")
   }
   
   
@@ -97,7 +96,7 @@ plot_loadings <- function(result_object, object_name, weighted = NULL, cluster =
     dpi = 320,
     units = "in",
     width = 8,
-    height = 8
+    height = 11
   )
   
 }
@@ -228,7 +227,7 @@ names(results_list) <- tools::file_path_sans_ext(list.files(resultpath))
 
 # Tabulate Results --------------------------------------------------------
 ## Tabulating main analysis results only ------
-main_results <- results_list[["mainanalysis_wk_pca_w_lmer"]]$scores
+main_results <- results_list[["mainanalysis_wk_pca_w_glmer"]]$scores
 
 ## Scores by land-use type -------
 pca_scores_landuse <- main_results %>%
@@ -299,7 +298,7 @@ pca_score_boxplot <- main_results %>%
       main_results %>% filter(site_type == "rotating") %>% pull(site) %>% unique()
     ))
   ) %>%
-  pivot_longer(Dim.1:Dim.4, names_to = "comp", values_to = "score") %>%
+  pivot_longer(Dim.1:Dim.5, names_to = "comp", values_to = "score") %>%
   mutate(comp = str_replace(comp, "Dim.", "Component ")) %>%
   ggplot(aes(x = site, y = score, fill = site_type)) +
   geom_boxplot(outlier.color = "black", outlier.size = 0.4, size = 0.4) +
@@ -328,7 +327,7 @@ pca_score_boxplot <- main_results %>%
 ggsave(
   here("results", "supplemental", "figures", "pca_score_boxplot.png"),
   plot = pca_score_boxplot,
-  width = unit(8, "in"),
+  width = unit(11, "in"),
   height = unit(8, "in"),
   dpi = 320
 )
@@ -340,9 +339,9 @@ for (r in names(results_list)) {
 
 
 # Map Average Scores ------------------------------------------------------
-for (r in names(results_list)) {
-  map_avg_scores(result_object = results_list[[r]], object_name = r)
-}
+# for (r in names(results_list)) {
+#   map_avg_scores(result_object = results_list[[r]], object_name = r)
+# }
 
 
 # Plot PMF Results -------------------------------
@@ -358,15 +357,15 @@ get_pmf_factors <- function(site_type = c("allsites","stationary")){
   
   # Get factor information
   readsheet <- function(sheetname){
-    read_excel(file.path("results", "pmf_results", factor_file),
+    read_excel(file.path("results", "interim_results","pmf_results", factor_file),
                sheet = sheetname) %>%
       janitor::clean_names() %>%
-      mutate(across(fpeak_value_conc:bs_95th_pct_factor, ~as.numeric(.x))) %>%
+      mutate(across(fpeak_value_conc:bs_95th_pct, ~as.numeric(.x))) %>%
       rename(variable_name = species)
   }
   
   # For a four-factor solution
-  sheets <- c("Factor 1", "Factor 2", "Factor 3", "Factor 4")
+  sheets <- c("Factor 1", "Factor 2", "Factor 3", "Factor 4", "Factor 5")
   
   pmf_fac <- map(sheets, ~readsheet(.x))
   names(pmf_fac) <- sheets
@@ -406,24 +405,6 @@ plot_pmf_factors <- function(site_type = "allsites", print = FALSE){
     
     data <- pmf_factors
   }
-
-  # 
-  # if (variable == "concentration"){
-  #   y_var = "bs_median_conc"
-  #   ci_low = "bs_5th_conc"
-  #   ci_high = "bs_95th_conc"
-  #   
-  #   title_text = "Relative VOC Mass Contributions to Each Factor"
-  #   y_text = "Normalized Mass (%)"
-  # 
-  # } else {
-  #   y_var = "bs_median_pct_species"
-  #   ci_low = "bs_5th_pct_species"
-  #   ci_high = "bs_95th_pct_species"
-  #   
-  #   title_text = "Percent of Species Due to Each Factor"
-  #   y_text = "% of Species"
-  # }
   
   file_name <- paste0(site_type,"_pmf.png")
   
@@ -444,7 +425,7 @@ plot_pmf_factors <- function(site_type = "allsites", print = FALSE){
       color = "gray50",  
       linewidth = 0.3  
     ) +
-    facet_wrap(~factor_text, scales = "free_x") + 
+    facet_wrap(~factor_text, scales = "free_x", ncol = 2) + 
     coord_flip() + 
     labs(
       title = "Relative VOC Contributions to Each Factor",
@@ -464,8 +445,8 @@ plot_pmf_factors <- function(site_type = "allsites", print = FALSE){
   ggsave(
     file.path("results", "figures", paste0("fact_contrib_", file_name)),
     plot = plot1,
-    width = unit(8, "in"),
-    height = unit(8, "in"),
+    width = unit(9, "in"),
+    height = unit(11, "in"),
     dpi = 320
   )
   
@@ -473,7 +454,7 @@ plot_pmf_factors <- function(site_type = "allsites", print = FALSE){
   
   plot2 <- data %>%
     ggplot() + 
-    aes(x = voc_name, y = bs_median_pct_species, fill = factor) + 
+    aes(x = voc_name, y = bs_median_pct, fill = factor) + 
     geom_bar(position = position_stack(reverse = TRUE), stat = "identity") + 
     coord_flip() + 
     theme_minimal() +
@@ -481,8 +462,9 @@ plot_pmf_factors <- function(site_type = "allsites", print = FALSE){
       values = c(
         "#1F3A8A",  # dark blue
         "#F59E0B",  # bright orange
+        "turquoise", # light blue
         "#B91C1C",  # deep red
-        "#16A34A"   # bright green
+        "#16A34A"  # bright green
       )
     ) + 
     labs(x =  "VOC",y = "Contribution (%)",
@@ -517,20 +499,22 @@ plot_pmf_factors("stationary")
 
 # Main PMF Analysis: Contributions to Sites
 
-pmf_contribs <- read_excel("results/pmf_results/allsites_contributions_bs_fpeak.xlsx") 
+pmf_contribs <- read_excel("results/interim_results/pmf_results/allsites_contributions_bs_fpeak.xlsx") %>%
+  filter(!is.na(site_id2))
 
 site_contribs <- pmf_contribs %>%
   group_by(site_id2) %>%
   summarize(
-    total_mass = sum(factor_1) + sum(factor_2) + sum(factor_3) + sum(factor_4),
+    total_mass = sum(factor_1) + sum(factor_2) + sum(factor_3) + sum(factor_4) + sum(factor_5),
     factor_1 = 100*sum(factor_1)/total_mass,
     factor_2 = 100*sum(factor_2/total_mass),
     factor_3 = 100*sum(factor_3)/total_mass,
-    factor_4 = 100*sum(factor_4)/total_mass
+    factor_4 = 100*sum(factor_4)/total_mass,
+    factor_5 = 100*sum(factor_5)/total_mass
   ) %>%
   ungroup() %>%
   pivot_longer(
-    factor_1:factor_4, names_to = "factor", values_to = "Contribution"
+    factor_1:factor_5, names_to = "factor", values_to = "Contribution"
   ) %>%
   mutate(Factor = str_to_title(str_replace_all(factor, "_", " ")),
          site_id = as.numeric(str_remove_all(site_id2, "site_"))) %>%
@@ -557,8 +541,9 @@ site_contrib_plot <- site_contribs %>%
     values = c(
       "#1F3A8A",  # dark blue
       "#F59E0B",  # bright orange
+      "turquoise", # light blue
       "#B91C1C",  # deep red
-      "#16A34A"   # bright green
+      "#16A34A"  # bright green
     )
   ) + 
   scale_y_continuous(expand = c(0,0)) +
@@ -584,7 +569,7 @@ ggsave(
 
 site_ts <- pmf_contribs %>%
   pivot_longer(
-    factor_1:factor_4, names_to = "factor", values_to = "cont"
+    factor_1:factor_5, names_to = "factor", values_to = "cont"
   ) %>%
   mutate(Factor = str_to_title(str_replace_all(factor, "_", " ")),
          site_id = as.numeric(str_remove_all(site_id2, "site_")),
@@ -616,8 +601,9 @@ site_ts_plot <- site_ts %>%
     values = c(
       "#1F3A8A",  # dark blue
       "#F59E0B",  # bright orange
+      "turquoise", # light blue
       "#B91C1C",  # deep red
-      "#16A34A"   # bright green
+      "#16A34A"  # bright green
     )
   ) + 
   facet_wrap(~site_long) + 
