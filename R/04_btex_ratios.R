@@ -3,7 +3,6 @@ library(tidyverse)
 library(zoo)
 library(patchwork)
 library(sf)
-library(broom.mixed)
 library(RColorBrewer)
 library(here)
 
@@ -59,6 +58,30 @@ ratio_means_site <- vocs %>%
 # Save to supplemental
 write_excel_csv(ratio_means_site, here("results", "supplemental", "tables", "ratios_by_site.csv"))
 
+## Ratios by site type
+ratio_means_sitetype <- vocs %>%
+  group_by(site_type) %>%
+  summarize(
+    across(
+      c(ends_with("_ratio"), "benzene", "toluene", "ethylbenzene", "m_p_xylene_2", "o_xylene"),
+      ~ sprintf("%.2f (%.2f)", mean(.x, na.rm = TRUE), sd(.x, na.rm = TRUE))
+    ),
+    .groups = "drop"
+  )
+
+write_excel_csv(ratio_means_sitetype, here("results", "supplemental", "tables", "ratios_by_site_type.csv"))
+
+## Ratios overall
+ratio_means_overall <- vocs %>%
+  summarize(
+    across(
+      c(ends_with("_ratio"), "benzene", "toluene", "ethylbenzene", "m_p_xylene_2", "o_xylene"),
+      ~ sprintf("%.2f (%.2f)", mean(.x, na.rm = TRUE), sd(.x, na.rm = TRUE))
+    )
+  )
+
+write_excel_csv(ratio_means_overall, here("results", "supplemental", "tables", "ratios_overall.csv"))
+
 ## Ratios by land-use type
 ratio_means_landuse <- vocs %>%
   group_by(industrial_20, site_traffic) %>%
@@ -75,28 +98,6 @@ write_excel_csv(ratio_means_landuse, here("results", "tables", "btex_ratio_landu
 
 
 # Ratios by Land Use Type -------------------------------------------------
-
-# Models
-m  <- lmer(tb_ratio ~ industrial_20 + site_traffic + (1|week), data = vocs)
-m2 <- lmer(xe_ratio ~ industrial_20 + site_traffic + (1|week), data = vocs)
-
-# Combine tidy outputs
-ratio_lmer <- bind_rows(
-  tidy(m, effects = "fixed", conf.int = TRUE, conf.level = 0.95) %>%
-    mutate(model = "tb_ratio"),
-  tidy(m2, effects = "fixed", conf.int = TRUE, conf.level = 0.95) %>%
-    mutate(model = "xe_ratio")
-) %>%
-  select(model, term, estimate, conf.low, conf.high) %>%
-  mutate(
-    CI = paste0("(", round(conf.low, 3), ", ", round(conf.high, 3), ")"),
-    estimate = round(estimate, 3)
-  ) %>%
-  select(model, term, estimate, CI) %>%
-  filter(term != "(Intercept)")
-
-write_csv(ratio_lmer, here("results", "interim_results", "tables", "btex_ratio_lmer.csv"))
-
 
 # Maps --------------------------------------------------------------------
 # Function to map ratios

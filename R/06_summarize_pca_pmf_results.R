@@ -95,7 +95,7 @@ plot_loadings <- function(result_object, object_name, weighted = NULL, cluster =
     plot = plot,
     dpi = 320,
     units = "in",
-    width = 8,
+    width = 9,
     height = 11
   )
   
@@ -241,6 +241,21 @@ pca_scores_landuse <- main_results %>%
   )
 
 write_csv(pca_scores_landuse, here("results", "tables", "pca_scores_by_landuse.csv"))
+
+## Scores by site -------
+pca_scores_site <- main_results %>%
+  filter(site_type == "stationary") %>%
+  group_by(site_id, site) %>%
+  arrange(site_id) %>%
+  summarize(
+    across(
+      starts_with("Dim"),
+      ~ sprintf("%.2f (%.2f)", mean(.x, na.rm = TRUE), sd(.x, na.rm = TRUE))
+    ),
+    .groups = "drop"
+  )
+
+write_csv(pca_scores_site, here("results", "tables", "pca_scores_by_site.csv"))
 
 
 # Heatmap of Scores -------------------------------------------------------

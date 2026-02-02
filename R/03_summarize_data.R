@@ -8,6 +8,7 @@ library(ggcorrplot)
 library(ggtext)
 library(ggpattern)
 library(ggnewscale)
+library(gridExtra)
 library(sf)
 
 ########################################################
@@ -89,7 +90,7 @@ landuse <- st_read(here("data", "shp", "landuse_ssw.shp")) %>%
 
 # Monitoring sites
 sites_sf <- vocs %>%
-  select(site, site_type, site_traffic, long, lat) %>%
+  select(site, site_id, site_type, site_traffic, long, lat) %>%
   distinct() %>%
   st_as_sf(coords = c("long", "lat"),
            crs = 4326)
@@ -134,12 +135,12 @@ sitemap <- ggmap(basemap) +
   # Former Refinery site
   geom_sf_pattern(data = refinery, 
                   aes(fill = "Former Refinery"), #dummy variable for legend
-                  inherit.aes = FALSE, alpha = 0.6,
+                  inherit.aes = FALSE, alpha = 0.4,
                   pattern = "stripe", pattern_spacing = 0.01,
                   pattern_alpha = 0.5) + 
   new_scale_fill() +
   # Land Use
-  geom_sf(data = landuse, aes(fill = landuse), lwd = 0, alpha = 0.6,
+  geom_sf(data = landuse, aes(fill = landuse), lwd = 0, alpha = 0.4,
           inherit.aes = FALSE) + 
   scale_fill_manual(values = landuse_colors,
                     name = "Land Use",
@@ -149,7 +150,17 @@ sitemap <- ggmap(basemap) +
   # Monitor site points
   geom_sf(data = sites_sf, inherit.aes = FALSE,
           aes(shape = site_type, fill = site_traffic),
-          color = "black", stroke = 0.4, size = 5) + 
+          color = "black", stroke = 0.4, size = 7) + 
+  # Site ID annotations with shadow
+  # Site ID annotations - white text
+  geom_sf_text(
+    data = sites_sf,
+    aes(label = site_id),
+    size = 11,
+    fontface = "bold",
+    color = "white",
+    inherit.aes = FALSE
+  ) +
   scale_shape_manual(
     values = c("stationary" = 21, "rotating" = 22),
     labels = c("stationary" = "Weekly", "rotating" = "Community"),
@@ -172,8 +183,8 @@ sitemap <- ggmap(basemap) +
   # North arrow
   annotation_north_arrow(
     location = "br",  # bottom-right
-    height = unit(2, "cm"),
-    width = unit(2, "cm"),
+    height = unit(1.5, "cm"),
+    width = unit(1.5, "cm"),
     which_north = "true",
     style = north_arrow_orienteering(text_size = 32,
                                      line_width = 1,
@@ -182,26 +193,54 @@ sitemap <- ggmap(basemap) +
   coord_zoom(1.15) + 
   labs(
     y = NULL,
-    x = NULL,
-    title = "Monitoring Sites",
-    subtitle = "Land Use and Traffic Density Considerations"
+    x = NULL
+   # title = "Monitoring Sites",
+   # subtitle = "Land Use and Traffic Density Considerations"
   ) + 
   paper_theme + 
   theme(
     legend.position = "right",
     legend.box = "vertical",
     legend.direction = "vertical",
-    legend.box.spacing = unit(0.5, "cm"), 
-    legend.spacing = unit(0.5, "cm"),
+    legend.box.spacing = unit(0.3, "cm"), 
+    legend.spacing = unit(0.3, "cm"),
     legend.margin = margin(t = 0, r = 0, b = 0, l = 2),  
-    legend.key.size = unit(1, "cm")
+    legend.key.size = unit(0.8, "cm"),
+    plot.margin = margin(3,3,3,3, "pt") 
   )
 
 
+site_key <- sites_sf %>%
+  st_drop_geometry() %>%
+  select(site_id, site) %>%
+  mutate(site= iconv(site, from = "UTF-8", to = "ASCII//TRANSLIT")) %>%
+  mutate(site = str_wrap(site, width = 21)) %>%
+  distinct() %>%
+  rename(ID = site_id, Site = site) %>%
+  arrange(ID)
+
+key_table <- tableGrob(
+  site_key,
+  rows = NULL,
+  theme = ttheme_default(
+    core = list(
+      fg_params = list(fontsize = 32, hjust = 0, x = 0.05, lineheight = 0.3),  # left-justify, small left margin
+      padding = unit(c(4, 2), "mm")  
+    ),
+    colhead = list(
+      fg_params = list(fontsize = 32, fontface = "bold", hjust = 0, x = 0.05)
+    )
+  )
+)
+
+combo_plot <- wrap_elements(key_table) + sitemap + plot_layout(widths = c(1,3))  
+  # plot_annotation(theme = theme(plot.margin = margin(0, 0, 0, 0),
+  #                               panel.spacing = unit(0, "pt") ))  # reduce overall margins
+
 ggsave(
   filename = here("results", "figures", "sites_landuse_traffic.png"),
-  plot = sitemap,
-  width = unit(8, "in"),
+  plot = combo_plot,
+  width = unit(9, "in"),
   height = unit(8, "in")
   
 )
