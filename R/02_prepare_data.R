@@ -95,7 +95,11 @@ tenax <- tenax %>%
 
 
 ## Sample information ----
-samples <- read_csv(here("data", "raw", "sampling_sheet.csv")) %>%
+samples <- read_csv(here("data", "raw", "sampling_sheet.csv"),
+                    col_types = cols(
+                      `START TIME` = col_character(),
+                      `END TIME` = col_character()
+                    )) %>%
   janitor::clean_names() %>%
   rename(file_name_sampling = file_name_tube_number_today_date_end_date_location_fb_lab_blank_dup_etc,
          site_id = location_number) %>%
@@ -108,12 +112,19 @@ samples <- read_csv(here("data", "raw", "sampling_sheet.csv")) %>%
       sample_end_date = mdy(word(file_name_sampling, 3, sep = " ")),
       sample_type = tolower(sample_type),
       start_date = mdy(start_date),
-      start_time = hms(as.character(start_time)),
       end_date = mdy(end_date),
-      end_time = hms(as.character(end_time)),
-      time_difference = as.numeric(difftime(
-        (end_date + end_time), start_date + start_time, 
-        units = "mins")),
+      start_time = parse_date_time(start_time, "%I:%M:%S %p"),
+      end_time = parse_date_time(end_time, "%I:%M:%S %p"),
+      # Combine: add the time component to the actual date
+      start_datetime = start_date + 
+        hours(hour(start_time)) + 
+        minutes(minute(start_time)) + 
+        seconds(second(start_time)),
+      end_datetime = end_date + 
+        hours(hour(end_time)) + 
+        minutes(minute(end_time)) + 
+        seconds(second(end_time)),
+      time_difference = as.numeric(difftime(end_datetime, start_datetime, units = "mins")),
       sample_type = str_squish(tolower(sample_type)),
       # Create a unique week ID
       week = paste0(week(end_date),year(end_date)),

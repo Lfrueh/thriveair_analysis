@@ -508,13 +508,14 @@ plot_pmf_factors <- function(site_type = "allsites", print = FALSE){
 
 ## All sites
 pmf_factors <- get_pmf_factors("allsites") %>%
-  mutate(Factor = case_when(
-    factor == "Factor 1" ~ "Gasoline evaporation",
-    factor == "Factor 2" ~ "Petroleum solvents",
-    factor == "Factor 3" ~ "Background/legacy",
-    factor == "Factor 4" ~ "Vehicle exhaust",
-    factor == "Factor 5" ~ "Auto repair"
-  ),
+  mutate(
+   Factor = case_when(
+   factor == "Factor 1" ~ "Gasoline evaporation",
+   factor == "Factor 4" ~ "Petroleum solvents",
+   factor == "Factor 3" ~ "Background/legacy",
+   factor == "Factor 2" ~ "Vehicle exhaust",
+   factor == "Factor 5" ~ "Auto repair"
+   ),
   factor_text = paste(Factor, total_mass_fac)
   ) %>%
   arrange(desc(total_mass_fac)) %>%
@@ -524,12 +525,13 @@ plot_pmf_factors("allsites")
 
 ## Stationary Sites 
 pmf_factors_stationary <- get_pmf_factors("stationary") %>%
-  mutate(Factor = case_when(
-    factor == "Factor 2" ~ "Gasoline evaporation",
-    factor == "Factor 4" ~ "Petroleum solvents",
+  mutate(
+    Factor = case_when(
+    factor == "Factor 4" ~ "Gasoline evaporation",
+    factor == "Factor 5" ~ "Petroleum solvents",
     factor == "Factor 1" ~ "Background/legacy",
     factor == "Factor 3" ~ "Vehicle exhaust",
-    factor == "Factor 5" ~ "Auto repair"
+    factor == "Factor 2" ~ "Auto repair"
   ),
   factor_text = paste(Factor, total_mass_fac)
   ) %>%
@@ -563,9 +565,9 @@ site_contribs <- pmf_contribs %>%
   ) %>%
   mutate(Factor = case_when(
     factor == "factor_1" ~ "Gasoline evaporation",
-    factor == "factor_2" ~ "Petroleum solvents",
+    factor == "factor_4" ~ "Petroleum solvents",
     factor == "factor_3" ~ "Background/legacy",
-    factor == "factor_4" ~ "Vehicle exhaust",
+    factor == "factor_2" ~ "Vehicle exhaust",
     factor == "factor_5" ~ "Auto repair"
   ),
   Factor = factor(Factor, levels = 
@@ -635,9 +637,9 @@ site_ts <- pmf_contribs %>%
   ) %>%
   mutate(Factor = case_when(
     factor == "factor_1" ~ "Gasoline evaporation",
-    factor == "factor_2" ~ "Petroleum solvents",
+    factor == "factor_4" ~ "Petroleum solvents",
     factor == "factor_3" ~ "Background/legacy",
-    factor == "factor_4" ~ "Vehicle exhaust",
+    factor == "factor_2" ~ "Vehicle exhaust",
     factor == "factor_5" ~ "Auto repair"
   ),
   Factor = factor(Factor, levels = 
