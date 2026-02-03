@@ -469,7 +469,7 @@ plot_pmf_factors <- function(site_type = "allsites", print = FALSE){
   
   plot2 <- data %>%
     ggplot() + 
-    aes(x = voc_name, y = bs_median_pct, fill = factor) + 
+    aes(x = voc_name, y = bs_median_pct, fill = Factor) + 
     geom_bar(position = position_stack(reverse = TRUE), stat = "identity") + 
     coord_flip() + 
     theme_minimal() +
@@ -504,10 +504,40 @@ plot_pmf_factors <- function(site_type = "allsites", print = FALSE){
   
 }
 
-pmf_factors <- get_pmf_factors("allsites")
+# Get results & Add interpretation
+
+## All sites
+pmf_factors <- get_pmf_factors("allsites") %>%
+  mutate(Factor = case_when(
+    factor == "Factor 1" ~ "Gasoline evaporation",
+    factor == "Factor 2" ~ "Petroleum solvents",
+    factor == "Factor 3" ~ "Background/legacy",
+    factor == "Factor 4" ~ "Vehicle exhaust",
+    factor == "Factor 5" ~ "Auto repair"
+  ),
+  factor_text = paste(Factor, total_mass_fac)
+  ) %>%
+  arrange(desc(total_mass_fac)) %>%
+  mutate(factor_text = factor(factor_text, levels = unique(factor_text)))
+  
 plot_pmf_factors("allsites")
 
-pmf_factors_stationary <- get_pmf_factors("stationary")
+## Stationary Sites 
+pmf_factors_stationary <- get_pmf_factors("stationary") %>%
+  mutate(Factor = case_when(
+    factor == "Factor 2" ~ "Gasoline evaporation",
+    factor == "Factor 4" ~ "Petroleum solvents",
+    factor == "Factor 1" ~ "Background/legacy",
+    factor == "Factor 3" ~ "Vehicle exhaust",
+    factor == "Factor 5" ~ "Auto repair"
+  ),
+  factor_text = paste(Factor, total_mass_fac)
+  ) %>%
+  arrange(desc(total_mass_fac)) %>%
+  mutate(factor_text = factor(factor_text, levels = unique(factor_text)))
+
+
+
 plot_pmf_factors("stationary")
 
 
@@ -531,8 +561,24 @@ site_contribs <- pmf_contribs %>%
   pivot_longer(
     factor_1:factor_5, names_to = "factor", values_to = "Contribution"
   ) %>%
-  mutate(Factor = str_to_title(str_replace_all(factor, "_", " ")),
-         site_id = as.numeric(str_remove_all(site_id2, "site_"))) %>%
+  mutate(Factor = case_when(
+    factor == "factor_1" ~ "Gasoline evaporation",
+    factor == "factor_2" ~ "Petroleum solvents",
+    factor == "factor_3" ~ "Background/legacy",
+    factor == "factor_4" ~ "Vehicle exhaust",
+    factor == "factor_5" ~ "Auto repair"
+  ),
+  Factor = factor(Factor, levels = 
+                    c("Vehicle exhaust",
+                      "Petroleum solvents",
+                      "Gasoline evaporation",
+                      "Background/legacy",
+                      "Auto repair")),
+  site_id = as.numeric(str_remove_all(site_id2, "site_")),
+  # Replace negative contributions with zero (since these are medians
+  # from bootstrapped samples, sometimes a negative can happen)
+  Contribution = case_when(Contribution < 0 ~ 0, TRUE ~ Contribution)
+  ) %>%
   left_join(., site_info, by = "site_id") %>%
   mutate(
     industrial_traffic = interaction(paste0(site_traffic," Traffic"),industrial_20, sep = " "),
@@ -564,6 +610,7 @@ site_contrib_plot <- site_contribs %>%
   scale_y_continuous(expand = c(0,0)) +
   labs(x =  "Site",y = "Contribution (%)") +
   paper_theme + 
+  guides(fill = guide_legend(nrow = 2)) + 
   theme(
     legend.position = "bottom",
     axis.text.y = element_markdown(),
@@ -586,11 +633,24 @@ site_ts <- pmf_contribs %>%
   pivot_longer(
     factor_1:factor_5, names_to = "factor", values_to = "cont"
   ) %>%
-  mutate(Factor = str_to_title(str_replace_all(factor, "_", " ")),
-         site_id = as.numeric(str_remove_all(site_id2, "site_")),
-         date = lubridate::make_date(year = paste0("20",str_sub(end_date,7,8)),
-                                     month = str_sub(end_date,1,2),
-                                     day = str_sub(end_date,4,5))) %>%
+  mutate(Factor = case_when(
+    factor == "factor_1" ~ "Gasoline evaporation",
+    factor == "factor_2" ~ "Petroleum solvents",
+    factor == "factor_3" ~ "Background/legacy",
+    factor == "factor_4" ~ "Vehicle exhaust",
+    factor == "factor_5" ~ "Auto repair"
+  ),
+  Factor = factor(Factor, levels = 
+                    c("Vehicle exhaust",
+                      "Petroleum solvents",
+                      "Gasoline evaporation",
+                      "Background/legacy",
+                      "Auto repair")),
+  site_id = as.numeric(str_remove_all(site_id2, "site_")),
+  date = lubridate::make_date(year = paste0("20",str_sub(end_date,7,8)),
+                              month = str_sub(end_date,1,2),
+                              day = str_sub(end_date,4,5))
+  ) %>%
   left_join(., site_info, by = "site_id") %>%
   group_by(site_id, end_date) %>%
   mutate(norm_cont = 100*cont/sum(cont)) %>%
@@ -633,7 +693,7 @@ site_ts_plot <- site_ts %>%
     hjust = 1,
     vjust = 1
   ),
-  strip.text = element_text(lineheight=0.3)
+  strip.text = element_text(lineheight=0.3, size = 30)
   ) + 
   scale_x_date(date_labels = "%b %y")
 

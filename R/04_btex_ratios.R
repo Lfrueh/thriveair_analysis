@@ -382,3 +382,25 @@ ggsave(here("results", "supplemental", "figures", "ratio_ts_map.png"),
        height = unit(8, "in"))
 
 
+
+
+# Ratios for Supplement ---------------------------------------------------
+supp_table <- vocs %>%
+  group_by(site_type, industrial_20) %>%
+  summarize(
+    across(
+      c(ends_with("_ratio"), "benzene", "toluene", "ethylbenzene", "m_p_xylene_2", "o_xylene"),
+      ~round(mean(.x, na.rm = TRUE),2)
+    ),
+    .groups = "drop"
+  ) %>%
+  mutate(xylenes = o_xylene + m_p_xylene_2, 
+      ratio_summary =  
+           paste0(round(benzene/ethylbenzene,1)," : ",
+                  round(toluene/ethylbenzene, 1)," : ",
+                  "1", " : ",
+                  round(xylenes/ethylbenzene, 1))
+  ) %>%
+  arrange(site_type, desc(industrial_20))
+
+write_csv(supp_table, here("results","supplemental","tables","btex_ratio_summary.csv"))
