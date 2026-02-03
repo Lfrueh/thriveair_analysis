@@ -313,7 +313,7 @@ pca_score_boxplot <- main_results %>%
       main_results %>% filter(site_type == "rotating") %>% pull(site) %>% unique()
     ))
   ) %>%
-  pivot_longer(Dim.1:Dim.5, names_to = "comp", values_to = "score") %>%
+  pivot_longer(Dim.1:Dim.4, names_to = "comp", values_to = "score") %>%
   mutate(comp = str_replace(comp, "Dim.", "Component ")) %>%
   ggplot(aes(x = site, y = score, fill = site_type)) +
   geom_boxplot(outlier.color = "black", outlier.size = 0.4, size = 0.4) +

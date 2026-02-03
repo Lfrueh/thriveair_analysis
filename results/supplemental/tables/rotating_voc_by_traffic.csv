@@ -19,7 +19,7 @@ nonane (median [IQR]),"0.48 [0.26, 0.69]","0.56 [0.27, 0.71]","0.44 [0.27, 0.64]
 decane (median [IQR]),"0.41 [0.35, 0.52]","0.39 [0.29, 0.46]","0.44 [0.36, 0.52]",0.381,nonnorm,decane,Decane,decane,149.29,Alkanes,C10-C12 Alkanes,4,1
 undecane (median [IQR]),"0.44 [0.37, 0.68]","0.42 [0.36, 0.65]","0.48 [0.38, 0.71]",0.650,nonnorm,undecane,Undecane,undecane,156.31,Alkanes,C10-C12 Alkanes,4,2
 dodecane (median [IQR]),"0.20 [0.14, 0.34]","0.16 [0.13, 0.38]","0.21 [0.16, 0.29]",0.513,nonnorm,dodecane,Dodecane,dodecane,170.34,Alkanes,C10-C12 Alkanes,4,3
-butane_2_methyl (median [IQR]),"0.22 [0.15, 0.32]","0.24 [0.15, 0.32]","0.22 [0.15, 0.23]",0.982,nonnorm,butane_2_methyl,Isopentane,butane_2_methyl,72.151,Alkanes,Other Alkanes,5,1
+butane_2_methyl (median [IQR]),"0.42 [0.15, 0.45]","0.35 [0.15, 0.53]","0.42 [0.15, 0.44]",0.790,nonnorm,butane_2_methyl,Isopentane,butane_2_methyl,72.151,Alkanes,Other Alkanes,5,1
 pentane_2_methyl (median [IQR]),"4.58 [2.74, 7.25]","4.63 [2.66, 6.67]","4.57 [3.09, 8.29]",0.550,nonnorm,pentane_2_methyl,Isohexane,pentane_2_methyl,86.178,Alkanes,Other Alkanes,5,2
 hexane_2_methyl (median [IQR]),"0.66 [0.42, 0.90]","0.67 [0.43, 0.81]","0.61 [0.43, 0.99]",0.723,nonnorm,hexane_2_methyl,2-​Methylhexane,hexane2methyl,100.2,Alkanes,Other Alkanes,5,3
 hexane_3_methyl (median [IQR]),"1.43 [0.95, 1.95]","1.46 [0.98, 1.73]","1.31 [0.97, 2.19]",0.740,nonnorm,hexane_3_methyl,3-​Methylhexane,hexane_3_methyl,100.205,Alkanes,Other Alkanes,5,4
@@ -27,7 +27,7 @@ heptane_3_methyl (median [IQR]),"0.54 [0.43, 0.73]","0.57 [0.47, 0.66]","0.52 [0
 pentane_3_methyl (median [IQR]),"1.58 [1.02, 2.44]","1.60 [1.00, 2.04]","1.58 [1.10, 3.12]",0.465,nonnorm,pentane_3_methyl,3-​Methylpentane,pentane_3_methyl,86.178,Alkanes,Other Alkanes,5,6
 pentane_2_4_dimethyl (median [IQR]),"0.23 [0.20, 0.36]","0.24 [0.20, 0.31]","0.23 [0.19, 0.42]",0.603,nonnorm,pentane_2_4_dimethyl,"2,4-​Dimethylpentane",pentane_2_4_dimethyl,100.205,Alkanes,Other Alkanes,5,7
 pentane_2_3_4_trimethyl (median [IQR]),"0.31 [0.23, 0.46]","0.30 [0.25, 0.43]","0.34 [0.23, 0.47]",0.748,nonnorm,pentane_2_3_4_trimethyl,"2,3,4-​Trimethylpentane",pentane_2_3_4_trimethyl,114.232,Alkanes,Other Alkanes,5,8
-cyclohexane_methyl (median [IQR]),"1.12 [0.84, 1.60]","1.11 [0.83, 1.47]","1.14 [0.89, 1.72]",0.535,nonnorm,cyclohexane_methyl,Methylcyclohexane,cyclohexane_methyl,98.189,Cyclohexanes,Other Alkanes,5,9
+cyclohexane_methyl (median [IQR]),"1.12 [0.84, 1.60]","1.11 [0.83, 1.47]","1.14 [0.89, 1.72]",0.550,nonnorm,cyclohexane_methyl,Methylcyclohexane,cyclohexane_methyl,98.189,Cyclohexanes,Other Alkanes,5,9
 x1_hexene (median [IQR]),"0.19 [0.10, 0.26]","0.19 [0.14, 0.23]","0.18 [0.10, 0.26]",0.982,nonnorm,x1_hexene,1-​Hexene,x1_hexene,84.162,Alkenes,Alkenes,6,1
 x2_pentene_z_cis (median [IQR]),"0.05 [0.02, 0.07]","0.03 [0.03, 0.06]","0.05 [0.01, 0.09]",0.548,nonnorm,x2_pentene_z_cis,cis-​2-​Pentene,x2_pentene_z_cis,70.1329,Alkenes,Alkenes,6,2
 x1_3_butadiene_2_methyl (median [IQR]),"0.03 [0.01, 0.06]","0.01 [0.01, 0.06]","0.04 [0.01, 0.07]",0.393,nonnorm,x1_3_butadiene_2_methyl,Isoprene,x1_3_butadiene_2_methyl,68.12,Alkenes,Alkenes,6,3

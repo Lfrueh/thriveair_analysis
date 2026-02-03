@@ -3,6 +3,7 @@ library(readxl)
 library(here)
 library(lme4) # Dependency to calculate ICC with psych package
 library(psych)
+library(patchwork)
 library(tableone)
 library(ggcorrplot)
 library(ggtext)

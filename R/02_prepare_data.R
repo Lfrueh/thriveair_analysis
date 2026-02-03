@@ -333,9 +333,9 @@ process_voc_data <- function(batch_date, unit = "ppb"){
      !!voc := case_when(
        # Replace NDs with LOD/2, convert to ppb
        .data[[flag_col]] == "ND" ~ round((params$lod_raw/2 * conversion_factor), 4),
-       # Replace >ULOD measurements with the ULOD, convert to ppb
-       .data[[flag_col]] == "ULOD" ~ round(params$ulod*conversion_factor, 4),
-       # Convert REG values to ULOD
+       # Replace >ULOD measurements with the ULOD, blank-correct and convert to ppb
+       .data[[flag_col]] == "ULOD" ~ round(((params$ulod*multiplier) - params$blank)*conversion_factor,4),
+       # Convert REG values to PPB
        TRUE ~ round(blank_corrected_value * conversion_factor, 4)
      ),
      # Convert uncertainty to ppb
