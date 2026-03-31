@@ -111,7 +111,7 @@ landuse_colors <- c(
 fake_refinery <- data.frame(x = 1, y = 1)
 
 
-sitemap <- ggmap(basemap) + 
+refinery_map <- ggmap(basemap) + 
   # Dummy refinery point to force legend
   geom_point(
     data = fake_refinery,
@@ -139,7 +139,10 @@ sitemap <- ggmap(basemap) +
                   inherit.aes = FALSE, alpha = 0.4,
                   pattern = "stripe", pattern_spacing = 0.01,
                   pattern_alpha = 0.5) + 
-  new_scale_fill() +
+  new_scale_fill()
+
+
+sitemap <- refinery_map +
   # Land Use
   geom_sf(data = landuse, aes(fill = landuse), lwd = 0, alpha = 0.4,
           inherit.aes = FALSE) + 
@@ -234,9 +237,187 @@ key_table <- tableGrob(
   )
 )
 
+
 combo_plot <- wrap_elements(key_table) + sitemap + plot_layout(widths = c(1,3))  
-  # plot_annotation(theme = theme(plot.margin = margin(0, 0, 0, 0),
-  #                               panel.spacing = unit(0, "pt") ))  # reduce overall margins
+
+ggsave(
+  filename = here("results", "figures", "sources_sites.png"),
+  plot = combo_plot,
+  width = unit(9, "in"),
+  height = unit(8, "in")
+  
+)
+
+
+
+## Wind speed ------
+speed_levels_inner_to_outer <- c(">45","40 to 45","35 to 40","30 to 35",
+                                 "25 to 30","20 to 25","15 to 20",
+                                 "10 to 15","5 to 10","≤5")
+
+# Direction order: N first => coord_polar places it at top
+dir_order <- c("N","NNE","NE","ENE","E","ESE","SE","SSE",
+               "S","SSW","SW","WSW","W","WNW","NW","NNW")
+
+speed_colors <- c(
+  "≤5"      = "#EFF7FF",
+  "5 to 10" = "#C6DBEF",
+  "10 to 15"= "#9ECAE1",
+  "15 to 20"= "#6BAED6",
+  "20 to 25"= "#4292C6",
+  "25 to 30"= "#2171B5",
+  "30 to 35"= "#08519C",
+  "35 to 40"= "#08306B",
+  "40 to 45"= "#05204A",
+  ">45"     = "#021226"
+)
+
+ring_label <- data.frame(
+  direction = factor("N", levels = dir_order),
+  y         = 500,
+  label     = "500"
+)
+
+wind_data <- read_csv("data/raw/wind_speeds.csv") %>%
+  pivot_longer(-Category, names_to = "speed", values_to = "count") %>%
+  mutate(
+    direction = factor(Category, levels = dir_order),
+    speed     = factor(str_squish(speed), levels = speed_levels_inner_to_outer)
+  )
+
+
+windrose <- ggplot(wind_data, aes(x = direction, y = count, fill = speed)) +
+  geom_bar(stat = "identity", width = 1, color = "black", linewidth = 0.03) +
+  # -pi/16 offsets by half a sector so the N bar is centred at 12 o'clock
+  coord_polar(start = -pi / 16) +
+  scale_fill_manual(
+    values = speed_colors,
+    name   = "Wind speed\n(miles/hr)",
+    guide  = guide_legend(reverse = TRUE,
+                          override.aes = list(shape = 21, size = 5))
+  ) +
+  scale_y_continuous(
+    breaks = c(100, 200, 300, 400, 500, 600, 700),
+    labels = NULL,
+    expand = c(0, 0)
+  ) +
+  geom_text(
+    data        = ring_label,
+    aes(x = direction, y = y, label = label),
+    inherit.aes = FALSE,
+    size        = 8,
+    colour      = "black",
+    vjust       = -1.5,
+    hjust       = -0.5
+  ) +
+  labs(
+    x = NULL,
+    y = NULL
+  ) +
+  paper_theme + 
+  theme(
+    legend.position = "right",
+    legend.box = "vertical",
+    legend.direction = "vertical",
+    legend.box.spacing = unit(0.3, "cm"), 
+    legend.spacing = unit(0.3, "cm"),
+    legend.margin = margin(t = 0, r = 0, b = 0, l = 2),  
+    legend.key.size = unit(0.8, "cm"),
+    axis.ticks  = element_blank(),
+    legend.title = element_text(lineheight = 0.3),
+    plot.margin = margin(3,3,3,3, "pt") ,
+    panel.grid.major = element_line(color = "grey75")
+  ) 
+
+
+sources <- st_read(here("data","shp","thriveair_potential_sources.shp")) %>%
+  janitor::clean_names() %>%
+  filter(symbol_id != 2) %>%
+  mutate(source_type = factor(case_when(
+    symbol_id == 0 ~ "Oil & Gas",
+    symbol_id == 1 ~ "Auto Salvage",
+    symbol_id == 3 ~ "Recycling",
+    symbol_id == 4 ~ "Auto Repair",
+    symbol_id == 5 ~ "Metal Fabrication",
+    symbol_id == 6 ~ "Logistics",
+    symbol_id == 7 ~ "Dry Cleaning"
+  ), levels = c("Oil & Gas","Auto Repair","Auto Salvage",
+                "Recycling","Metal Fabrication","Logistics",
+                "Dry Cleaning")
+  )) %>%
+  st_transform(crs = 4326)
+
+location_map <- refinery_map + 
+  # Porential sources
+  geom_sf(data = sources, inherit.aes = FALSE,
+          aes(fill = source_type),
+          shape = 21, color = "black", stroke = 0.4, size = 6) + 
+  scale_fill_manual(values = c(
+    "#FF2B00",
+    "#A200FF",
+    "#6700A3",
+    "#002FFF",
+    "#32C200",
+    "#FF9B00",
+    "#FBFF00"
+  ),
+  name = "Source Type") +
+  
+  # Monitor site points
+  geom_sf(data = site_contribs_sf, inherit.aes = FALSE,
+          fill = "black", stroke = 0.4, size = 7) + 
+  # Site ID annotations with shadow
+  geom_sf_text(
+    data = sites_sf,
+    aes(label = site_id),
+    size = 11,
+    fontface = "bold",
+    color = "white",
+    inherit.aes = FALSE
+  ) +
+  #  North arrow
+  annotation_north_arrow(
+    location = "br",  # bottom-right
+    height = unit(1.5, "cm"),
+    width = unit(1.5, "cm"),
+    which_north = "true",
+    style = north_arrow_orienteering(text_size = 32,
+                                     line_width = 1,
+                                     text_face = "bold")
+  ) +
+  coord_zoom(1.15) + 
+  labs(
+    y = NULL,
+    x = NULL
+  ) + 
+  paper_theme + 
+  theme(
+    legend.position = "right",
+    legend.box = "vertical",
+    legend.direction = "vertical",
+    legend.box.spacing = unit(0.3, "cm"), 
+    legend.spacing = unit(0.3, "cm"),
+    legend.margin = margin(t = 0, r = 0, b = 0, l = 2),  
+    legend.key.size = unit(0.8, "cm"),
+    axis.text.x = element_blank(),
+    axis.text.y = element_blank(),
+    axis.ticks  = element_blank(),
+    plot.margin = margin(3,3,3,3, "pt") 
+  ) 
+
+
+
+
+figure2_combo <- windrose + location_map + plot_layout(widths = c(1,1.5))
+
+
+ggsave(
+  filename = here("results", "figures", "sites_pointsources_wind.png"),
+  plot = figure2_combo,
+  width = unit(9, "in"),
+  height = unit(8, "in")
+  
+)
 
 ggsave(
   filename = here("results", "figures", "sites_landuse_traffic.png"),
@@ -245,6 +426,127 @@ ggsave(
   height = unit(8, "in")
   
 )
+
+
+
+
+
+
+# Summarize Detection Rates -----------------------------------------------
+
+summarize_flags <- function(df, siteval = NULL){
+  
+  if (siteval){
+    df <- df %>%
+      filter(site_id == siteval)
+  }
+  
+  n_sample <- df %>% nrow()
+  
+  result <- df %>%
+    mutate(across(ends_with('_flag'), as.character)) %>%
+    summarize(across(
+      ends_with('_flag'),
+      list(
+        nd   = ~sum(. == "ND"),
+        lod  = ~sum(. == "LOD"),
+        reg  = ~sum(. == "REG"),
+        ulod = ~sum(. == "ULOD")
+      )
+    )) %>%
+    # pivot counts into long form
+    pivot_longer(
+      cols = everything(),
+      names_to = c("variable_name", "flag_type"),
+      names_pattern = "^(.*)_flag_(.*)$",
+      values_to = "count"
+    ) %>%
+    # calculate percentages
+    mutate(percentage = sprintf("%.1f", 100 * count / n_sample)) %>%
+    # keep individual VOCs only
+    filter(!variable_name %in% c("btex", "xylenes")) %>%
+    # join in metadata
+    left_join(codebook, by = "variable_name") %>%
+    arrange(category_2no, sort_in_category)
+  
+  return(result)
+  
+}
+
+flag_summary <- summarize_flags(vocs_all)
+
+sites <- unique(vocs_all$site_id)
+
+flag_summary_bysite <- map(
+  set_names(sites, sites),
+  ~summarize_flags(df = vocs_all, siteval = .x)
+)
+
+# Wide format for easier reading as supplemental table
+flag_summary_wide <- flag_summary %>%
+  select(voc_name, variable_name, percentage, flag_type, category_2) %>%
+  pivot_wider(names_from = flag_type, values_from = percentage) %>%
+  mutate(
+    low_detection_rate = case_when(
+      (as.numeric(reg) <= 40 | as.numeric(nd) >= 25)~ 1,
+      TRUE ~ 0
+    )
+  )
+
+
+
+# Reliability -------------------------------------------------------------
+
+## Calculate reliability ----
+# Make dataset that compares value + co-located value for each VOC
+colo_wide <- colos %>%
+  mutate(id = paste0(site,"_",week)) %>%
+  select(id, sample_type, any_of(voc_vars)) %>%
+  pivot_wider(names_from = sample_type, values_from = any_of(voc_vars))
+
+# Helper function: Calculate mean RPD
+mean_rpd <- function(x, y) {
+  # RPD = |x - y| / ((x + y) / 2) * 100
+  # Only calculate for pairs where both are above LOD (optional filter)
+  rpd_values <- abs(x - y) / ((x + y) / 2) * 100
+  mean(rpd_values, na.rm = TRUE)
+}
+
+# Calculate reliability statistics for each pair of values
+reliability_results <- map_dfr(intersect(voc_vars, names(colos)), function(v) {
+  x <- colo_wide[[paste0(v, "_sample")]]
+  y <- colo_wide[[paste0(v, "_duplicate")]]
+  
+  # Mean RPD
+  rpd_val <- mean_rpd(x, y)
+  
+  # ICC (two-way random, consistency)
+  icc_mat <- cbind(x, y)
+  icc_val <- ICC(icc_mat, missing = TRUE)$results
+  icc_val <- icc_val$ICC[icc_val$type == "ICC2"]  # ICC2 = two-way random, consistency
+  if (icc_val == 0) icc_val <- NA 
+  
+  tibble(
+    variable = v,
+    mean_RPD = round(rpd_val, 1),
+    ICC = round(icc_val,2)
+  )
+}) %>% 
+  left_join(codebook, by = c("variable" = "variable_name")) %>%
+  select(voc_name, category_2, mean_RPD, ICC) %>%
+  mutate(low_reliability = case_when(
+    (mean_RPD >= 50 | ICC <= 0.75) ~ 1,
+    TRUE ~ 0
+  ))
+
+# Save supplemental table 1 (detection + reliability)
+supp_t1 <- left_join(flag_summary_wide, reliability_results, by = c("voc_name", "category_2"))
+
+write_csv(supp_t1, "results/supplemental/tables/suppt1_detection_reliability.csv")
+
+excluded_compounds <- supp_t1 %>%
+  filter(low_reliability == 1 | low_detection_rate == 1) %>%
+  pull(variable_name)
 
 
 # Summary Statistics ------------------------------------------------------
@@ -319,7 +621,9 @@ voc_histogram <- function(df, codebook, output_dir = "results/interim_results/fi
   for (cat_name in names(category_groups)) {
     
     cat_info <- category_groups[[cat_name]]
-    voc_vars <- cat_info$variable_name
+
+    # only do this for included compounds
+    voc_vars <- setdiff(voc_vars, excluded_compounds)
     
     # Pivot df longer for VOCs in this category
     df_long <- df %>%
@@ -358,7 +662,12 @@ voc_histogram <- function(df, codebook, output_dir = "results/interim_results/fi
   }
 }
 
-voc_histogram(vocs, codebook)
+codebook_included <- codebook %>%
+  filter(!variable_name %in% excluded_compounds)
+
+
+
+voc_histogram(vocs, codebook_included)
 
 
 ## By Individual Site ----
@@ -388,6 +697,19 @@ write_excel_csv(voc_site_summary, "results/interim_results/tables/voc_by_site_su
 # Function to plot and save boxplot distributions
 voc_boxplot <- function(df, codebook, output_dir = "results/supplemental/figures") {
   
+  category_levels <- codebook %>%
+    arrange(category_2no) %>%
+    distinct(category_2) %>%
+    pull(category_2)
+  
+  # Get categories and associated VOC variables
+  categories <- codebook %>%
+    filter(!variable_name %in% c("btex", "xylenes")) %>%
+    select(variable_name, voc_name, category_2) %>%
+    filter(!is.na(category_2))
+  
+  category_groups <- split(categories, categories$category_2)
+  
   # Loop over each category
   for (cat_name in names(category_groups)) {
     
@@ -409,17 +731,17 @@ voc_boxplot <- function(df, codebook, output_dir = "results/supplemental/figures
     
     strip_size <-if(n_cols < 3) {38} else 28
     strip_wrap <- if(n_cols < 3) {15} else 20
-  
+    
     
     # Plot
     p <- df_long %>%
       mutate(
-        site = factor(site, levels = c(
-          df %>% filter(site_type == "stationary") %>% pull(site) %>% unique(),
-          df %>% filter(site_type == "rotating") %>% pull(site) %>% unique()
+        site_id = factor(site_id, levels = c(
+          df %>% filter(site_type == "stationary") %>% arrange(site_id) %>% pull(site_id) %>% unique(),
+          df %>% filter(site_type == "rotating") %>% arrange(site_id) %>% pull(site_id) %>% unique()
         ))
       ) %>%
-      ggplot(aes(x = site, y = value, fill = site_type)) +
+      ggplot(aes(x = site_id, y = value, fill = site_type)) +
       geom_boxplot(outlier.color = "black", outlier.size = 0.4, size = 0.4) +
       theme_minimal() +
       labs(
@@ -445,7 +767,7 @@ voc_boxplot <- function(df, codebook, output_dir = "results/supplemental/figures
                  labeller = labeller(voc_name = function(x) hard_wrap(x, width = strip_wrap))) +
       theme(legend.position = "bottom",
             strip.text = element_text(size = strip_size, lineheight = 0.3))
-
+    
     
     # Save plot
     ggsave(
@@ -457,12 +779,26 @@ voc_boxplot <- function(df, codebook, output_dir = "results/supplemental/figures
   }
 }
 
-voc_boxplot(vocs, codebook)
+voc_boxplot(vocs, codebook_included)
 
 
 # Time Series Plots -------------------------------------------------------
 ## Function to make time series plots
+## Overall -----
 voc_ts <- function(df, codebook, output_dir = "results/supplemental/figures") {
+  
+  category_levels <- codebook %>%
+    arrange(category_2no) %>%
+    distinct(category_2) %>%
+    pull(category_2)
+  
+  # Get categories and associated VOC variables
+  categories <- codebook %>%
+    filter(!variable_name %in% c("btex", "xylenes")) %>%
+    select(variable_name, voc_name, category_2) %>%
+    filter(!is.na(category_2))
+  
+  category_groups <- split(categories, categories$category_2)
   
   # Loop over each category
   for (cat_name in names(category_groups)) {
@@ -492,7 +828,7 @@ voc_ts <- function(df, codebook, output_dir = "results/supplemental/figures") {
       geom_point(aes(color = site_type), size = 0.6, alpha = 0.7) +
       geom_smooth(color = "black", linewidth = 0.4) +
       facet_wrap(~ voc_name, scales = "free_y",
-               labeller = labeller(voc_name = function(x) hard_wrap(x, width = strip_wrap))) +
+                 labeller = labeller(voc_name = function(x) hard_wrap(x, width = strip_wrap))) +
       theme_minimal() +
       labs(
         title = cat_name,
@@ -531,106 +867,96 @@ voc_ts <- function(df, codebook, output_dir = "results/supplemental/figures") {
   }
 }
 
-voc_ts(vocs, codebook)
+voc_ts(vocs, codebook_included)
+
+## By Site (weekly Sites) ------
 
 
+site_info <- read_csv("data/site_info.csv")
+
+colors <- site_info %>%
+  filter(site_type == "stationary") %>%
+  mutate(site_id = as.character(site_id)) %>%
+  distinct(site_id, site_color) %>%
+  with(setNames(site_color, site_id))
 
 
-
-
-# Summarize Detection Rates -----------------------------------------------
-
-n_sample <- vocs_all %>% nrow()
-
-flag_summary <- vocs_all %>%
-  mutate(across(ends_with('_flag'), as.character)) %>%
-  summarize(across(
-    ends_with('_flag'),
-    list(
-      nd   = ~sum(. == "ND"),
-      lod  = ~sum(. == "LOD"),
-      reg  = ~sum(. == "REG"),
-      ulod = ~sum(. == "ULOD")
+voc_site_ts <- function(df, codebook, output_dir = "results/supplemental/figures") {
+  
+  category_levels <- codebook %>%
+    arrange(category_2no) %>%
+    distinct(category_2) %>%
+    pull(category_2)
+  
+  # Get categories and associated VOC variables
+  categories <- codebook %>%
+    filter(!variable_name %in% c("btex", "xylenes")) %>%
+    select(variable_name, voc_name, category_2) %>%
+    filter(!is.na(category_2))
+  
+  category_groups <- split(categories, categories$category_2)
+  
+  # Loop over each category
+  for (cat_name in names(category_groups)) {
+    
+    cat_info <- category_groups[[cat_name]]
+    voc_vars <- cat_info$variable_name
+    
+    # Pivot df longer for VOCs in this category
+    df_long <- df %>%
+      mutate(site_id = as.character(site_id)) %>%
+      tidyr::pivot_longer(
+        cols = dplyr::all_of(voc_vars),
+        names_to = "variable_name",
+        values_to = "value"
+      ) %>%
+      dplyr::left_join(cat_info, by = "variable_name")
+    
+    # Dynamically change facet title size based on number of columns
+    n_facets <- df_long %>% distinct(voc_name) %>% nrow()
+    n_cols <- 2
+    
+    strip_size <-if(n_cols < 3) {48} else 34
+    strip_wrap <- if(n_cols < 3) {24} else 28
+    
+    # Plot histograms for each VOC
+    p <- df_long %>%
+      filter(site_type == "stationary") %>%
+      ggplot(aes(x = as.Date(end_date), y = value)) +
+      geom_line(aes(color = site_id)) +
+      facet_wrap(~ voc_name, scales = "free_y",
+                 labeller = labeller(voc_name = function(x) hard_wrap(x, width = strip_wrap))) +
+      theme_minimal() +
+      labs(
+        title = cat_name,
+        y = expression("Concentration ("~mu*"g/"*m^3*")"),
+        x = "Date",
+        color = "Site Type"
+      ) +
+      scale_color_manual(
+        values = colors) +
+      paper_theme +
+      guides(
+        color = guide_legend(
+          override.aes = list(size = 2, alpha = 1)
+        )
+      ) + 
+      theme(
+        strip.text = element_text(size = strip_size, lineheight = 0.3),
+        legend.position = "bottom",
+        axis.text.x = element_text(angle = 45, hjust = 1)
+      )
+    # Save plot
+    ggsave(
+      filename = file.path(output_dir, paste0("voccat_", cat_name, "_ts_site_summary.png")),
+      plot = p,
+      width = 8,
+      height = 8
     )
-  )) %>%
-  # pivot counts into long form
-  pivot_longer(
-    cols = everything(),
-    names_to = c("variable_name", "flag_type"),
-    names_pattern = "^(.*)_flag_(.*)$",
-    values_to = "count"
-  ) %>%
-  # calculate percentages
-  mutate(percentage = sprintf("%.1f", 100 * count / n_sample)) %>%
-  # keep individual VOCs only
-  filter(!variable_name %in% c("btex", "xylenes")) %>%
-  # join in metadata
-  left_join(codebook, by = "variable_name") %>%
-  arrange(category_2no, sort_in_category)
-
-# Wide format for easier reading as supplemental table
-flag_summary_wide <- flag_summary %>%
-  select(voc_name, variable_name, percentage, flag_type, category_2) %>%
-  pivot_wider(names_from = flag_type, values_from = percentage) %>%
-  mutate(
-    low_detection_rate = case_when(
-      (as.numeric(reg) <= 40 | as.numeric(nd) >= 25)~ 1,
-      TRUE ~ 0
-    )
-  )
-
-# Reliability -------------------------------------------------------------
-
-## Calculate reliability ----
-# Make dataset that compares value + co-located value for each VOC
-colo_wide <- colos %>%
-  mutate(id = paste0(site,"_",week)) %>%
-  select(id, sample_type, any_of(voc_vars)) %>%
-  pivot_wider(names_from = sample_type, values_from = any_of(voc_vars))
-
-# Helper function: Calculate mean RPD
-mean_rpd <- function(x, y) {
-  # RPD = |x - y| / ((x + y) / 2) * 100
-  # Only calculate for pairs where both are above LOD (optional filter)
-  rpd_values <- abs(x - y) / ((x + y) / 2) * 100
-  mean(rpd_values, na.rm = TRUE)
+  }
 }
 
-# Calculate reliability statistics for each pair of values
-reliability_results <- map_dfr(intersect(voc_vars, names(colos)), function(v) {
-  x <- colo_wide[[paste0(v, "_sample")]]
-  y <- colo_wide[[paste0(v, "_duplicate")]]
-  
-  # Mean RPD
-  rpd_val <- mean_rpd(x, y)
-  
-  # ICC (two-way random, consistency)
-  icc_mat <- cbind(x, y)
-  icc_val <- ICC(icc_mat, missing = TRUE)$results
-  icc_val <- icc_val$ICC[icc_val$type == "ICC2"]  # ICC2 = two-way random, consistency
-  if (icc_val == 0) icc_val <- NA 
-  
-  tibble(
-    variable = v,
-    mean_RPD = round(rpd_val, 1),
-    ICC = round(icc_val,2)
-  )
-}) %>% 
-  left_join(codebook, by = c("variable" = "variable_name")) %>%
-  select(voc_name, category_2, mean_RPD, ICC) %>%
-  mutate(low_reliability = case_when(
-    (mean_RPD >= 50 | ICC <= 0.75) ~ 1,
-    TRUE ~ 0
-  ))
-
-# Save supplemental table 1 (detection + reliability)
-supp_t1 <- left_join(flag_summary_wide, reliability_results, by = c("voc_name", "category_2"))
-
-write_csv(supp_t1, "results/supplemental/tables/suppt1_detection_reliability.csv")
-
-excluded_compounds <- supp_t1 %>%
-  filter(low_reliability == 1 | low_detection_rate == 1) %>%
-  pull(variable_name)
+voc_site_ts(vocs, codebook_included)
 
 
 # Correlations ------------------------------------------------------------

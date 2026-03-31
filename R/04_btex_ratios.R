@@ -4,6 +4,7 @@ library(zoo)
 library(patchwork)
 library(sf)
 library(RColorBrewer)
+library(shadowtext)
 library(here)
 
 ########################################################
@@ -119,7 +120,7 @@ map_ratio <- function(data, ratio, season_val = NULL, rotating = NULL){
   
   # Compute average ratio per site
   df_avg <- df %>%
-    group_by(site, site_type, geometry) %>%
+    group_by(site_id, site_type, geometry) %>%
     summarize(
       ratio_val = mean(.data[[ratio]], na.rm = TRUE),
       .groups = "drop"
@@ -134,7 +135,7 @@ map_ratio <- function(data, ratio, season_val = NULL, rotating = NULL){
         inherit.aes = FALSE,
         aes(fill = ratio_val),
         shape = 21,
-        size = 3,
+        size = 5,
         stroke = 0.2,
         color = "black"
       ) +
@@ -149,7 +150,7 @@ map_ratio <- function(data, ratio, season_val = NULL, rotating = NULL){
         data = df_avg,
         inherit.aes = FALSE,
         aes(fill = ratio_val, shape = site_type),
-        size = 3,
+        size = 5,
         stroke = 0.4,
         color = "black"
       ) +
@@ -165,6 +166,14 @@ map_ratio <- function(data, ratio, season_val = NULL, rotating = NULL){
   }
   
   p <- p + 
+    geom_sf_text(
+      data = df_avg,
+      aes(label = site_id),
+      size = 9,
+      fontface = "bold",
+      color = "black",
+      inherit.aes = FALSE
+    ) +
     lock_to_basemap(basemap) + 
     coord_zoom(1.15) + 
     paper_theme +
@@ -287,19 +296,12 @@ combine_ratio_maps("xe_ratio")
 
 # Time Series Plots -------------------------------------------------------
 
-colors <- c(
-"#E41A1C",  # red
-"#2C3E73",  # dark blue
-"#4DAF4A",  # green
-"#984EA3",  # purple
-"#FF7F00",  # orange
-"#00A0B0",  # dark cyan
-"#A65628",  # brown
-"#F781BF",  # pink
-"#999999"   # gray
-)
+site_info <- read_csv("data/site_info.csv")
 
-
+colors <- site_info %>%
+  filter(site_type == "stationary") %>%
+  distinct(site, site_color) %>%
+  with(setNames(site_color, site))
 
 tb_ts <- vocs %>% 
   group_by(site) %>%
@@ -309,7 +311,7 @@ tb_ts <- vocs %>%
   labs(
     x = "Date",
     y = "T/B Ratio Ratio",
-    subtitle = "Toluene:Bezene Ratio"
+    subtitle = "Toluene:Benzene Ratio"
   ) + 
   scale_color_manual(values = colors) +
   paper_theme + 
@@ -350,6 +352,14 @@ site_map <- ggmap(basemap) +
     y = NULL,
     fill = NULL
   ) + 
+  geom_sf_text(
+    data = vocs_sf,
+    aes(label = site_id),
+    size = 9,
+    fontface = "bold",
+    color = "white",
+    inherit.aes = FALSE
+  ) +
   paper_theme + 
   annotation_north_arrow(
     location = "br",  # bottom-right

@@ -116,3 +116,4 @@ paper_theme <- theme_bw(base_family = "opensans") + # Base theme
      expand = FALSE
    )
  }
+

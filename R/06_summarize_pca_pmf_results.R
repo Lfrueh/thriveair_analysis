@@ -7,6 +7,7 @@ library(cowplot)
 library(ggspatial)
 library(ggrepel)
 library(ggmap)
+library(ggtext)
 library(here)
 library(scales)
 library(openxlsx)
@@ -308,14 +309,14 @@ saveWorkbook(wb, "results/tables/pca_scores_site_conditional.xlsx", overwrite = 
 
 pca_score_boxplot <- main_results %>%
   mutate(
-    site = factor(site, levels = c(
-      main_results %>% filter(site_type == "stationary") %>% pull(site) %>% unique(),
-      main_results %>% filter(site_type == "rotating") %>% pull(site) %>% unique()
+    site_id = factor(site_id, levels = c(
+      main_results %>% filter(site_type == "stationary") %>% arrange(site_id) %>% pull(site_id) %>% unique(),
+      main_results %>% filter(site_type == "rotating") %>% arrange(site_id) %>%  pull(site_id) %>% unique()
     ))
   ) %>%
   pivot_longer(Dim.1:Dim.4, names_to = "comp", values_to = "score") %>%
   mutate(comp = str_replace(comp, "Dim.", "Component ")) %>%
-  ggplot(aes(x = site, y = score, fill = site_type)) +
+  ggplot(aes(x = site_id, y = score, fill = site_type)) +
   geom_boxplot(outlier.color = "black", outlier.size = 0.4, size = 0.4) +
   theme_minimal() +
   labs(
@@ -342,7 +343,7 @@ pca_score_boxplot <- main_results %>%
 ggsave(
   here("results", "supplemental", "figures", "pca_score_boxplot.png"),
   plot = pca_score_boxplot,
-  width = unit(11, "in"),
+  width = unit(9, "in"),
   height = unit(8, "in"),
   dpi = 320
 )
@@ -510,12 +511,18 @@ plot_pmf_factors <- function(site_type = "allsites", print = FALSE){
 pmf_factors <- get_pmf_factors("allsites") %>%
   mutate(
    Factor = case_when(
-   factor == "Factor 1" ~ "Gasoline evaporation",
-   factor == "Factor 4" ~ "Petroleum solvents",
-   factor == "Factor 3" ~ "Background/legacy",
+   factor == "Factor 1" ~ "Industrial Solvents",
+   factor == "Factor 4" ~ "Gasoline Evaporation",
+   factor == "Factor 3" ~ "Background Pollution",
    factor == "Factor 2" ~ "Vehicle exhaust",
-   factor == "Factor 5" ~ "Auto repair"
+   factor == "Factor 5" ~ "Mixed Industry"
    ),
+   Factor = factor(Factor, levels = 
+                     c("Vehicle exhaust",
+                       "Gasoline Evaporation",
+                       "Industrial Solvents",
+                       "Background Pollution",
+                       "Mixed Industry")),
   factor_text = paste(Factor, total_mass_fac)
   ) %>%
   arrange(desc(total_mass_fac)) %>%
@@ -527,11 +534,11 @@ plot_pmf_factors("allsites")
 pmf_factors_stationary <- get_pmf_factors("stationary") %>%
   mutate(
     Factor = case_when(
-    factor == "Factor 4" ~ "Gasoline evaporation",
-    factor == "Factor 5" ~ "Petroleum solvents",
-    factor == "Factor 1" ~ "Background/legacy",
-    factor == "Factor 3" ~ "Vehicle exhaust",
-    factor == "Factor 2" ~ "Auto repair"
+    factor == "Factor 4" ~ "Industrial Solvents",
+    factor == "Factor 5" ~ "Gasoline Evaporation",
+    factor == "Factor 1" ~ "Background Pollution",
+    factor == "Factor 3" ~ "Vehicle Exhaust",
+    factor == "Factor 2" ~ "Mixed Industry"
   ),
   factor_text = paste(Factor, total_mass_fac)
   ) %>%
@@ -544,10 +551,13 @@ plot_pmf_factors("stationary")
 
 
 
-# Main PMF Analysis: Contributions to Sites
+
+# Main PMF Analysis: Contributions to Sites ------
 
 pmf_contribs <- read_excel("results/interim_results/pmf_results/allsites_contributions_bs_fpeak.xlsx") %>%
   filter(!is.na(site_id2))
+
+
 
 site_contribs <- pmf_contribs %>%
   group_by(site_id2) %>%
@@ -564,18 +574,18 @@ site_contribs <- pmf_contribs %>%
     factor_1:factor_5, names_to = "factor", values_to = "Contribution"
   ) %>%
   mutate(Factor = case_when(
-    factor == "factor_1" ~ "Gasoline evaporation",
-    factor == "factor_4" ~ "Petroleum solvents",
-    factor == "factor_3" ~ "Background/legacy",
-    factor == "factor_2" ~ "Vehicle exhaust",
-    factor == "factor_5" ~ "Auto repair"
+    factor == "factor_1" ~ "Industrial Solvents",
+    factor == "factor_4" ~ "Gasoline Evaporation",
+    factor == "factor_3" ~ "Background Pollution",
+    factor == "factor_2" ~ "Vehicle Exhaust",
+    factor == "factor_5" ~ "Mixed Industry"
   ),
   Factor = factor(Factor, levels = 
-                    c("Vehicle exhaust",
-                      "Petroleum solvents",
-                      "Gasoline evaporation",
-                      "Background/legacy",
-                      "Auto repair")),
+                    c("Vehicle Exhaust",
+                      "Gasoline Evaporation",
+                      "Industrial Solvents",
+                      "Background Pollution",
+                      "Mixed Industry")),
   site_id = as.numeric(str_remove_all(site_id2, "site_")),
   # Replace negative contributions with zero (since these are medians
   # from bootstrapped samples, sometimes a negative can happen)
@@ -586,8 +596,8 @@ site_contribs <- pmf_contribs %>%
     industrial_traffic = interaction(paste0(site_traffic," Traffic"),industrial_20, sep = " "),
     site_label = if_else(
       site_type == "stationary",
-      paste0("**", site, "**"),  # Markdown bold
-      site
+      paste0("**", site_id, "**"),  # Markdown bold
+      as.character(site_id)
     )
   )
 
@@ -636,18 +646,18 @@ site_ts <- pmf_contribs %>%
     factor_1:factor_5, names_to = "factor", values_to = "cont"
   ) %>%
   mutate(Factor = case_when(
-    factor == "factor_1" ~ "Gasoline evaporation",
-    factor == "factor_4" ~ "Petroleum solvents",
-    factor == "factor_3" ~ "Background/legacy",
-    factor == "factor_2" ~ "Vehicle exhaust",
-    factor == "factor_5" ~ "Auto repair"
+    factor == "factor_1" ~ "Industrial Solvents",
+    factor == "factor_4" ~ "Gasoline Evaporation",
+    factor == "factor_3" ~ "Background Pollution",
+    factor == "factor_2" ~ "Vehicle Exhaust",
+    factor == "factor_5" ~ "Mixed Industry"
   ),
   Factor = factor(Factor, levels = 
-                    c("Vehicle exhaust",
-                      "Petroleum solvents",
-                      "Gasoline evaporation",
-                      "Background/legacy",
-                      "Auto repair")),
+                    c("Vehicle Exhaust",
+                      "Gasoline Evaporation",
+                      "Industrial Solvents",
+                      "Background Pollution",
+                      "Mixed Industry")),
   site_id = as.numeric(str_remove_all(site_id2, "site_")),
   date = lubridate::make_date(year = paste0("20",str_sub(end_date,7,8)),
                               month = str_sub(end_date,1,2),
@@ -709,7 +719,291 @@ ggsave(
   dpi = 320
 )
 
+# Main PMF Analysis: Time Series -----
+pmf_timeseries <- pmf_contribs %>%
+  filter(as.numeric(str_sub(site_id2, -1))<10) %>%
+  group_by(end_date) %>% 
+  summarize(across(starts_with("factor"), 
+                   ~mean(.x))) %>%
+  mutate(month = str_sub(end_date, 1, 2),
+         day = str_sub(end_date, 4,5),
+         year = paste0("20",str_sub(end_date, 7,8)),
+         date = make_date(year, month, day)
+  )
+  
+
+pmf_timeseries %>%
+  select(date, starts_with("factor")) %>%
+  pivot_longer(-date, names_to = "factor", values_to = "mass") %>%
+  ggplot() + 
+  geom_line(aes(x = date, y = mass)) + 
+  facet_wrap(~factor)
+
+# Map PMF Results ---------------------------------------------------------
+
+# Create Site Summary Map -------------------------------------------------
+## Note that this will take a little while due to landuse 
+base <- ggmap(basemap) 
+
+# Former refinery tax parcels from Open Data Philly
+refinery <- st_read(here("data", "shp", "refinery.shp")) %>%
+  st_transform(crs = 4326)
+
+pmf_contribs <- read_excel("results/interim_results/pmf_results/allsites_contributions_bs_fpeak.xlsx") %>%
+  filter(!is.na(site_id2))
+
+site_mass <- pmf_contribs %>%
+  group_by(site_id2) %>%
+  summarize(
+    factor_1 = sum(factor_1),
+    factor_2 = sum(factor_2),
+    factor_3 = sum(factor_3),
+    factor_4 = sum(factor_4),
+    factor_5 = sum(factor_5)
+  ) %>%
+  ungroup() %>%
+  pivot_longer(
+    factor_1:factor_5, names_to = "factor", values_to = "mass"
+  ) %>%
+  mutate(Factor = case_when(
+    factor == "factor_1" ~ "Industrial Solvents",
+    factor == "factor_4" ~ "Gasoline Evaporation",
+    factor == "factor_3" ~ "Background Pollution",
+    factor == "factor_2" ~ "Vehicle Exhaust",
+    factor == "factor_5" ~ "Mixed Industry"
+  ),
+  Factor = factor(Factor, levels = 
+                    c("Vehicle Exhaust",
+                      "Gasoline Evaporation",
+                      "Industrial Solvents",
+                      "Background Pollution",
+                      "Mixed Industry")),
+  site_id = as.numeric(str_remove_all(site_id2, "site_")),
+  # Replace negative contributions with zero (since these are medians
+  # from bootstrapped samples, sometimes a negative can happen)
+  mass = case_when(mass < 0 ~ 0, TRUE ~ mass)
+  ) %>%
+  left_join(., site_info, by = "site_id")  %>%
+  st_as_sf(coords = c("long", "lat"),
+           crs = 4326) 
 
 
+sources <- st_read(here("data","shp","thriveair_potential_sources.shp")) %>%
+  janitor::clean_names() %>%
+  mutate(source_type = factor(case_when(
+    symbol_id == 0 ~ "Oil & Gas",
+    symbol_id == 1 ~ "Auto Salvage",
+    symbol_id == 2 ~ "Concrete & Asphalt",
+    symbol_id == 3 ~ "Recycling",
+    symbol_id == 4 ~ "Auto Repair",
+    symbol_id == 5 ~ "Metal Fabrication",
+    symbol_id == 6 ~ "Logistics",
+    symbol_id == 7 ~ "Dry Cleaning"
+  ), levels = c("Oil & Gas","Auto Repair","Auto Salvage",
+                "Recycling","Metal Fabrication","Logistics",
+                "Concrete & Asphalt","Dry Cleaning")
+  )) %>%
+  st_transform(crs = 4326)
 
+
+site_contribs_sf <- site_contribs %>%
+  st_as_sf(coords = c("long", "lat"),
+           crs = 4326) 
+
+# fake legend for Former Refinery
+fake_refinery <- data.frame(x = 1, y = 1)
+
+contrib_map <- ggmap(basemap) + 
+  # Dummy refinery point to force legend
+  geom_point(
+    data = fake_refinery,
+    aes(x = x, y = y, fill = "Former Refinery"),
+    shape = 22, size = 4, color = NA, inherit.aes = FALSE
+  ) +
+  scale_fill_manual(
+    name = NULL,
+    values = c("Former Refinery" = "grey80"),
+    guide = guide_legend(
+      override.aes = list(
+        shape = 22,          # square
+        fill = "grey80",
+        pattern = "stripe",  # if using ggpattern
+        pattern_spacing = 0.01,
+        pattern_angle = 45
+      ),
+      order = 2
+    )
+  ) +
+  
+  # Former Refinery site
+  geom_sf_pattern(data = refinery, 
+                  aes(fill = "Former Refinery"), #dummy variable for legend
+                  inherit.aes = FALSE, alpha = 0.4,
+                  pattern = "stripe", pattern_spacing = 0.01,
+                  pattern_alpha = 0.5) + 
+  new_scale_fill() +
+  # Porential sources
+  geom_sf(data = sources, inherit.aes = FALSE,
+          aes(fill = source_type),
+          shape = 21, color = "black", stroke = 0.04, size = 2) + 
+  # Monitor site points
+  geom_sf(data = site_contribs_sf, inherit.aes = FALSE,
+          aes(size = Contribution),
+          fill = "black", stroke = 0.4) + 
+  # Site ID annotations with shadow
+  # Site ID annotations - white text
+  # geom_sf_text(
+  #   data = sites_sf,
+  #   aes(label = site_id),
+  #   size = 11,
+  #   fontface = "bold",
+  #   color = "white",
+  #   inherit.aes = FALSE
+  # ) +
+  # North arrow
+  # annotation_north_arrow(
+  #   location = "br",  # bottom-right
+  #   height = unit(1.5, "cm"),
+  #   width = unit(1.5, "cm"),
+  #   which_north = "true",
+  #   style = north_arrow_orienteering(text_size = 32,
+  #                                    line_width = 1,
+  #                                    text_face = "bold")
+  # ) +
+  coord_zoom(1.15) + 
+  labs(
+    y = NULL,
+    x = NULL
+    # title = "Monitoring Sites",
+    # subtitle = "Land Use and Traffic Density Considerations"
+  ) + 
+  paper_theme + 
+  theme(
+    legend.position = "right",
+    legend.box = "vertical",
+    legend.direction = "vertical",
+    legend.box.spacing = unit(0.3, "cm"), 
+    legend.spacing = unit(0.3, "cm"),
+    legend.margin = margin(t = 0, r = 0, b = 0, l = 2),  
+    legend.key.size = unit(0.8, "cm"),
+    plot.margin = margin(3,3,3,3, "pt") 
+  ) + 
+  facet_wrap(~Factor)
+
+site_key <- contribs %>%
+  st_drop_geometry() %>%
+  select(site_id, site) %>%
+  mutate(site= iconv(site, from = "UTF-8", to = "ASCII//TRANSLIT")) %>%
+  mutate(site = str_wrap(site, width = 21)) %>%
+  distinct() %>%
+  rename(ID = site_id, Site = site) %>%
+  arrange(ID)
+
+key_table <- tableGrob(
+  site_key,
+  rows = NULL,
+  theme = ttheme_default(
+    core = list(
+      fg_params = list(fontsize = 32, hjust = 0, x = 0.05, lineheight = 0.3),  # left-justify, small left margin
+      padding = unit(c(4, 2), "mm")  
+    ),
+    colhead = list(
+      fg_params = list(fontsize = 32, fontface = "bold", hjust = 0, x = 0.05)
+    )
+  )
+)
+
+
+location_map <- ggmap(basemap) + 
+  # Dummy refinery point to force legend
+  geom_point(
+    data = fake_refinery,
+    aes(x = x, y = y, fill = "Former Refinery"),
+    shape = 22, size = 4, color = NA, inherit.aes = FALSE
+  ) +
+  scale_fill_manual(
+    name = NULL,
+    values = c("Former Refinery" = "grey80"),
+    guide = guide_legend(
+      override.aes = list(
+        shape = 22,          # square
+        fill = "grey80",
+        pattern = "stripe",  # if using ggpattern
+        pattern_spacing = 0.01,
+        pattern_angle = 45
+      ),
+      order = 2
+    )
+  ) +
+  # Former Refinery site
+  geom_sf_pattern(data = refinery, 
+                  aes(fill = "Former Refinery"), #dummy variable for legend
+                  inherit.aes = FALSE, alpha = 0.4,
+                  pattern = "stripe", pattern_spacing = 0.01,
+                  pattern_alpha = 0.5) + 
+  new_scale_fill() +
+  # Porential sources
+  geom_sf(data = sources, inherit.aes = FALSE,
+          aes(fill = source_type),
+          shape = 21, color = "black", stroke = 0.4, size = 7) + 
+  # Monitor site points
+  geom_sf(data = site_contribs_sf, inherit.aes = FALSE,
+          fill = "black", stroke = 0.4, size = 7) + 
+  # Site ID annotations with shadow
+  geom_sf_text(
+    data = sites_sf,
+    aes(label = site_id),
+    size = 11,
+    fontface = "bold",
+    color = "white",
+    inherit.aes = FALSE
+  ) +
+#  North arrow
+  annotation_north_arrow(
+    location = "br",  # bottom-right
+    height = unit(1.5, "cm"),
+    width = unit(1.5, "cm"),
+    which_north = "true",
+    style = north_arrow_orienteering(text_size = 32,
+                                     line_width = 1,
+                                     text_face = "bold")
+  ) +
+  coord_zoom(1.15) + 
+  labs(
+    y = NULL,
+    x = NULL
+    # title = "Monitoring Sites",
+    # subtitle = "Land Use and Traffic Density Considerations"
+  ) + 
+  paper_theme + 
+  theme(
+    legend.position = "right",
+    legend.box = "vertical",
+    legend.direction = "vertical",
+    legend.box.spacing = unit(0.3, "cm"), 
+    legend.spacing = unit(0.3, "cm"),
+    legend.margin = margin(t = 0, r = 0, b = 0, l = 2),  
+    legend.key.size = unit(0.8, "cm"),
+    plot.margin = margin(3,3,3,3, "pt") 
+  ) 
+
+combo_plot <- wrap_elements(key_table) + location_map + plot_layout(widths = c(1,3))  
+# plot_annotation(theme = theme(plot.margin = margin(0, 0, 0, 0),
+#                               panel.spacing = unit(0, "pt") ))  # reduce overall margins
+
+ggsave(
+  filename = here("results", "figures", "sources_sites.png"),
+  plot = combo_plot,
+  width = unit(9, "in"),
+  height = unit(8, "in")
+  
+)
+
+ggsave(
+  filename = here("results", "figures", "pmf_and_sources.png"),
+  plot = contrib_map,
+  width = unit(9, "in"),
+  height = unit(8, "in")
+  
+)
 
