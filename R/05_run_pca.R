@@ -40,7 +40,19 @@ excluded_compounds <- read_csv("results/supplemental/tables/suppt1_detection_rel
 # Function to run PCA and extract scores and loadings, under various conditions
 # Returns a list object with PCA results, loadings, and scores.
 runpca <- function(weighted = FALSE, weekcluster = FALSE, model_type = "lmer", include_all = FALSE,
-                   stationary_only = FALSE) {
+                   stationary_only = FALSE, season = c("all", "winter", "summer")) {
+  
+  season <- match.arg(season) 
+  
+  vocs <- vocs %>%
+    mutate(
+      month_num = month(as.Date(end_date)),
+      season_meteo = case_when(
+        month_num %in% c(12, 1, 2) ~ "Winter",
+        month_num %in% c(6, 7, 8)  ~ "Summer",
+        TRUE ~ "Other"
+      )
+    )
   
   # If stationary sites only, then filter 
   if (stationary_only){
@@ -50,6 +62,16 @@ runpca <- function(weighted = FALSE, weekcluster = FALSE, model_type = "lmer", i
   # Ensure model_type is valid
   if (!model_type %in% c("lmer", "glmer")) {
     stop("Invalid model_type. Must be 'lmer' or 'glmer'.")
+  }
+  
+  if (season == "all"){
+    vocs <- vocs
+  } else if (season == "winter"){
+    vocs <- vocs %>%
+      filter(season_meteo == "Winter")
+  } else if (season == "summer"){
+    vocs <- vocs %>%
+      filter(season_meteo == "Summer")
   }
   
   # Default: don't include the excluded compounds
@@ -262,6 +284,15 @@ saveto <- here("results", "interim_results","pca_results")
 #Weighted, GLMER
 wk_pca_w_glmer <- runpca(weighted = TRUE, weekcluster = TRUE, model_type = "glmer")
 write_rds(wk_pca_w_glmer, here(saveto, "mainanalysis_wk_pca_w_glmer.rds"))
+
+#Weighted, GLMER, Summer
+wk_pca_w_glmer_summer <- runpca(weighted = TRUE, weekcluster = TRUE, model_type = "glmer", season = "summer")
+write_rds(wk_pca_w_glmer_summer, here(saveto, "mainanalysis_wk_pca_w_glmer_summer.rds"))
+
+#Weighted, GLMER, Winter
+wk_pca_w_glmer_winter <- runpca(weighted = TRUE, weekcluster = TRUE, model_type = "glmer", season = "winter")
+write_rds(wk_pca_w_glmer_winter, here(saveto, "mainanalysis_wk_pca_w_glmer_winter.rds"))
+
 
 
 # Sensitivity Analyses ----------------------------------------------------

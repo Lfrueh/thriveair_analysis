@@ -45,57 +45,69 @@ category_levels <- codebook %>%
 
 # Table of BTEX Ratios ----------------------------------------------------
 
+# Table of BTEX Ratios ----------------------------------------------------
 ## Ratios for all sites
-ratio_means_site <- vocs %>%
-  group_by(site_type, site) %>%
+ratio_medians_site <- vocs %>%
+  group_by(site_type, site, site_id) %>%
   summarize(
     across(
       c(ends_with("_ratio"), "benzene", "toluene", "ethylbenzene", "m_p_xylene_2", "o_xylene"),
-      ~ sprintf("%.2f (%.2f)", mean(.x, na.rm = TRUE), sd(.x, na.rm = TRUE))
+      ~ sprintf("%.2f [%.2f, %.2f]",
+                median(.x, na.rm = TRUE),
+                quantile(.x, 0.25, na.rm = TRUE),
+                quantile(.x, 0.75, na.rm = TRUE))
     ),
     .groups = "drop"
   )
 
 # Save to supplemental
-write_excel_csv(ratio_means_site, here("results", "supplemental", "tables", "ratios_by_site.csv"))
+write_excel_csv(ratio_medians_site, here("results", "tables", "ratios_by_site.csv"))
 
 ## Ratios by site type
-ratio_means_sitetype <- vocs %>%
+ratio_medians_sitetype <- vocs %>%
   group_by(site_type) %>%
   summarize(
     across(
       c(ends_with("_ratio"), "benzene", "toluene", "ethylbenzene", "m_p_xylene_2", "o_xylene"),
-      ~ sprintf("%.2f (%.2f)", mean(.x, na.rm = TRUE), sd(.x, na.rm = TRUE))
+      ~ sprintf("%.2f [%.2f, %.2f]",
+                median(.x, na.rm = TRUE),
+                quantile(.x, 0.25, na.rm = TRUE),
+                quantile(.x, 0.75, na.rm = TRUE))
     ),
     .groups = "drop"
   )
 
-write_excel_csv(ratio_means_sitetype, here("results", "supplemental", "tables", "ratios_by_site_type.csv"))
+write_excel_csv(ratio_medians_sitetype, here("results", "tables", "ratios_by_site_type.csv"))
 
 ## Ratios overall
-ratio_means_overall <- vocs %>%
+ratio_medians_overall <- vocs %>%
   summarize(
     across(
       c(ends_with("_ratio"), "benzene", "toluene", "ethylbenzene", "m_p_xylene_2", "o_xylene"),
-      ~ sprintf("%.2f (%.2f)", mean(.x, na.rm = TRUE), sd(.x, na.rm = TRUE))
+      ~ sprintf("%.2f [%.2f, %.2f]",
+                median(.x, na.rm = TRUE),
+                quantile(.x, 0.25, na.rm = TRUE),
+                quantile(.x, 0.75, na.rm = TRUE))
     )
   )
 
-write_excel_csv(ratio_means_overall, here("results", "supplemental", "tables", "ratios_overall.csv"))
+write_excel_csv(ratio_medians_overall, here("results", "tables", "ratios_overall.csv"))
 
 ## Ratios by land-use type
-ratio_means_landuse <- vocs %>%
+ratio_medians_landuse <- vocs %>%
   group_by(industrial_20, site_traffic) %>%
   summarize(
     across(
       c(ends_with("_ratio"), "benzene", "toluene", "ethylbenzene", "m_p_xylene_2", "o_xylene"),
-      ~ sprintf("%.2f (%.2f)", mean(.x, na.rm = TRUE), sd(.x, na.rm = TRUE))
+      ~ sprintf("%.2f [%.2f, %.2f]",
+                median(.x, na.rm = TRUE),
+                quantile(.x, 0.25, na.rm = TRUE),
+                quantile(.x, 0.75, na.rm = TRUE))
     ),
     .groups = "drop"
   )
 
-write_excel_csv(ratio_means_landuse, here("results", "tables", "btex_ratio_landuse.csv"))
-
+write_excel_csv(ratio_medians_landuse, here("results", "tables", "btex_ratio_landuse.csv"))
 
 
 # Ratios by Land Use Type -------------------------------------------------

@@ -362,13 +362,25 @@ for (r in names(results_list)) {
 
 # Plot PMF Results -------------------------------
 
-get_pmf_factors <- function(site_type = c("allsites","stationary")){
+get_pmf_factors <- function(site_type = c("allsites","stationary"),
+                            season = c("all", "summer", "winter")){
+  
+  season <- match.arg(season)
+
   
   if (site_type == "stationary"){
     factor_file <- "stationary_pmf_bs_fpeak.xlsx"
   } else {
-    factor_file <- "allsites_pmf_bs_fpeak.xlsx"
+    if (season == "all"){
+      factor_file <- "allsites_pmf_bs_fpeak.xlsx"
+    } else if (season == "summer"){
+      factor_file <- "summer_pmf_bs.xlsx"
+    } else if (season == "winter"){
+      factor_file <-"winter_pmf_bs.xlsx"
+    }
+    
   }
+
   
   
   # Get factor information
@@ -376,12 +388,13 @@ get_pmf_factors <- function(site_type = c("allsites","stationary")){
     read_excel(file.path("results", "interim_results","pmf_results", factor_file),
                sheet = sheetname) %>%
       janitor::clean_names() %>%
-      mutate(across(fpeak_value_conc:bs_95th_pct, ~as.numeric(.x))) %>%
+      mutate(across(-species, ~as.numeric(.x))) %>%
       rename(variable_name = species)
   }
   
-  # For a four-factor solution
-  sheets <- c("Factor 1", "Factor 2", "Factor 3", "Factor 4", "Factor 5")
+  # Pull only sheets that match "Factor N" pattern, however many exist
+  sheets <- excel_sheets(file.path("results", "interim_results", "pmf_results", factor_file)) %>%
+    str_subset("^Factor [0-9]+$")
   
   pmf_fac <- map(sheets, ~readsheet(.x))
   names(pmf_fac) <- sheets
@@ -401,6 +414,19 @@ get_pmf_factors <- function(site_type = c("allsites","stationary")){
            bs_95th_conc = 100*bs_95th_conc/denominator,
            bs_5th_conc = 100*bs_5th_conc/denominator) %>%
     ungroup() %>%
+    # Renormalize % of species total so factors sum to 100% per species
+    # (bootstrap medians taken independently per factor don't preserve mass
+    # balance across factors, since median is non-additive)
+    group_by(variable_name) %>%
+    mutate(
+      pct_denom = sum(bs_median_pct, na.rm = TRUE),
+      bs_median_pct = 100 * bs_median_pct / pct_denom,
+      bs_5th_pct = 100 * bs_5th_pct / pct_denom,
+      bs_95th_pct = 100 * bs_95th_pct / pct_denom
+    ) %>%
+    ungroup() %>%
+    select(-pct_denom) %>%
+    mutate(factor_text = paste0(factor, total_mass_fac)) %>%
     mutate(factor_text = paste0(factor, total_mass_fac))
   
   return(pmf_fac_results)
@@ -408,21 +434,48 @@ get_pmf_factors <- function(site_type = c("allsites","stationary")){
   
 }
 
-
-plot_pmf_factors <- function(site_type = "allsites", print = FALSE){
+make_species_contrib_plot <- function(data, col_pal, plot_title = NULL){
   
+  data %>%
+    ggplot() + 
+    aes(x = voc_name, y = bs_median_pct, fill = Factor) + 
+    geom_bar(position = position_stack(reverse = TRUE), stat = "identity") + 
+    coord_flip() + 
+    theme_minimal() +
+    scale_fill_manual(values = col_pal) + 
+    labs(
+      title = plot_title,
+      x = "VOC", y = "Contribution (%)",
+      fill = "Factor"
+    ) +
+    paper_theme
+}
+
+plot_pmf_factors <- function(data, site_type = "allsites", season = c("all", "summer", "winter"), print = FALSE, save = TRUE){
+  
+  season <- match.arg(season)
   if (site_type == "stationary"){
-    subtitle_text = "Weekly sites only"
-    
-    data <- pmf_factors_stationary
+    subtitle_text = "Year-round sites only"
     
   } else {
     subtitle_text = "All sites"
-    
-    data <- pmf_factors
   }
   
-  file_name <- paste0(site_type,"_pmf.png")
+  if (season == "all"){
+    col_pal <- factor_colors
+  } else if(season == "summer"){
+    col_pal <- factor_colors_summer
+  } else if (season == "winter"){
+    col_pal <- factor_colors_winter
+  }
+  
+  # Long merged-category labels (e.g. "Mixed Industry & Background") need
+  # wrapping + a smaller strip size when season != "all"
+  strip_wrap <- if (season == "all") 40 else 30
+  strip_size <- if (season == "all") 40 else 34
+  
+  
+  file_name <- paste0(site_type,"_",season,"_pmf.png")
   
   data$category_2 <- factor(data$category_2,levels = category_levels)
   
@@ -441,7 +494,8 @@ plot_pmf_factors <- function(site_type = "allsites", print = FALSE){
       color = "gray50",  
       linewidth = 0.3  
     ) +
-    facet_wrap(~factor_text, scales = "free_x", ncol = 2) + 
+    facet_wrap(~factor_text, scales = "free_x", ncol = 2,
+               labeller = labeller(factor_text = function(x) str_wrap(x, width = strip_wrap))) + 
     coord_flip() + 
     labs(
       title = "Relative VOC Contributions to Each Factor",
@@ -454,47 +508,35 @@ plot_pmf_factors <- function(site_type = "allsites", print = FALSE){
     theme(
       axis.text.x = element_text(angle = 30),
       legend.key.height = unit(0.3, "in"),
-      legend.key.width = unit(0.3, "in")
+      legend.key.width = unit(0.3, "in"),
+      strip.text = element_text(size = strip_size, lineheight = 0.3)
     )  
   
+  if (save){
+    ggsave(
+      file.path("results", "figures", paste0("fact_contrib_", file_name)),
+      plot = plot1,
+      width = unit(9, "in"),
+      height = unit(11, "in"),
+      dpi = 320
+    )
+  }
   
-  ggsave(
-    file.path("results", "figures", paste0("fact_contrib_", file_name)),
-    plot = plot1,
-    width = unit(9, "in"),
-    height = unit(11, "in"),
-    dpi = 320
-  )
   
   # Plot 2: Factor Contributions to Total VOC Mass
   
-  plot2 <- data %>%
-    ggplot() + 
-    aes(x = voc_name, y = bs_median_pct, fill = Factor) + 
-    geom_bar(position = position_stack(reverse = TRUE), stat = "identity") + 
-    coord_flip() + 
-    theme_minimal() +
-    scale_fill_manual(
-      values = c(
-        "#1F3A8A",  # dark blue
-        "#F59E0B",  # bright orange
-        "turquoise", # light blue
-        "#B91C1C",  # deep red
-        "#16A34A"  # bright green
-      )
-    ) + 
-    labs(x =  "VOC",y = "Contribution (%)",
-         fill = "Factor") +
-    paper_theme
+  plot2 <- make_species_contrib_plot(data,col_pal)
     
-  
-  ggsave(
-    file.path("results", "figures", paste0("species_contrib_", file_name)),
-    plot = plot2,
-    width = unit(8, "in"),
-    height = unit(8, "in"),
-    dpi = 320
-  )
+ if(save) {
+   ggsave(
+     file.path("results", "figures", paste0("species_contrib_", file_name)),
+     plot = plot2,
+     width = unit(8, "in"),
+     height = unit(8, "in"),
+     dpi = 320
+   ) 
+ }
+ 
     
     
     
@@ -507,6 +549,17 @@ plot_pmf_factors <- function(site_type = "allsites", print = FALSE){
 
 # Get results & Add interpretation
 
+# Define once, keyed by interpretation label (not position) -- this is the fix
+factor_colors <- c(
+  "Vehicle Exhaust"      = "#1F3A8A",  # dark blue
+  "Gasoline Evaporation" = "#F59E0B",  # bright orange
+  "Industrial Solvents"  = "turquoise",
+  "Background Pollution" = "#B91C1C",  # deep red
+  "Mixed Industry"       = "#16A34A"   # bright green
+)
+
+factor_levels <- names(factor_colors)  # single source of truth for ordering too
+
 ## All sites
 pmf_factors <- get_pmf_factors("allsites") %>%
   mutate(
@@ -514,21 +567,16 @@ pmf_factors <- get_pmf_factors("allsites") %>%
    factor == "Factor 1" ~ "Industrial Solvents",
    factor == "Factor 4" ~ "Gasoline Evaporation",
    factor == "Factor 3" ~ "Background Pollution",
-   factor == "Factor 2" ~ "Vehicle exhaust",
+   factor == "Factor 2" ~ "Vehicle Exhaust",
    factor == "Factor 5" ~ "Mixed Industry"
    ),
-   Factor = factor(Factor, levels = 
-                     c("Vehicle exhaust",
-                       "Gasoline Evaporation",
-                       "Industrial Solvents",
-                       "Background Pollution",
-                       "Mixed Industry")),
-  factor_text = paste(Factor, total_mass_fac)
+   Factor = factor(Factor, levels = factor_levels),
+   factor_text = paste(Factor, total_mass_fac)
   ) %>%
   arrange(desc(total_mass_fac)) %>%
   mutate(factor_text = factor(factor_text, levels = unique(factor_text)))
   
-plot_pmf_factors("allsites")
+plot_pmf_factors(pmf_factors, "allsites")
 
 ## Stationary Sites 
 pmf_factors_stationary <- get_pmf_factors("stationary") %>%
@@ -540,6 +588,7 @@ pmf_factors_stationary <- get_pmf_factors("stationary") %>%
     factor == "Factor 3" ~ "Vehicle Exhaust",
     factor == "Factor 2" ~ "Mixed Industry"
   ),
+  Factor = factor(Factor, levels = factor_levels),
   factor_text = paste(Factor, total_mass_fac)
   ) %>%
   arrange(desc(total_mass_fac)) %>%
@@ -547,11 +596,95 @@ pmf_factors_stationary <- get_pmf_factors("stationary") %>%
 
 
 
-plot_pmf_factors("stationary")
+plot_pmf_factors(pmf_factors_stationary, "stationary")
 
 
+## Seasonal ----
+
+## Summer
+# Summer-specific palette: reuse the harmonized colors for the three factors
+# that stayed separate, add one new color for the merged category
+factor_colors_summer <- c(
+  factor_colors[c("Vehicle Exhaust", "Gasoline Evaporation", "Industrial Solvents")],
+  "Mixed Industry & Background" = "#7C3AED"   # new color, distinct from the other 5
+)
+
+factor_levels_summer <- names(factor_colors_summer)
+
+pmf_factors_summer <- get_pmf_factors("allsites", season = "summer") %>%
+  mutate(
+    Factor = case_when(
+      factor == "Factor 1" ~ "Vehicle Exhaust",
+      factor == "Factor 2" ~ "Gasoline Evaporation",
+      factor == "Factor 3" ~ "Industrial Solvents",
+      factor == "Factor 4" ~ "Mixed Industry & Background"
+    ),
+    Factor = factor(Factor, levels = factor_levels_summer),   # use the summer-specific levels
+    factor_text = paste(Factor, total_mass_fac)
+  ) %>%
+  arrange(desc(total_mass_fac)) %>%
+  mutate(factor_text = factor(factor_text, levels = unique(factor_text)))
+
+plot_pmf_factors(pmf_factors_summer, "allsites", season = "summer")
+
+factor_colors_winter <- factor_colors_summer
+## Winter
+pmf_factors_winter <- get_pmf_factors("allsites", season = "winter") %>%
+  mutate(
+    Factor = case_when(
+      factor == "Factor 4" ~ "Vehicle Exhaust",
+      factor == "Factor 3" ~ "Gasoline Evaporation",
+      factor == "Factor 1" ~ "Industrial Solvents",
+      factor == "Factor 2" ~ "Mixed Industry & Background",
+    ),
+    Factor = factor(Factor, levels = factor_levels_summer),   # use the summer-specific levels
+    factor_text = paste(Factor, total_mass_fac)
+  ) %>%
+  arrange(desc(total_mass_fac)) %>%
+  mutate(factor_text = factor(factor_text, levels = unique(factor_text)))
+
+plot_pmf_factors(pmf_factors_winter, "allsites", season = "winter")
 
 
+## Supplemental: species contribution, year-round vs. summer vs. winter ----
+
+# Force identical VOC ordering across all three panels so rows align
+# vertically when summer/winter sit side by side
+
+p_species_year <- make_species_contrib_plot(
+  pmf_factors, factor_colors, plot_title = "Year-Round"
+)
+
+p_species_summer <- make_species_contrib_plot(
+  pmf_factors_summer, factor_colors_summer, plot_title = "Summer"
+)
+
+p_species_winter <- make_species_contrib_plot(
+  pmf_factors_winter, factor_colors_winter, plot_title = "Winter"
+) +
+  theme(
+    axis.text.y = element_blank(),
+    axis.title.y = element_blank(),
+    axis.ticks.y = element_blank()
+  )
+
+# Summer + winter share one collected legend (their palettes/levels match
+# exactly -- factor_colors_winter is the same 4-category scale as
+# factor_colors_summer), placed at the bottom of that row
+bottom_row <- (p_species_summer + p_species_winter) +
+  plot_layout(guides = "collect") &
+  theme(legend.position = "bottom")
+
+# Year-round keeps its own separate 5-category legend, since its factor
+# set doesn't match summer/winter's merged categories
+species_contrib_comparison <- p_species_year / bottom_row +
+  plot_layout(heights = c(1, 1.2)) 
+
+ggsave(
+  filename = here("results", "supplemental", "figures", "species_contrib_seasonal_comparison.png"),
+  plot = species_contrib_comparison,
+  width = 11, height = 16, dpi = 320
+)
 # Main PMF Analysis: Contributions to Sites ------
 
 pmf_contribs <- read_excel("results/interim_results/pmf_results/allsites_contributions_bs_fpeak.xlsx") %>%

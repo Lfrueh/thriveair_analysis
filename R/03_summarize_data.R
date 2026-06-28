@@ -167,7 +167,7 @@ sitemap <- refinery_map +
   ) +
   scale_shape_manual(
     values = c("stationary" = 21, "rotating" = 22),
-    labels = c("stationary" = "Weekly", "rotating" = "Community"),
+    labels = c("stationary" = "Year-Round", "rotating" = "Rotating"),
     name = "Site Type"
   ) +
   scale_fill_manual(
@@ -198,8 +198,8 @@ sitemap <- refinery_map +
   labs(
     y = NULL,
     x = NULL
-   # title = "Monitoring Sites",
-   # subtitle = "Land Use and Traffic Density Considerations"
+    # title = "Monitoring Sites",
+    # subtitle = "Land Use and Traffic Density Considerations"
   ) + 
   paper_theme + 
   theme(
@@ -364,7 +364,7 @@ location_map <- refinery_map +
   name = "Source Type") +
   
   # Monitor site points
-  geom_sf(data = site_contribs_sf, inherit.aes = FALSE,
+  geom_sf(data = sites_sf, inherit.aes = FALSE,
           fill = "black", stroke = 0.4, size = 7) + 
   # Site ID annotations with shadow
   geom_sf_text(
@@ -419,27 +419,15 @@ ggsave(
   
 )
 
-ggsave(
-  filename = here("results", "figures", "sites_landuse_traffic.png"),
-  plot = combo_plot,
-  width = unit(9, "in"),
-  height = unit(8, "in")
-  
-)
-
-
-
-
-
 
 # Summarize Detection Rates -----------------------------------------------
 
 summarize_flags <- function(df, siteval = NULL){
   
-  if (siteval){
+  if (!is.null(siteval)){
     df <- df %>%
       filter(site_id == siteval)
-  }
+  } 
   
   n_sample <- df %>% nrow()
   
@@ -550,7 +538,7 @@ excluded_compounds <- supp_t1 %>%
 
 
 # Summary Statistics ------------------------------------------------------
-## Overall ----
+## All Compounds ----
 ### Table ----
 # In main text: summarize by weekly vs. community sites, 
 # then by industrial indicator
@@ -613,62 +601,104 @@ write_csv(tidy_t1(t1_ind_traf[["stationary"]]),
 
 
 
-### Histograms ----
-# Function to plot and save histograms
-voc_histogram <- function(df, codebook, output_dir = "results/interim_results/figures") {
-  
-  # Loop over each category
-  for (cat_name in names(category_groups)) {
-    
-    cat_info <- category_groups[[cat_name]]
-
-    # only do this for included compounds
-    voc_vars <- setdiff(voc_vars, excluded_compounds)
-    
-    # Pivot df longer for VOCs in this category
-    df_long <- df %>%
-      tidyr::pivot_longer(
-        cols = dplyr::all_of(voc_vars),
-        names_to = "variable_name",
-        values_to = "value"
-      ) %>%
-      dplyr::left_join(cat_info, by = "variable_name")
-    
-    # Plot histograms for each VOC
-    p <- df_long %>%
-      ggplot(aes(x = value)) +
-      geom_histogram(
-        bins = 30,
-        fill = "#1f77b4",
-        color = "white",
-        linewidth = 0.3
-      ) +
-      facet_wrap(~ voc_name, scales = "free") +
-      theme_minimal() +
-      labs(
-        title = paste("Distribution of VOC Concentrations —", cat_name),
-        x = expression("Concentration ("~mu*"g/"*m^3*")"),
-        y = "Count"
-      ) +
-      paper_theme 
-    
-    # Save plot
-    ggsave(
-      filename = file.path(output_dir, paste0("voccat_", cat_name, "_histograms_summary.png")),
-      plot = p,
-      width = 8,
-      height = 8
-    )
-  }
-}
+## Compounds only included in analysis ----
+voc_vars_incl <- setdiff(voc_vars, excluded_compounds)
 
 codebook_included <- codebook %>%
   filter(!variable_name %in% excluded_compounds)
 
+cat_map <- codebook %>%
+  arrange(category_2no) %>%
+  distinct(category_2, category_2no) %>%
+  mutate(color = scales::hue_pal()(n())[order(category_2no)])
+
+label_df <- codebook %>%
+  left_join(cat_map, by = c("category_2", "category_2no")) %>%
+  mutate(
+    label = glue::glue("<span style='color:{color}'><b>{voc_name}</b></span>")
+  ) %>%
+  select(variable_name, label)
+
+name_map_colored <- deframe(label_df %>% select(variable_name, label))
 
 
-voc_histogram(vocs, codebook_included)
+## Seasonality Heatmap ------------------------------------------------------
+# Helper: generate symmetric log2 breaks and format them as ratio labels
+ratio_breaks_labels <- function(lim){
+  max_step <- max(1, ceiling(lim))
+  breaks <- seq(-max_step, max_step, by = 1)
+  ratios <- 2^breaks
+  labels <- ifelse(ratios >= 1,
+                   paste0(format(round(ratios, 1), trim = TRUE), "x"),
+                   paste0(format(round(ratios, 2), trim = TRUE), "x"))
+  list(breaks = breaks, labels = labels)
+}
 
+
+seasonality_dat <- vocs %>%
+  mutate(
+    month = floor_date(as.Date(end_date), "month"),
+    month_label = factor(format(month, "%b '%y"), levels = month_levels)
+  ) %>%
+  pivot_longer(cols = all_of(voc_vars_incl), names_to = "variable_name", values_to = "value") %>%
+  left_join(codebook_included, by = "variable_name") %>%
+  group_by(variable_name, category_2, category_2no, sort_in_category, month_label) %>%
+  summarize(monthly_med = median(value, na.rm = TRUE), .groups = "drop") %>%
+  group_by(variable_name) %>%
+  mutate(
+    annual_med = median(monthly_med, na.rm = TRUE),
+    log2_ratio = log2(monthly_med / annual_med)
+  ) %>%
+  ungroup() %>%
+  arrange(category_2no, sort_in_category) %>%
+  mutate(variable_name = factor(variable_name, levels = rev(unique(variable_name))))
+
+lim_season <- max(abs(seasonality_dat$log2_ratio), na.rm = TRUE)
+rb_season <- ratio_breaks_labels(lim_season)
+
+category_dummy <- cat_map %>%
+  arrange(category_2no) %>%
+  mutate(category_2 = factor(category_2, levels = category_2))
+
+p_season_heatmap <- seasonality_dat %>%
+  ggplot(aes(x = month_label, y = variable_name)) +
+  geom_tile(aes(fill = log2_ratio), color = "white", linewidth = 0.2) +
+  geom_point(
+    data = category_dummy,
+    aes(x = month_levels[1], y = levels(seasonality_dat$variable_name)[1], color = category_2),
+    size = 0, inherit.aes = FALSE
+  ) +
+  scale_fill_distiller(
+    palette = "RdBu", direction = -1,
+    name = "Ratio to annual\nmedian (log scale)",
+    limits = c(-lim_season, lim_season),
+    breaks = rb_season$breaks, labels = rb_season$labels
+  ) +
+  scale_color_manual(
+    values = setNames(category_dummy$color, category_dummy$category_2),
+    name = "VOC Category",
+    guide = guide_legend(override.aes = list(size = 4, shape = 15))
+  ) +
+  scale_y_discrete(labels = name_map_colored) +
+  labs(
+    title = "Seasonal Patterns Across VOCs",
+    subtitle = "Median-standardized monthly VOC concentrations",
+    x = NULL, y = NULL
+  ) +
+  paper_theme +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    axis.text.y = element_markdown(lineheight = 0.9),
+    legend.position = "right",
+    legend.title = element_text(lineheight = 0.2),
+    panel.grid = element_blank()
+  )
+
+ggsave(
+  filename = here("results", "supplemental", "figures", "seasonality_heatmap.png"),
+  plot = p_season_heatmap,
+  width = 7, height = 8, dpi = 320
+)
 
 ## By Individual Site ----
 ### Table ----
@@ -693,271 +723,137 @@ voc_site_summary <- vocs %>%
 
 write_excel_csv(voc_site_summary, "results/interim_results/tables/voc_by_site_summary.csv")
 
-### Box Plots ----
-# Function to plot and save boxplot distributions
-voc_boxplot <- function(df, codebook, output_dir = "results/supplemental/figures") {
-  
-  category_levels <- codebook %>%
-    arrange(category_2no) %>%
-    distinct(category_2) %>%
-    pull(category_2)
-  
-  # Get categories and associated VOC variables
-  categories <- codebook %>%
-    filter(!variable_name %in% c("btex", "xylenes")) %>%
-    select(variable_name, voc_name, category_2) %>%
-    filter(!is.na(category_2))
-  
-  category_groups <- split(categories, categories$category_2)
-  
-  # Loop over each category
-  for (cat_name in names(category_groups)) {
-    
-    cat_info <- category_groups[[cat_name]]
-    voc_vars <- cat_info$variable_name
-    
-    # Pivot df longer for VOCs in this category
-    df_long <- df %>%
-      pivot_longer(
-        cols = all_of(voc_vars),
-        names_to = "variable_name",
-        values_to = "value"
-      ) %>%
-      left_join(cat_info, by = "variable_name")
-    
-    # Dynamically change facet title size based on number of columns
-    n_facets <- df_long %>% distinct(voc_name) %>% nrow()
-    n_cols <- ceiling(n_facets / 2)
-    
-    strip_size <-if(n_cols < 3) {38} else 28
-    strip_wrap <- if(n_cols < 3) {15} else 20
-    
-    
-    # Plot
-    p <- df_long %>%
-      mutate(
-        site_id = factor(site_id, levels = c(
-          df %>% filter(site_type == "stationary") %>% arrange(site_id) %>% pull(site_id) %>% unique(),
-          df %>% filter(site_type == "rotating") %>% arrange(site_id) %>% pull(site_id) %>% unique()
-        ))
-      ) %>%
-      ggplot(aes(x = site_id, y = value, fill = site_type)) +
-      geom_boxplot(outlier.color = "black", outlier.size = 0.4, size = 0.4) +
-      theme_minimal() +
-      labs(
-        title = cat_name,
-        subtitle = "Concentration Distribution by Site",
-        x = "Site",
-        y = expression("Concentration ("~mu*"g/"*m^3*")"),
-        fill = "Site Type"
-      ) +
-      scale_fill_manual(
-        values = c(
-          "rotating" = "#1f77b4",
-          "stationary" = "#ff7f0e"
-        ),
-        labels = c(
-          "rotating" = "Community Sites",
-          "stationary" = "Weekly Sites"
-        )
-      ) +
-      paper_theme +
-      coord_flip() + 
-      facet_wrap(~ voc_name, scales = "free_x", nrow= ifelse(n_facets <=8, 2, 3),
-                 labeller = labeller(voc_name = function(x) hard_wrap(x, width = strip_wrap))) +
-      theme(legend.position = "bottom",
-            strip.text = element_text(size = strip_size, lineheight = 0.3))
-    
-    
-    # Save plot
-    ggsave(
-      filename = file.path(output_dir, paste0("voccat_bysite_", cat_name, "_boxplot_summary.png")),
-      plot = p,
-      width = 8,
-      height = ifelse(n_facets <=8, 8, 12)
+
+## Spatial Heatmap: Year-Round / Summer / Winter -----------------------------
+
+vocs_seasonal_spatial <- vocs %>%
+  mutate(
+    month_num = month(as.Date(end_date)),
+    season_meteo = case_when(
+      month_num %in% c(12, 1, 2) ~ "Winter",
+      month_num %in% c(6, 7, 8)  ~ "Summer",
+      TRUE ~ "Other"
     )
-  }
+  )
+
+build_spatial_dat <- function(df){
+  df %>%
+    mutate(site_id = as.character(site_id)) %>%
+    pivot_longer(cols = all_of(voc_vars_incl), names_to = "variable_name", values_to = "value") %>%
+    left_join(codebook_included, by = "variable_name") %>%
+    group_by(variable_name, voc_name, category_2, category_2no, sort_in_category,
+             site_id, site_type) %>%
+    summarize(site_med = median(value, na.rm = TRUE), .groups = "drop") %>%
+    group_by(variable_name) %>%
+    mutate(
+      overall_med = median(site_med, na.rm = TRUE),
+      log2_ratio = log2(site_med / overall_med)
+    ) %>%
+    ungroup() %>%
+    arrange(category_2no, sort_in_category) %>%
+    mutate(
+      voc_name = factor(voc_name, levels = rev(unique(as.character(voc_name)))),
+      site_type = factor(site_type, levels = c("stationary", "rotating"),
+                         labels = c("Year-Round Sites", "Rotating Sites")),
+      site_id = factor(site_id, levels = as.character(sort(as.numeric(unique(site_id)))))
+    )
 }
 
-voc_boxplot(vocs, codebook_included)
+spatial_dat_year   <- build_spatial_dat(vocs_seasonal_spatial)
+spatial_dat_summer <- build_spatial_dat(filter(vocs_seasonal_spatial, season_meteo == "Summer"))
+spatial_dat_winter <- build_spatial_dat(filter(vocs_seasonal_spatial, season_meteo == "Winter"))
 
+# Shared color scale across all three, for visual comparability
+lim_spatial <- max(
+  abs(spatial_dat_year$log2_ratio), abs(spatial_dat_summer$log2_ratio), abs(spatial_dat_winter$log2_ratio),
+  na.rm = TRUE
+)
+rb <- ratio_breaks_labels(lim_spatial)
 
-# Time Series Plots -------------------------------------------------------
-## Function to make time series plots
-## Overall -----
-voc_ts <- function(df, codebook, output_dir = "results/supplemental/figures") {
+make_spatial_heatmap <- function(dat, plot_title, file_suffix){
   
-  category_levels <- codebook %>%
-    arrange(category_2no) %>%
-    distinct(category_2) %>%
-    pull(category_2)
-  
-  # Get categories and associated VOC variables
-  categories <- codebook %>%
-    filter(!variable_name %in% c("btex", "xylenes")) %>%
-    select(variable_name, voc_name, category_2) %>%
-    filter(!is.na(category_2))
-  
-  category_groups <- split(categories, categories$category_2)
-  
-  # Loop over each category
-  for (cat_name in names(category_groups)) {
-    
-    cat_info <- category_groups[[cat_name]]
-    voc_vars <- cat_info$variable_name
-    
-    # Pivot df longer for VOCs in this category
-    df_long <- df %>%
-      tidyr::pivot_longer(
-        cols = dplyr::all_of(voc_vars),
-        names_to = "variable_name",
-        values_to = "value"
-      ) %>%
-      dplyr::left_join(cat_info, by = "variable_name")
-    
-    # Dynamically change facet title size based on number of columns
-    n_facets <- df_long %>% distinct(voc_name) %>% nrow()
-    n_cols <- ceiling(n_facets / 2)
-    
-    strip_size <-if(n_cols < 3) {48} else 34
-    strip_wrap <- if(n_cols < 3) {24} else 28
-    
-    # Plot histograms for each VOC
-    p <- df_long %>%
-      ggplot(aes(x = as.Date(end_date), y = value)) +
-      geom_point(aes(color = site_type), size = 0.6, alpha = 0.7) +
-      geom_smooth(color = "black", linewidth = 0.4) +
-      facet_wrap(~ voc_name, scales = "free_y",
-                 labeller = labeller(voc_name = function(x) hard_wrap(x, width = strip_wrap))) +
-      theme_minimal() +
-      labs(
-        title = cat_name,
-        y = expression("Concentration ("~mu*"g/"*m^3*")"),
-        x = "Date",
-        color = "Site Type"
-      ) +
-      scale_color_manual(
-        values = c(
-          "rotating" = "#1f77b4",
-          "stationary" = "#ff7f0e"
-        ),
-        labels = c(
-          "rotating" = "Community Sites",
-          "stationary" = "Weekly Sites"
-        )
-      ) +
-      paper_theme +
-      guides(
-        color = guide_legend(
-          override.aes = list(size = 2, alpha = 1)
-        )
-      ) + 
-      theme(
-        strip.text = element_text(size = strip_size, lineheight = 0.3),
-        legend.position = "bottom",
-        axis.text.x = element_text(angle = 45, hjust = 1)
-      )
-    # Save plot
-    ggsave(
-      filename = file.path(output_dir, paste0("voccat_", cat_name, "_ts_summary.png")),
-      plot = p,
-      width = 8,
-      height = 8
+  p <- dat %>%
+    ggplot(aes(x = site_id, y = voc_name, fill = log2_ratio)) +
+    geom_tile(color = "white", linewidth = 0.2) +
+    scale_fill_distiller(
+      palette = "RdBu", direction = -1,
+      name = "Ratio to annual\nmedian (log scale)",
+      limits = c(-lim_spatial, lim_spatial),
+      breaks = rb$breaks, labels = rb$labels
+    ) +
+    scale_y_discrete(labels = name_map_colored) +
+    facet_grid(~ site_type, scales = "free_x", space = "free_x") +
+    labs(
+      title = plot_title,
+      subtitle = "Median-standardized site VOCs",
+      x = "Site ID", y = NULL
+    ) +
+    paper_theme +
+    theme(
+      axis.text.x = element_text(),
+      axis.text.y = element_markdown(lineheight = 0.9),
+      legend.position = "right",
+      legend.title = element_text(lineheight = 0.2),
+      panel.grid = element_blank(),
+      strip.text = element_text(face = "bold")
     )
-  }
+  
+  ggsave(
+    filename = here("results", "supplemental", "figures",
+                    paste0("spatial_heatmap_", file_suffix, ".png")),
+    plot = p,
+    width = 8, height = 9, dpi = 320
+  )
+  
+  p
 }
 
-voc_ts(vocs, codebook_included)
+p_spatial_year   <- make_spatial_heatmap(spatial_dat_year, "Spatial Patterns Across VOCs — Year-Round", "yearround")
+p_spatial_summer <- make_spatial_heatmap(spatial_dat_summer, "Spatial Patterns Across VOCs — Summer", "summer")
+p_spatial_winter <- make_spatial_heatmap(spatial_dat_winter, "Spatial Patterns Across VOCs — Winter", "winter")
 
-## By Site (weekly Sites) ------
+## Summer vs. Winter Comparison (Stationary Sites Only) ---------------------
+# Standard meteorological seasons: Winter = Dec-Feb, Summer = Jun-Aug.
+# If `season` already exists upstream with this definition, swap it in below
+# instead of recomputing `season_meteo`.
 
-
-site_info <- read_csv("data/site_info.csv")
-
-colors <- site_info %>%
-  filter(site_type == "stationary") %>%
-  mutate(site_id = as.character(site_id)) %>%
-  distinct(site_id, site_color) %>%
-  with(setNames(site_color, site_id))
-
-
-voc_site_ts <- function(df, codebook, output_dir = "results/supplemental/figures") {
-  
-  category_levels <- codebook %>%
-    arrange(category_2no) %>%
-    distinct(category_2) %>%
-    pull(category_2)
-  
-  # Get categories and associated VOC variables
-  categories <- codebook %>%
-    filter(!variable_name %in% c("btex", "xylenes")) %>%
-    select(variable_name, voc_name, category_2) %>%
-    filter(!is.na(category_2))
-  
-  category_groups <- split(categories, categories$category_2)
-  
-  # Loop over each category
-  for (cat_name in names(category_groups)) {
-    
-    cat_info <- category_groups[[cat_name]]
-    voc_vars <- cat_info$variable_name
-    
-    # Pivot df longer for VOCs in this category
-    df_long <- df %>%
-      mutate(site_id = as.character(site_id)) %>%
-      tidyr::pivot_longer(
-        cols = dplyr::all_of(voc_vars),
-        names_to = "variable_name",
-        values_to = "value"
-      ) %>%
-      dplyr::left_join(cat_info, by = "variable_name")
-    
-    # Dynamically change facet title size based on number of columns
-    n_facets <- df_long %>% distinct(voc_name) %>% nrow()
-    n_cols <- 2
-    
-    strip_size <-if(n_cols < 3) {48} else 34
-    strip_wrap <- if(n_cols < 3) {24} else 28
-    
-    # Plot histograms for each VOC
-    p <- df_long %>%
-      filter(site_type == "stationary") %>%
-      ggplot(aes(x = as.Date(end_date), y = value)) +
-      geom_line(aes(color = site_id)) +
-      facet_wrap(~ voc_name, scales = "free_y",
-                 labeller = labeller(voc_name = function(x) hard_wrap(x, width = strip_wrap))) +
-      theme_minimal() +
-      labs(
-        title = cat_name,
-        y = expression("Concentration ("~mu*"g/"*m^3*")"),
-        x = "Date",
-        color = "Site Type"
-      ) +
-      scale_color_manual(
-        values = colors) +
-      paper_theme +
-      guides(
-        color = guide_legend(
-          override.aes = list(size = 2, alpha = 1)
-        )
-      ) + 
-      theme(
-        strip.text = element_text(size = strip_size, lineheight = 0.3),
-        legend.position = "bottom",
-        axis.text.x = element_text(angle = 45, hjust = 1)
-      )
-    # Save plot
-    ggsave(
-      filename = file.path(output_dir, paste0("voccat_", cat_name, "_ts_site_summary.png")),
-      plot = p,
-      width = 8,
-      height = 8
+vocs_seasonal <- vocs %>%
+  mutate(
+    month_num = month(as.Date(end_date)),
+    season_meteo = case_when(
+      month_num %in% c(12, 1, 2) ~ "Winter",
+      month_num %in% c(6, 7, 8)  ~ "Summer",
+      TRUE ~ NA_character_
     )
-  }
-}
+  ) %>%
+  filter(site_type == "stationary", !is.na(season_meteo))
 
-voc_site_ts(vocs, codebook_included)
+summer_winter_t1 <- CreateTableOne(
+  vars = voc_vars_incl,
+  strata = "season_meteo",
+  data = vocs_seasonal,
+  factorVars = NULL,
+  addOverall = FALSE,
+  test = TRUE
+)
 
+summer_winter_df <- print(
+  summer_winter_t1, nonnormal = voc_vars_incl,
+  quote = FALSE, noSpaces = TRUE, printToggle = FALSE
+) %>%
+  as.data.frame(stringsAsFactors = FALSE) %>%
+  rownames_to_column(var = "variable_name_messy") %>%
+  mutate(variable_name = str_remove(variable_name_messy, " \\(.*\\)$")) %>%
+  left_join(codebook_included, by = "variable_name") %>%
+  filter(!is.na(category_2)) %>%        # drops the "n" header row
+  arrange(category_2no, sort_in_category) %>%
+  select(voc_name, category_2, Summer, Winter, p) %>%
+  rename(`p-value` = p)
+
+write_excel_csv(
+  summer_winter_df,
+  here("results", "supplemental", "tables", "stationary_summer_vs_winter.csv")
+)
 
 # Correlations ------------------------------------------------------------
 # Using Spearman rank correlations, since there is non-normality
@@ -975,7 +871,7 @@ correlate <- function(data, corr_vars, season_val = NULL, site_val = NULL, rotat
     dat <- data %>%
       filter(site_type == "stationary")
     
-    sitetype = "Stationary Sites Only"
+    sitetype = "Year-Round Sites Only"
   } else sitetype <- "All Sites"
   
   if (!is.null(site_val)){
@@ -998,7 +894,7 @@ correlate <- function(data, corr_vars, season_val = NULL, site_val = NULL, rotat
   subtitle_text <- list(sitename, sitetype, season_val) %>%
     compact() %>%              
     str_c(collapse = ", ")
-
+  
   
   p <- ggcorrplot(cor, 
                   type = "full",
@@ -1076,11 +972,6 @@ corr_vocs <- codebook %>%
 
 
 correlate(vocs, corr_vocs, rotating = "incl_rotating")
-# correlate(vocs, corr_vocs, "Summer")
-# correlate(vocs, corr_vocs, "Winter")
-# correlate(vocs, corr_vocs, rotating = "incl_rotating")
-# correlate(vocs, corr_vocs, "Summer", rotating = "incl_rotating")
-# correlate(vocs, corr_vocs, "Winter", rotating = "incl_rotating")
 
 
 # Summarize EPA Fenceline Monitoring Data ---------------------------------

@@ -434,6 +434,14 @@ write_excel_csv(colo, "data/clean/colos.csv")
 
 # Save data for PMF -----
 dat_forpmf <- voc_ppb %>%
+  mutate(
+    month_num = month(as.Date(end_date)),
+    season_meteo = case_when(
+      month_num %in% c(12, 1, 2) ~ "Winter",
+      month_num %in% c(6, 7, 8)  ~ "Summer",
+      TRUE ~ "Other"
+    )
+  ) %>%
   # Replace zero values with 0.0001 to avoid PMF errors. 
   mutate(across(voc_vars, ~replace(.,.==0,0.0001))) %>%
   filter(sample_type == "sample") %>%
@@ -448,8 +456,26 @@ conc_forpmf_stationary <- dat_forpmf %>%
   filter(site_type == "stationary") %>%
   select(site_id2, end_date, all_of(voc_vars)) 
 
+conc_forpmf_winter <- dat_forpmf %>%
+  filter(season_meteo == "Winter") %>%
+  select(site_id2, end_date, all_of(voc_vars)) 
+
+conc_forpmf_summer <- dat_forpmf %>%
+  filter(season_meteo == "Summer") %>%
+  select(site_id2, end_date, all_of(voc_vars)) 
+
 
 unc_forpmf_all <- dat_forpmf %>%
+  select(site_id2, end_date, all_of(paste0(voc_vars,"_unc"))) %>%
+  rename_with(~str_replace(., "_unc", ""), ends_with("_unc"))
+
+unc_forpmf_winter <- dat_forpmf %>%
+  filter(season_meteo == "Winter") %>%
+  select(site_id2, end_date, all_of(paste0(voc_vars,"_unc"))) %>%
+  rename_with(~str_replace(., "_unc", ""), ends_with("_unc"))
+
+unc_forpmf_summer <- dat_forpmf %>%
+  filter(season_meteo == "Summer") %>%
   select(site_id2, end_date, all_of(paste0(voc_vars,"_unc"))) %>%
   rename_with(~str_replace(., "_unc", ""), ends_with("_unc"))
 
@@ -474,6 +500,23 @@ write.xlsx(
     uncertainties = unc_forpmf_stationary
   ),
   here("data", "clean", "stationary_pmf.xlsx")
+)
+
+
+write.xlsx(
+  list(
+    concentrations = conc_forpmf_summer,
+    uncertainties = unc_forpmf_summer
+  ),
+  here("data", "clean", "summer_pmf.xlsx")
+)
+
+write.xlsx(
+  list(
+    concentrations = conc_forpmf_winter,
+    uncertainties = unc_forpmf_winter
+  ),
+  here("data", "clean", "winter_pmf.xlsx")
 )
 
 
