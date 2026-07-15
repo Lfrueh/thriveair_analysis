@@ -1,0 +1,22 @@
+site_id,site,site_type,coordinates,site_color,industrial_20,land_use
+1,Bartram’s Garden,stationary,"39.92896, -75.212541",#619CFF,Non-Industrial,Open Space
+2,Essington & Mingo,stationary,"39.90131732, -75.2250262",#DB72FB,Industrial,Industrial
+3,61st & Passyunk,stationary,"39.91820446, -75.2085474",#00B9E3,Industrial,Industrial
+4,28th & Passyunk,stationary,"39.92061091, -75.1955879",#00BA38,Industrial,Vacant
+5,28th & Point Breeze,stationary,"39.92624784, -75.1923165",#00C19F,Non-Industrial,Residential
+6,25th & Point Breeze,stationary,"39.92771763, -75.1873965",#D39200,Industrial,Institution
+7,Morris & Point Breeze,stationary,"39.93094655, -75.1829941",#FF61C3,Non-Industrial,Residential
+8,24th & Ritner,stationary,"39.92296389, -75.186874",#F8766D,Non-Industrial,Residential
+9,26th & Hartranft,stationary,"39.91327125, -75.1922011",#93AA00,Industrial,Vacant
+10,Hartranft & Pietro Wy,rotating,"39.91118246, -75.1885003",NA,Non-Industrial,Residential
+11,Snyder & Vare,rotating,"39.92759256, -75.1950607",NA,Non-Industrial,Mixed Use
+12,29th & Moore,rotating,"39.931447, -75.193386",NA,Non-Industrial,Residential
+13,Wharton Park,rotating,"39.935920, -75.183090",NA,Non-Industrial,Recreation
+14,Finnegan Playground,rotating,"39.938448, -75.192335",NA,Industrial,Mixed Use
+15,31st & Grays Ferry,rotating,"39.93924766, -75.1944459",NA,Industrial,Commercial
+16,Crescent Park,rotating,"39.93965, -75.204199",NA,Industrial,Open Space
+17,Stinger Square Park,rotating,"39.93648699, -75.1979342",NA,Non-Industrial,Mixed Use
+18,Audenreid School,rotating,"39.93416729, -75.19723264",NA,Non-Industrial,Residential
+19,Carl Moore Health Center,rotating,"39.93592967, -75.19557444",NA,Non-Industrial,Mixed Use
+20,Vare & New Hope,rotating,"39.92957166, -75.1962242",NA,Non-Industrial,Mixed Use
+21,Universal Charter School at Vare,rotating,"39.92640295, -75.18538637",NA,Non-Industrial,Mixed Use

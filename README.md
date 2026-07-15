@@ -1,0 +1,147 @@
+## Introduction
+
+This repository corresponds to the paper titled “Volatile organic
+compound source apportionment in a fenceline community following
+THRIVEair, a community-responsive air monitoring network.” You can learn
+more about THRIVEair at: <https://thriveairphilly.com/>
+
+### Abstract
+
+**Background:** Urban exposure to volatile organic compounds (VOCs) is
+associated with several adverse health outcomes, including cancers and
+respiratory outcomes We conducted a year-long VOC monitoring campaign in
+South Philadelphia to evaluate impacts of traffic and redevelopment of a
+former oil refinery site on local air quality. Benzene was the
+community’s primary pollutant of concern, but we measured a broader
+suite of VOCs to enable source apportionment, presented here.
+
+**Methods:** In partnership with Philly Thrive, a Philadelphia-based
+environmental justice organization, we developed a community-responsive
+monitoring design and collected one-week integrated samples of 38 VOCs
+at 20 sites from July 2023 to June 2024 using passive thermal desorption
+tubes. We summarized concentrations of VOCs by land use and traffic
+density, and identified potential sources using toluene:benzene (T/B)
+ratio and (m,p)-xylenes:ethylbenzene (X/E) ratios. We employed positive
+matrix factorization (PMF) to apportion VOC sources.
+
+**Results:** VOC concentrations were generally higher in industrial
+vs. non-industrial and high- vs. low-traffic areas. Benzene, the
+compound of greatest community concern, occurred at low concentrations
+overall (median 1.21 µg/m³; range: 0.31-9.05 µg/m3), while (m,p)-xylenes
+emerged as a pollutant of concern in industrial areas. T/B and X/E
+ratios were higher among industrial and high-traffic sites, suggesting
+fresh (less photochemically aged) emissions of benzene derivatives. PMF
+identified five VOC sources: (1) vehicular exhaust, (2) gasoline
+evaporation, (3) industrial solvents, (4) background pollution, and (5)
+mixed industry suggestive of auto repair.
+
+**Significance:** Using a community-responsive study design, we
+characterized ambient VOCs in a pollution-burdened area of Philadelphia.
+Source apportionment confirmed traffic as a primary VOC source and
+identified the former refinery site as a source of gasoline and
+petroleum evaporative emissions, with industrial solvent use as an
+additional contributor.
+
+## File Structure
+
+### Directory Tree
+
+    .
+    ├── data
+    │   ├── codebook.xlsx 
+    │   ├── site_info.csv 
+    │   ├── raw
+    │   ├── clean 
+    │   └── shp <--- shapefiles for mapping parcels
+    ├── R (see details table below)
+    │   ├── 00_plot_theme.R
+    │   ├── 01_prepare_site_info.R
+    │   ├── 02_prepare_data.R
+    │   ├── 03_summarize_data.R
+    │   ├── 04_btex_ratios.R
+    │   ├── 05_visualize_pmf.R
+    │   └── 05_pca_analysis.R
+    ├── results
+    │   ├── tables 
+    │   ├── figures 
+    │   ├── supplemental 
+    │       ├── tables 
+    │       └── figures 
+    │   └── interim_results 
+    │       ├── tables
+    │       ├── pmf_results 
+    │       └── pca_results 
+    ├── thriveair_analysis.Rproj
+    └── README.md
+
+### Code Details
+
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Folder</th>
+<th>File Name</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R</td>
+<td>00_plot_theme</td>
+<td>Create basemap and ggplot theme to be sourced in all other code
+dealing with mapping and/or visualization.</td>
+</tr>
+<tr>
+<td>R</td>
+<td>01_prepare_site_info</td>
+<td>Clean and prepare site information.</td>
+</tr>
+<tr>
+<td>R</td>
+<td>02_clean_data</td>
+<td>Clean raw data, link data to site information and source
+classes.</td>
+</tr>
+<tr>
+<td>R</td>
+<td>03_summarize_data</td>
+<td>Summary statistics, distribution plots, and reliability
+calculations</td>
+</tr>
+<tr>
+<td>R</td>
+<td>04_btex_ratios</td>
+<td>BTEX ratio analysis an visualization</td>
+</tr>
+<tr>
+<td>R</td>
+<td>05_visualize_pmf</td>
+<td>Tabulate and plot PMF results.</td>
+</tr>
+<tr>
+<td>R</td>
+<td>06_pca_analysis</td>
+<td>Principal component analysis (PCA) sensitivity analysis.</td>
+</tr>
+</tbody>
+</table>
+
+## Contact & Links
+
+**Contact:**  
+Lisa Frueh | [lfrueh.com](https://lfrueh.com) | lf649 at drexel.edu Lisa
+Frueh | [lfrueh.com](https://lfrueh.com) | <lf649@drexel.edu>
+
+**Project Link:**  
+<https://github.com/lfrueh/thriveair_analysis>
+
+**More About THRIVEair:**  
+<https://thriveairphilly.com/>
+
+**Interactive data dashboard:**  
+<https://lisa-frueh.shinyapps.io/THRIVEair_results/>

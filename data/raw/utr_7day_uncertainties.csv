@@ -1,0 +1,40 @@
+﻿voc_name,variable_name,utr_mean,utr_sd,n_trials,utr_se,comment
+Benzene,benzene,0.32,0.17,3,0.098149546,
+"Benzene, 1,2-dichloro",benzene_1_2_dichloro,0.36,0.09,3,0.051961524,
+"Benzene, 1-ethyl-2-methyl",benzene_1_ethyl_2_methyl,0.58,0.32,3,0.184752086,
+"Benzene, 1-ethyl-3-methyl",benzene_1_ethyl_3_methyl,0.57,0.07,3,0.040414519,
+"Benzene, 1-ethyl-4-methyl",benzene_1_ethyl_4_methyl,0.53,0.15,3,0.08660254,
+"Benzene, propyl",benzene_propyl,0.33,0.2,3,0.115470054,
+Decane,decane,0.41,0.25,3,0.144337567,
+Dodecane,dodecane,0.37,0.28,3,0.161658075,
+Ethylbenzene,ethylbenzene,0.4,0.2,3,0.115470054,
+Heptane,heptane,0.31,0.18,3,0.103923048,
+"Heptane, 3-methyl",heptane_3_methyl,0.17,,3,,
+Hexane,n_hexane,0.3,0.08,3,0.046188022,
+"Hexane, 2-methyl",hexane_2_methyl,0.3,0.1,3,0.057735027,
+1-Hexene,x1_hexene,,,3,,
+Mesitylene,mesitylene,0.24,0.14,3,0.080829038,
+Methylene Chloride,methylene_chloride,,,3,,
+Nonane,nonane,0.42,0.24,3,0.138564065,
+Octane,octane,0.48,0.24,3,0.138564065,
+Tetrachloroethylene,tetrachloroethylene,0.45,0.06,3,0.034641016,
+Toluene,toluene,0.47,0.27,3,0.155884573,
+Trichloromonofluoromethane,trichloromonofluoromethane,0.42,0.06,3,0.034641016,
+Undecane,undecane,0.3,0.1,3,0.057735027,
+o-Xylene,o_xylene,0.38,0.2,3,0.115470054,
+"m,p-Xylene 2",m_p_xylene_2,0.28,0.15,3,0.08660254,
+"1,3-Butadiene, 2-methyl",x1_3_butadiene_2_methyl,0.61,0.08,2,0.056568542,may be overestimated
+2-Hexanone,x2_hexanone,0.39,0.03,2,0.021213203,
+"2-Pentene (Z), cis",x2_pentene_z_cis,0.3,,2,,one or more samples ND
+"Benzene, 1,2,3-trimethyl",benzene_1_2_3_trimethyl,0.53,,2,,one or more samples ND
+"Benzene, 1,4-diethyl",benzene_1_4_diethyl,0.66,,2,,one or more samples ND
+Trichloromethane,trichloromethane,0.21,0.02,2,0.014142136,
+"Butane, 2-methyl",butane_2_methyl,2.76,0.19,2,0.134350288,may be overestimated
+Carbon Tetrachloride,carbon_tetrachloride,0.14,0.01,2,0.007071068,
+"Cyclohexane, methyl",cyclohexane_methyl,0.19,,2,,one or more samples ND
+"Hexane, 3-methyl",hexane_3_methyl,0.16,,2,,one or more samples ND
+Methyl Isobutyl Ketone,methyl_isobutyl_ketone,1.09,,2,,may be overestimated; one or more samples nd
+"Pentane, 2-methyl",pentane_2_methyl,0.11,0.01,2,0.007071068,
+"Pentane, 2,3,4-trimethyl",pentane_2_3_4_trimethyl,0.33,0.01,2,0.007071068,
+"Pentane, 2,4-dimethyl",pentane_2_4_dimethyl,0.6,0.12,2,0.084852814,
+"Pentane, 3-methyl",pentane_3_methyl,0.2,,2,,one or more samples ND

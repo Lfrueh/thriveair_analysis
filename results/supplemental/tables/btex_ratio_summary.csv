@@ -1,0 +1,5 @@
+site_type,industrial_20,tb_ratio,xe_ratio,benzene,toluene,ethylbenzene,m_p_xylene_2,o_xylene,xylenes,ratio_summary
+rotating,Non-Industrial,1.68,6.1,1.38,2.21,0.57,3.52,0.78,4.3,2.4 : 3.9 : 1 : 7.5
+rotating,Industrial,1.96,6.17,1.15,2.17,0.5,3.11,0.7,3.8099999999999996,2.3 : 4.3 : 1 : 7.6
+stationary,Non-Industrial,1.71,6.57,1.21,1.99,0.54,3.56,0.78,4.34,2.2 : 3.7 : 1 : 8
+stationary,Industrial,1.93,6.83,1.46,2.59,0.87,5.63,1.26,6.89,1.7 : 3 : 1 : 7.9
