@@ -238,15 +238,8 @@ key_table <- tableGrob(
 )
 
 
-combo_plot <- wrap_elements(key_table) + sitemap + plot_layout(widths = c(1,3))  
+sitemap_combo <- wrap_elements(key_table) + sitemap + plot_layout(widths = c(1,3))  
 
-ggsave(
-  filename = here("results", "figures", "sources_sites.png"),
-  plot = combo_plot,
-  width = unit(9, "in"),
-  height = unit(8, "in")
-  
-)
 
 
 
@@ -408,14 +401,16 @@ location_map <- refinery_map +
 
 
 
-figure2_combo <- windrose + location_map + plot_layout(widths = c(1,1.5))
+windspeed_combo <- windrose + location_map + plot_layout(widths = c(1,1.5))
 
+
+figure1 <- sitemap_combo / windspeed_combo
 
 ggsave(
-  filename = here("results", "figures", "sites_pointsources_wind.png"),
-  plot = figure2_combo,
+  filename = here("results", "figures", "figure1.png"),
+  plot = figure1,
   width = unit(9, "in"),
-  height = unit(8, "in")
+  height = unit(12, "in")
   
 )
 
