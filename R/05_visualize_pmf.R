@@ -1,26 +1,33 @@
 library(tidyverse)
 library(readxl)
-library(janitor)
-library(sf)
 library(patchwork)
-library(cowplot)
-library(ggspatial)
-library(ggrepel)
-library(ggmap)
 library(ggtext)
-library(ggnewscale)
-library(ggpattern)
-library(gridExtra)
 library(here)
 library(scales)
 library(openxlsx)
 
 source("R/00_plot_theme.R")  
 
+# Purpose of this code: 
+# Visualize PMF results stored in interim_results.
+# PMF was performed using EPA PMF 5.0 as described in the manuscript.
+
+# OUTPUT MAP: which code block produces which publication figure/table
+# --------------------------------------------------------------------
+# Figure 3  (main text)     -> fact_contrib_allsites_all_pmf.png,
+#                              species_contrib_allsites_all_pmf.png
+# Figure 4  (main text)     -> sites_factors_allsites.png
+# Figure S6 (supplemental)  -> sites_factors_timeseries.png
+# Figure S8 (supplemental)  -> fact_contrib_stationary_all_pmf.png,
+#                              species_contrib_stationary_all_pmf.png
+# Figure S9 (supplemental)  -> fact_contrib_allsites_summer_pmf.png,
+#                              species_contrib_allsites_summer_pmf.png
+# Figure S10 (supplemental) -> fact_contrib_allsites_winter_pmf.png,
+#                              species_contrib_allsites_winter_pmf.png
+# Figure S11 (supplemental) -> species_contrib_seasonal_comparison.png
+# --------------------------------------------------------------------
 
 # Codebook ----------------------------------------------------------------
-
-
 codebook <- read_excel('data/codebook.xlsx')
 voc_vars <- codebook %>% 
   #Ignore total BTEX and total Xylenes in favor of individual ones.
@@ -41,7 +48,7 @@ get_pmf_factors <- function(site_type = c("allsites","stationary"),
                             season = c("all", "summer", "winter")){
   
   season <- match.arg(season)
-
+  
   
   if (site_type == "stationary"){
     factor_file <- "stationary_pmf_bs_fpeak.xlsx"
@@ -55,7 +62,7 @@ get_pmf_factors <- function(site_type = c("allsites","stationary"),
     }
     
   }
-
+  
   
   
   # Get factor information
@@ -73,7 +80,7 @@ get_pmf_factors <- function(site_type = c("allsites","stationary"),
   
   pmf_fac <- map(sheets, ~readsheet(.x))
   names(pmf_fac) <- sheets
-
+  
   
   pmf_fac_results <- bind_rows(pmf_fac, .id = "factor") %>%
     left_join(., codebook, by = "variable_name") %>%
@@ -101,7 +108,6 @@ get_pmf_factors <- function(site_type = c("allsites","stationary"),
     ) %>%
     ungroup() %>%
     select(-pct_denom) %>%
-    mutate(factor_text = paste0(factor, total_mass_fac)) %>%
     mutate(factor_text = paste0(factor, total_mass_fac))
   
   return(pmf_fac_results)
@@ -126,7 +132,10 @@ make_species_contrib_plot <- function(data, col_pal, plot_title = NULL){
     paper_theme
 }
 
-plot_pmf_factors <- function(data, site_type = "allsites", season = c("all", "summer", "winter"), print = FALSE, save = TRUE){
+# `output_subdir` lets callers route main-text vs. supplemental figures into
+# the correct results folder (see call sites below and the output map above).
+plot_pmf_factors <- function(data, site_type = "allsites", season = c("all", "summer", "winter"),
+                             print = FALSE, save = TRUE, output_subdir = "figures"){
   
   season <- match.arg(season)
   if (site_type == "stationary"){
@@ -189,7 +198,7 @@ plot_pmf_factors <- function(data, site_type = "allsites", season = c("all", "su
   
   if (save){
     ggsave(
-      file.path("results", "figures", paste0("fact_contrib_", file_name)),
+      file.path("results", output_subdir, paste0("fact_contrib_", file_name)),
       plot = plot1,
       width = unit(9, "in"),
       height = unit(11, "in"),
@@ -201,20 +210,20 @@ plot_pmf_factors <- function(data, site_type = "allsites", season = c("all", "su
   # Plot 2: Factor Contributions to Total VOC Mass
   
   plot2 <- make_species_contrib_plot(data,col_pal)
-    
- if(save) {
-   ggsave(
-     file.path("results", "figures", paste0("species_contrib_", file_name)),
-     plot = plot2,
-     width = unit(8, "in"),
-     height = unit(8, "in"),
-     dpi = 320
-   ) 
- }
- 
-    
-    
-    
+  
+  if(save) {
+    ggsave(
+      file.path("results", output_subdir, paste0("species_contrib_", file_name)),
+      plot = plot2,
+      width = unit(8, "in"),
+      height = unit(8, "in"),
+      dpi = 320
+    ) 
+  }
+  
+  
+  
+  
   if(print){
     print(plot1)
     print(plot2)
@@ -235,43 +244,72 @@ factor_colors <- c(
 
 factor_levels <- names(factor_colors)  # single source of truth for ordering too
 
+# Factor-number-to-label mappings, one per PMF model run -----------------
+# IMPORTANT: PMF factor numbers are arbitrary and assigned independently by
+# each model run (allsites/stationary/summer/winter are 4 separate PMF runs),
+# so "Factor 1" can mean something different in each. These mappings encode
+# the manual interpretation of each run's factors and must be re-verified
+# any time PMF is re-run, since factor numbering can shift between runs even
+# on the same input data.
+# Defined once here (previously this mapping was retyped identically in three
+# separate places for the allsites/all-season results alone, which risked the
+# copies drifting out of sync).
+factor_label_allsites <- c(
+  "Factor 1" = "Industrial Solvents",
+  "Factor 2" = "Vehicle Exhaust",
+  "Factor 3" = "Background Pollution",
+  "Factor 4" = "Gasoline Evaporation",
+  "Factor 5" = "Mixed Industry"
+)
+
+factor_label_stationary <- c(
+  "Factor 1" = "Background Pollution",
+  "Factor 2" = "Mixed Industry",
+  "Factor 3" = "Vehicle Exhaust",
+  "Factor 4" = "Industrial Solvents",
+  "Factor 5" = "Gasoline Evaporation"
+)
+
+factor_label_summer <- c(
+  "Factor 1" = "Vehicle Exhaust",
+  "Factor 2" = "Gasoline Evaporation",
+  "Factor 3" = "Industrial Solvents",
+  "Factor 4" = "Mixed Industry & Background"
+)
+
+factor_label_winter <- c(
+  "Factor 1" = "Industrial Solvents",
+  "Factor 2" = "Mixed Industry & Background",
+  "Factor 3" = "Gasoline Evaporation",
+  "Factor 4" = "Vehicle Exhaust"
+)
+
 ## All sites
 pmf_factors <- get_pmf_factors("allsites") %>%
   mutate(
-   Factor = case_when(
-   factor == "Factor 1" ~ "Industrial Solvents",
-   factor == "Factor 4" ~ "Gasoline Evaporation",
-   factor == "Factor 3" ~ "Background Pollution",
-   factor == "Factor 2" ~ "Vehicle Exhaust",
-   factor == "Factor 5" ~ "Mixed Industry"
-   ),
-   Factor = factor(Factor, levels = factor_levels),
-   factor_text = paste(Factor, total_mass_fac)
+    Factor = factor_label_allsites[factor],
+    Factor = factor(Factor, levels = factor_levels),
+    factor_text = paste(Factor, total_mass_fac)
   ) %>%
   arrange(desc(total_mass_fac)) %>%
   mutate(factor_text = factor(factor_text, levels = unique(factor_text)))
-  
+
+# Figure 3 (main text)
 plot_pmf_factors(pmf_factors, "allsites")
 
 ## Stationary Sites 
 pmf_factors_stationary <- get_pmf_factors("stationary") %>%
   mutate(
-    Factor = case_when(
-    factor == "Factor 4" ~ "Industrial Solvents",
-    factor == "Factor 5" ~ "Gasoline Evaporation",
-    factor == "Factor 1" ~ "Background Pollution",
-    factor == "Factor 3" ~ "Vehicle Exhaust",
-    factor == "Factor 2" ~ "Mixed Industry"
-  ),
-  Factor = factor(Factor, levels = factor_levels),
-  factor_text = paste(Factor, total_mass_fac)
+    Factor = factor_label_stationary[factor],
+    Factor = factor(Factor, levels = factor_levels),
+    factor_text = paste(Factor, total_mass_fac)
   ) %>%
   arrange(desc(total_mass_fac)) %>%
   mutate(factor_text = factor(factor_text, levels = unique(factor_text)))
 
 
-
-plot_pmf_factors(pmf_factors_stationary, "stationary")
+# Figure S8 (supplemental)
+plot_pmf_factors(pmf_factors_stationary, "stationary", output_subdir = file.path("supplemental", "figures"))
 
 
 ## Seasonal ----
@@ -288,37 +326,29 @@ factor_levels_summer <- names(factor_colors_summer)
 
 pmf_factors_summer <- get_pmf_factors("allsites", season = "summer") %>%
   mutate(
-    Factor = case_when(
-      factor == "Factor 1" ~ "Vehicle Exhaust",
-      factor == "Factor 2" ~ "Gasoline Evaporation",
-      factor == "Factor 3" ~ "Industrial Solvents",
-      factor == "Factor 4" ~ "Mixed Industry & Background"
-    ),
+    Factor = factor_label_summer[factor],
     Factor = factor(Factor, levels = factor_levels_summer),   # use the summer-specific levels
     factor_text = paste(Factor, total_mass_fac)
   ) %>%
   arrange(desc(total_mass_fac)) %>%
   mutate(factor_text = factor(factor_text, levels = unique(factor_text)))
 
-plot_pmf_factors(pmf_factors_summer, "allsites", season = "summer")
+# Figure S9 (supplemental)
+plot_pmf_factors(pmf_factors_summer, "allsites", season = "summer", output_subdir = file.path("supplemental", "figures"))
 
 factor_colors_winter <- factor_colors_summer
 ## Winter
 pmf_factors_winter <- get_pmf_factors("allsites", season = "winter") %>%
   mutate(
-    Factor = case_when(
-      factor == "Factor 4" ~ "Vehicle Exhaust",
-      factor == "Factor 3" ~ "Gasoline Evaporation",
-      factor == "Factor 1" ~ "Industrial Solvents",
-      factor == "Factor 2" ~ "Mixed Industry & Background",
-    ),
+    Factor = factor_label_winter[factor],
     Factor = factor(Factor, levels = factor_levels_summer),   # use the summer-specific levels
     factor_text = paste(Factor, total_mass_fac)
   ) %>%
   arrange(desc(total_mass_fac)) %>%
   mutate(factor_text = factor(factor_text, levels = unique(factor_text)))
 
-plot_pmf_factors(pmf_factors_winter, "allsites", season = "winter")
+# Figure S10 (supplemental)
+plot_pmf_factors(pmf_factors_winter, "allsites", season = "winter", output_subdir = file.path("supplemental", "figures"))
 
 
 ## Supplemental: species contribution, year-round vs. summer vs. winter ----
@@ -355,6 +385,7 @@ bottom_row <- (p_species_summer + p_species_winter) +
 species_contrib_comparison <- p_species_year / bottom_row +
   plot_layout(heights = c(1, 1.2)) 
 
+# Figure S11 (supplemental)
 ggsave(
   filename = here("results", "supplemental", "figures", "species_contrib_seasonal_comparison.png"),
   plot = species_contrib_comparison,
@@ -372,7 +403,7 @@ site_contribs <- pmf_contribs %>%
   summarize(
     total_mass = sum(factor_1) + sum(factor_2) + sum(factor_3) + sum(factor_4) + sum(factor_5),
     factor_1 = 100*sum(factor_1)/total_mass,
-    factor_2 = 100*sum(factor_2/total_mass),
+    factor_2 = 100*sum(factor_2)/total_mass,
     factor_3 = 100*sum(factor_3)/total_mass,
     factor_4 = 100*sum(factor_4)/total_mass,
     factor_5 = 100*sum(factor_5)/total_mass
@@ -381,23 +412,17 @@ site_contribs <- pmf_contribs %>%
   pivot_longer(
     factor_1:factor_5, names_to = "factor", values_to = "Contribution"
   ) %>%
-  mutate(Factor = case_when(
-    factor == "factor_1" ~ "Industrial Solvents",
-    factor == "factor_4" ~ "Gasoline Evaporation",
-    factor == "factor_3" ~ "Background Pollution",
-    factor == "factor_2" ~ "Vehicle Exhaust",
-    factor == "factor_5" ~ "Mixed Industry"
-  ),
-  Factor = factor(Factor, levels = 
-                    c("Vehicle Exhaust",
-                      "Gasoline Evaporation",
-                      "Industrial Solvents",
-                      "Background Pollution",
-                      "Mixed Industry")),
-  site_id = as.numeric(str_remove_all(site_id2, "site_")),
-  # Replace negative contributions with zero (since these are medians
-  # from bootstrapped samples, sometimes a negative can happen)
-  Contribution = case_when(Contribution < 0 ~ 0, TRUE ~ Contribution)
+  mutate(
+    # NOTE: keys here are "factor_1".."factor_5" (underscore), while
+    # factor_label_allsites above is keyed by "Factor 1".."Factor 5" (space,
+    # capital F) as read from the PMF Excel sheet names. Reformat the key
+    # rather than duplicating the mapping a second time.
+    Factor = factor_label_allsites[str_replace(factor, "factor_", "Factor ")],
+    Factor = factor(Factor, levels = factor_levels),
+    site_id = as.numeric(str_remove_all(site_id2, "site_")),
+    # Replace negative contributions with zero (since these are medians
+    # from bootstrapped samples, sometimes a negative can happen)
+    Contribution = case_when(Contribution < 0 ~ 0, TRUE ~ Contribution)
   ) %>%
   left_join(., site_info, by = "site_id") %>%
   mutate(
@@ -418,15 +443,10 @@ site_contrib_plot <- site_contribs %>%
   coord_flip() + 
   facet_wrap(~industrial_traffic, scales = "free_y", space = "free_y") +
   theme_minimal() +
-  scale_fill_manual(
-    values = c(
-      "#1F3A8A",  # dark blue
-      "#F59E0B",  # bright orange
-      "turquoise", # light blue
-      "#B91C1C",  # deep red
-      "#16A34A"  # bright green
-    )
-  ) + 
+  # Reuse the named factor_colors palette (keyed by label) instead of a
+  # positional hex vector, so colors can't silently drift out of sync with
+  # `Factor`'s level order the way an unnamed vector would allow.
+  scale_fill_manual(values = factor_colors) + 
   scale_y_continuous(expand = c(0,0)) +
   labs(x =  "Site",y = "Contribution (%)") +
   paper_theme + 
@@ -440,7 +460,7 @@ site_contrib_plot <- site_contribs %>%
   )
 
 
-
+# Figure 4 (main text)
 ggsave(
   file.path("results", "figures", "sites_factors_allsites.png"),
   plot = site_contrib_plot,
@@ -453,23 +473,17 @@ site_ts <- pmf_contribs %>%
   pivot_longer(
     factor_1:factor_5, names_to = "factor", values_to = "cont"
   ) %>%
-  mutate(Factor = case_when(
-    factor == "factor_1" ~ "Industrial Solvents",
-    factor == "factor_4" ~ "Gasoline Evaporation",
-    factor == "factor_3" ~ "Background Pollution",
-    factor == "factor_2" ~ "Vehicle Exhaust",
-    factor == "factor_5" ~ "Mixed Industry"
-  ),
-  Factor = factor(Factor, levels = 
-                    c("Vehicle Exhaust",
-                      "Gasoline Evaporation",
-                      "Industrial Solvents",
-                      "Background Pollution",
-                      "Mixed Industry")),
-  site_id = as.numeric(str_remove_all(site_id2, "site_")),
-  date = lubridate::make_date(year = paste0("20",str_sub(end_date,7,8)),
-                              month = str_sub(end_date,1,2),
-                              day = str_sub(end_date,4,5))
+  mutate(
+    Factor = factor_label_allsites[str_replace(factor, "factor_", "Factor ")],
+    Factor = factor(Factor, levels = factor_levels),
+    site_id = as.numeric(str_remove_all(site_id2, "site_")),
+    # NOTE: assumes end_date is a fixed-width "MM/DD/YY" string (positions
+    # 1-2 = month, 4-5 = day, 7-8 = year). This will silently mis-parse if
+    # the upstream date format ever changes (e.g. single-digit months/days
+    # without zero-padding, or a different separator/column width).
+    date = lubridate::make_date(year = paste0("20",str_sub(end_date,7,8)),
+                                month = str_sub(end_date,1,2),
+                                day = str_sub(end_date,4,5))
   ) %>%
   left_join(., site_info, by = "site_id") %>%
   group_by(site_id, end_date) %>%
@@ -492,15 +506,8 @@ site_ts_plot <- site_ts %>%
   filter(site_id < 10) %>%
   ggplot() + 
   geom_line(aes(x = date, y = norm_cont, color = Factor)) + 
-  scale_color_manual(
-    values = c(
-      "#1F3A8A",  # dark blue
-      "#F59E0B",  # bright orange
-      "turquoise", # light blue
-      "#B91C1C",  # deep red
-      "#16A34A"  # bright green
-    )
-  ) + 
+  # Reuse the named factor_colors palette (see note above on site_contrib_plot)
+  scale_color_manual(values = factor_colors) + 
   facet_wrap(~site_long) + 
   labs(
     x = "Date",
@@ -510,40 +517,19 @@ site_ts_plot <- site_ts %>%
   theme(
     axis.text.x = element_text(
       angle = 30,
-    hjust = 1,
-    vjust = 1
-  ),
-  strip.text = element_text(lineheight=0.3, size = 30)
+      hjust = 1,
+      vjust = 1
+    ),
+    strip.text = element_text(lineheight=0.3, size = 30)
   ) + 
   scale_x_date(date_labels = "%b %y")
 
 
-
+# Figure S6 (supplemental)
 ggsave(
-  file.path("results", "figures", "sites_factors_timeseries.png"),
+  file.path("results", "supplemental", "figures", "sites_factors_timeseries.png"),
   plot = site_ts_plot,
   width = unit(8, "in"),
   height = unit(8, "in"),
   dpi = 320
 )
-
-# Main PMF Analysis: Time Series -----
-pmf_timeseries <- pmf_contribs %>%
-  filter(as.numeric(str_sub(site_id2, -1))<10) %>%
-  group_by(end_date) %>% 
-  summarize(across(starts_with("factor"), 
-                   ~mean(.x))) %>%
-  mutate(month = str_sub(end_date, 1, 2),
-         day = str_sub(end_date, 4,5),
-         year = paste0("20",str_sub(end_date, 7,8)),
-         date = make_date(year, month, day)
-  )
-  
-
-pmf_timeseries %>%
-  select(date, starts_with("factor")) %>%
-  pivot_longer(-date, names_to = "factor", values_to = "mass") %>%
-  ggplot() + 
-  geom_line(aes(x = date, y = mass)) + 
-  facet_wrap(~factor)
-

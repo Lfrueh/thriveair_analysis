@@ -12,15 +12,42 @@ library(ggnewscale)
 library(gridExtra)
 library(sf)
 
-########################################################
+
 # Purpose of this code:
 # To summarize VOC measurement data, including:
 ## Basic summary statistics
 ## Visualize distributions
 ## Correlations
-########################################################
+
+# OUTPUT MAP: which code block produces which publication figure/table
+# --------------------------------------------------------------------
+# Figure 1        -> figure1.png                                  (main text; site map + wind rose + sources)
+# Table 1         -> stationary_voc_by_industry.csv,
+#                    rotating_voc_by_industry.csv                 (main text; combined into Table 1)
+# Table S1        -> suppt1_detection_reliability.csv             (supplemental)
+# Table S2        -> stationary_voc_by_traffic.csv,
+#                    rotating_voc_by_traffic.csv                  (supplemental; combined into Table S2)
+# Table S3        -> stationary_summer_vs_winter.csv               (supplemental)
+# Figure S1       -> EPA_PES_monitoring.png                        (supplemental)
+# Figure S2       -> heatmap_incl_rotating.png                     (supplemental; correlation matrix)
+# Figure S3       -> seasonality_heatmap.png                       (supplemental)
+# Figure S4       -> spatial_heatmap_yearround.png                 (supplemental)
+# NOT PUBLISHED   -> stationary_voc_by_traffic_industry.csv,
+#                    voc_by_site_summary.csv,
+#                    spatial_heatmap_summer.png, spatial_heatmap_winter.png
+#                    (generated for internal/exploratory use only; not in the manuscript)
+# --------------------------------------------------------------------
 
 source("R/00_plot_theme.R")  
+
+
+# Analysis thresholds -------------------------------------------------------
+# Centralized here so the criteria used to flag/exclude compounds are visible
+# in one place rather than as inline magic numbers.
+LOW_DETECTION_REG_MAX   <- 40   # Compound flagged low-detection if <=40% of samples are "regular" detects...
+LOW_DETECTION_ND_MIN    <- 25   # ...or if >=25% of samples are non-detects
+LOW_RELIABILITY_RPD_MIN <- 50   # Compound flagged low-reliability if mean RPD >=50%...
+LOW_RELIABILITY_ICC_MAX <- 0.75 # ...or if ICC <=0.75
 
 
 # Get Data ----------------------------------------------------------------
@@ -47,13 +74,22 @@ categories <- codebook %>%
 
 category_groups <- split(categories, categories$category_2)
 
-# Force line break every N characters regardless of word boundaries
-hard_wrap <- function(x, width = 15) {
-  sapply(x, function(label) {
-    # Insert newline every 'width' characters
-    gsub(paste0("(.{", width, "})"), "\\1\n", label)
-  }, USE.NAMES = FALSE)
-}
+# Map VOC categories to colors, and build the colored/markdown axis-label
+# lookup used by every heatmap and the correlation plot below.
+# (Computed once here so it isn't duplicated later in the script.)
+cat_map <- codebook %>%
+  arrange(category_2no) %>%
+  distinct(category_2, category_2no) %>%
+  mutate(color = scales::hue_pal()(n())[order(category_2no)])
+
+label_df <- codebook %>%
+  left_join(cat_map, by = c("category_2", "category_2no")) %>%
+  mutate(
+    label = glue::glue("<span style='color:{color}'><b>{voc_name}</b></span>")
+  ) %>%
+  select(variable_name, label)
+
+name_map_colored <- deframe(label_df %>% select(variable_name, label))
 
 ## VOC Data -----
 vocs_all <- read_csv("data/clean/dat_mgm3.csv")
@@ -64,8 +100,11 @@ colos <- read_csv("data/clean/colos.csv", col_select = -1) %>%
   select(-ends_with("_flag"), -ends_with("_unc"), -starts_with("xylenes"), -btex) 
 
 
-# Create Site Summary Map -------------------------------------------------
-## Note that this will take a little while due to landuse 
+# ===========================================================================
+# FIGURE 1 (main text): Site map + wind rose + potential source map
+# ===========================================================================
+## Land use ----
+# Basemap
 base <- ggmap(basemap) 
 
 # Former refinery tax parcels from Open Data Philly
@@ -142,6 +181,7 @@ refinery_map <- ggmap(basemap) +
   new_scale_fill()
 
 
+# Map of landuse
 sitemap <- refinery_map +
   # Land Use
   geom_sf(data = landuse, aes(fill = landuse), lwd = 0, alpha = 0.4,
@@ -214,6 +254,7 @@ sitemap <- refinery_map +
   )
 
 
+## Site ID to name key (table) ----
 site_key <- sites_sf %>%
   st_drop_geometry() %>%
   select(site_id, site) %>%
@@ -237,7 +278,7 @@ key_table <- tableGrob(
   )
 )
 
-
+# Combination map (Figure 1, top)
 sitemap_combo <- wrap_elements(key_table) + sitemap + plot_layout(widths = c(1,3))  
 
 
@@ -340,6 +381,7 @@ sources <- st_read(here("data","shp","thriveair_potential_sources.shp")) %>%
   )) %>%
   st_transform(crs = 4326)
 
+## Point sources -----
 location_map <- refinery_map + 
   # Porential sources
   geom_sf(data = sources, inherit.aes = FALSE,
@@ -400,12 +442,13 @@ location_map <- refinery_map +
 
 
 
-
+# Figure 1 (bottom)
 windspeed_combo <- windrose + location_map + plot_layout(widths = c(1,1.5))
 
-
+# Combine plots for Figure 1
 figure1 <- sitemap_combo / windspeed_combo
 
+## Save Figure 1 (main text) ----
 ggsave(
   filename = here("results", "figures", "figure1.png"),
   plot = figure1,
@@ -471,7 +514,7 @@ flag_summary_wide <- flag_summary %>%
   pivot_wider(names_from = flag_type, values_from = percentage) %>%
   mutate(
     low_detection_rate = case_when(
-      (as.numeric(reg) <= 40 | as.numeric(nd) >= 25)~ 1,
+      (as.numeric(reg) <= LOW_DETECTION_REG_MAX | as.numeric(nd) >= LOW_DETECTION_ND_MIN) ~ 1,
       TRUE ~ 0
     )
   )
@@ -518,11 +561,15 @@ reliability_results <- map_dfr(intersect(voc_vars, names(colos)), function(v) {
   left_join(codebook, by = c("variable" = "variable_name")) %>%
   select(voc_name, category_2, mean_RPD, ICC) %>%
   mutate(low_reliability = case_when(
-    (mean_RPD >= 50 | ICC <= 0.75) ~ 1,
+    (mean_RPD >= LOW_RELIABILITY_RPD_MIN | ICC <= LOW_RELIABILITY_ICC_MAX) ~ 1,
     TRUE ~ 0
   ))
 
-# Save supplemental table 1 (detection + reliability)
+
+# ===========================================================================
+# TABLE S1 (supplemental): Detection rates + reliability, and compound
+# exclusion criteria used throughout the rest of the analysis
+# ===========================================================================
 supp_t1 <- left_join(flag_summary_wide, reliability_results, by = c("voc_name", "category_2"))
 
 write_csv(supp_t1, "results/supplemental/tables/suppt1_detection_reliability.csv")
@@ -577,19 +624,24 @@ t1_traffic <- create_t1("site_traffic")
 t1_ind_traf <- create_t1("ind_traf")
 
 
-# Get table for each site type and save
+# ===========================================================================
+# TABLE 1 (main text): VOC summary by site type x industrial indicator
+# ===========================================================================
 write_csv(tidy_t1(t1_industry[["stationary"]]), 
           here("results", "tables", "stationary_voc_by_industry.csv"))
 write_csv(tidy_t1(t1_industry[["rotating"]]), 
           here("results", "tables", "rotating_voc_by_industry.csv"))
 
-# Traffic goes in supplemental
+# ===========================================================================
+# TABLE S2 (supplemental): VOC summary by site type x traffic density
+# ===========================================================================
 write_csv(tidy_t1(t1_traffic[["stationary"]]), 
           here("results", "supplemental","tables", "stationary_voc_by_traffic.csv"))
 write_csv(tidy_t1(t1_traffic[["rotating"]]), 
           here("results", "supplemental","tables", "rotating_voc_by_traffic.csv"))
 
-# Bivariate goes in supplemental
+# NOT PUBLISHED: VOC summary by site type x traffic x industrial indicator
+# (exploratory only; not included in the manuscript)
 write_csv(tidy_t1(t1_ind_traf[["stationary"]]), 
           here("results", "supplemental","tables", "stationary_voc_by_traffic_industry.csv"))
 
@@ -601,20 +653,6 @@ voc_vars_incl <- setdiff(voc_vars, excluded_compounds)
 
 codebook_included <- codebook %>%
   filter(!variable_name %in% excluded_compounds)
-
-cat_map <- codebook %>%
-  arrange(category_2no) %>%
-  distinct(category_2, category_2no) %>%
-  mutate(color = scales::hue_pal()(n())[order(category_2no)])
-
-label_df <- codebook %>%
-  left_join(cat_map, by = c("category_2", "category_2no")) %>%
-  mutate(
-    label = glue::glue("<span style='color:{color}'><b>{voc_name}</b></span>")
-  ) %>%
-  select(variable_name, label)
-
-name_map_colored <- deframe(label_df %>% select(variable_name, label))
 
 
 ## Seasonality Heatmap ------------------------------------------------------
@@ -632,9 +670,17 @@ ratio_breaks_labels <- function(lim){
 
 seasonality_dat <- vocs %>%
   mutate(
-    month = floor_date(as.Date(end_date), "month"),
-    month_label = factor(format(month, "%b '%y"), levels = month_levels)
-  ) %>%
+    month = floor_date(as.Date(end_date), "month"))
+
+# Chronological month labels, computed from the data itself
+month_levels <- seasonality_dat %>%
+  distinct(month) %>%
+  arrange(month) %>%
+  pull(month) %>%
+  format("%b '%y")
+
+seasonality_dat <- seasonality_dat %>%
+  mutate(month_label = factor(format(month, "%b '%y"), levels = month_levels)) %>%
   pivot_longer(cols = all_of(voc_vars_incl), names_to = "variable_name", values_to = "value") %>%
   left_join(codebook_included, by = "variable_name") %>%
   group_by(variable_name, category_2, category_2no, sort_in_category, month_label) %>%
@@ -689,6 +735,9 @@ p_season_heatmap <- seasonality_dat %>%
     panel.grid = element_blank()
   )
 
+# ===========================================================================
+# FIGURE S3 (supplemental): Seasonality heatmap
+# ===========================================================================
 ggsave(
   filename = here("results", "supplemental", "figures", "seasonality_heatmap.png"),
   plot = p_season_heatmap,
@@ -715,12 +764,11 @@ voc_site_summary <- vocs %>%
   left_join(., codebook, by = "variable_name") %>%
   arrange(site_id, category_2no)
 
-
+# NOT PUBLISHED: per-site VOC summary (exploratory only; not in the manuscript)
 write_excel_csv(voc_site_summary, "results/interim_results/tables/voc_by_site_summary.csv")
 
 
 ## Spatial Heatmap: Year-Round / Summer / Winter -----------------------------
-
 vocs_seasonal_spatial <- vocs %>%
   mutate(
     month_num = month(as.Date(end_date)),
@@ -754,9 +802,10 @@ build_spatial_dat <- function(df){
     )
 }
 
-spatial_dat_year   <- build_spatial_dat(vocs_seasonal_spatial)
+spatial_dat_year   <- build_spatial_dat(vocs_seasonal_spatial) 
 spatial_dat_summer <- build_spatial_dat(filter(vocs_seasonal_spatial, season_meteo == "Summer"))
 spatial_dat_winter <- build_spatial_dat(filter(vocs_seasonal_spatial, season_meteo == "Winter"))
+
 
 # Shared color scale across all three, for visual comparability
 lim_spatial <- max(
@@ -803,7 +852,12 @@ make_spatial_heatmap <- function(dat, plot_title, file_suffix){
   p
 }
 
+# ===========================================================================
+# FIGURE S4 (supplemental): Spatial heatmap, year-round
+# ===========================================================================
 p_spatial_year   <- make_spatial_heatmap(spatial_dat_year, "Spatial Patterns Across VOCs — Year-Round", "yearround")
+
+# NOT PUBLISHED: seasonal spatial heatmaps (exploratory only; not in the manuscript)
 p_spatial_summer <- make_spatial_heatmap(spatial_dat_summer, "Spatial Patterns Across VOCs — Summer", "summer")
 p_spatial_winter <- make_spatial_heatmap(spatial_dat_winter, "Spatial Patterns Across VOCs — Winter", "winter")
 
@@ -812,6 +866,9 @@ p_spatial_winter <- make_spatial_heatmap(spatial_dat_winter, "Spatial Patterns A
 # If `season` already exists upstream with this definition, swap it in below
 # instead of recomputing `season_meteo`.
 
+# ===========================================================================
+# TABLE S3 (supplemental): Summer vs. winter VOC comparison, stationary sites
+# ===========================================================================
 vocs_seasonal <- vocs %>%
   mutate(
     month_num = month(as.Date(end_date)),
@@ -854,23 +911,29 @@ write_excel_csv(
 # Using Spearman rank correlations, since there is non-normality
 correlate <- function(data, corr_vars, season_val = NULL, site_val = NULL, rotating = NULL){
   
+  # Build up the filtered dataset cumulatively -- each filter step below
+  # narrows `dat` further rather than re-filtering from the original `data`,
+  # so that season/site-type/site filters combine correctly when more than
+  # one is supplied. (Previously each branch re-filtered from `data`, which
+  # meant only the *last* filter applied actually took effect whenever
+  # multiple arguments were passed together.)
   dat <- data
   
   # Filter data based on function inputs
   if (!is.null(season_val)){
-    dat <- data %>%
+    dat <- dat %>%
       filter(season == season_val)
   } 
   
   if (is.null(rotating)){
-    dat <- data %>%
+    dat <- dat %>%
       filter(site_type == "stationary")
     
     sitetype = "Year-Round Sites Only"
   } else sitetype <- "All Sites"
   
   if (!is.null(site_val)){
-    dat <- data %>%
+    dat <- dat %>%
       filter(site_id == site_val)
     
     sitename <- first(dat$site)
@@ -924,7 +987,7 @@ correlate <- function(data, corr_vars, season_val = NULL, site_val = NULL, rotat
     )
   
   
-  filedetails = list("heatmap_",season_val, site_val, rotating) %>%
+  filedetails = list("heatmap",season_val, site_val, rotating) %>%
     compact() %>%              
     str_c(collapse = "_")
   
@@ -938,26 +1001,6 @@ correlate <- function(data, corr_vars, season_val = NULL, site_val = NULL, rotat
   
 }
 
-# Map categories onto colors 
-cat_map <- codebook %>%
-  arrange(category_2no) %>%
-  distinct(category_2, category_2no) %>%
-  mutate(color = scales::hue_pal()(n())[order(category_2no)])
-
-# Make a label_df from the codebook and category color map
-label_df <- codebook %>%
-  left_join(cat_map, by = c("category_2", "category_2no")) %>%
-  mutate(
-    # Create colored label text for markdown rendering in ggcorrplot
-    label = glue::glue(
-      "<span style='color:{color}'><b>{voc_name}</b></span>"
-    )
-  ) %>%
-  select(variable_name, label)
-
-name_map_colored <- deframe(label_df %>% select(variable_name, label))
-
-
 corr_vocs <- codebook %>% 
   #Ignore total BTEX and total Xylenes in favor of individual ones.
   filter(!(variable_name %in% c("xylenes","btex"))) %>% 
@@ -965,12 +1008,16 @@ corr_vocs <- codebook %>%
   filter(!(variable_name %in% excluded_compounds)) %>%
   pull(variable_name)
 
-
+# ===========================================================================
+# FIGURE S2 (supplemental): Spearman correlation matrix, all VOCs, all sites
+# ===========================================================================
 correlate(vocs, corr_vocs, rotating = "incl_rotating")
 
 
-# Summarize EPA Fenceline Monitoring Data ---------------------------------
-
+# ===========================================================================
+# FIGURE S1 (supplemental): EPA fenceline monitoring data (Philadelphia
+# Energy Solutions refinery perimeter benzene)
+# ===========================================================================
 ## Uses data from EPA fenceline benzene monitoring dashboard
 ## https://awsedap.epa.gov/public/extensions/Fenceline_Monitoring/Fenceline_Monitoring.html?sheet=MonitoringDashboard
 ## for Philadelphia Energy Solutions
@@ -1022,5 +1069,3 @@ ggsave(
   dpi = 320
   
 )
-
-

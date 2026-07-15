@@ -7,12 +7,8 @@ library(ggmap)
 library(showtext)
 library(sf)
 
-########################################################
 # Purpose of this code:
 # Create a standardized theme for all plots, tables, maps
-########################################################
-
-
 ggmap::register_google(key = Sys.getenv("GOOGLE_API_KEY"))
 
 # GGPlot Theme ------------------------------------------------------------
